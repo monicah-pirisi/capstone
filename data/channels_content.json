@@ -1,0 +1,91 @@
+{
+    "social_media": {
+        "whatsapp": {
+            "audience": "Community intermediaries, chiefs, NGO field officers, literate pastoralists",
+            "guidance": "Forward to community WhatsApp groups. Pin high-priority messages. Use local language where possible.",
+            "templates": {
+                "Normal": {
+                    "body": "🟢 *SAMBURU EWS — NORMAL*\n\nDrought Status: NORMAL\nRisk Score: [SCORE]/100\nDate: [DATE]\n\nConditions are within seasonal norms. Livestock and pasture outlook is positive.\n\n✅ Continue normal grazing rotation\n✅ Monitor water sources weekly\n\nCheck latest alert: samburuews.example\nDial *384# for updates on any phone."
+                },
+                "Watch": {
+                    "body": "🔵 *SAMBURU EWS — WATCH*\n\nDrought Status: WATCH\nRisk Score: [SCORE]/100\nDate: [DATE]\n\nEarly signs of stress detected. Monitor closely.\n\n⚠️ Begin monitoring pasture condition daily\n⚠️ Note nearest dry-season water points\n⚠️ Consider early destocking of weak animals\n\nDial *384# for daily updates on any phone."
+                },
+                "Alert": {
+                    "body": "🟠 *SAMBURU EWS — ALERT ⚠️*\n\nDrought Status: ALERT\nRisk Score: [SCORE]/100\nDate: [DATE]\n\nConditions are deteriorating. Early action required.\n\n⚠️ Begin early destocking — sell weak livestock NOW\n⚠️ Move herds toward known dry-season pastures\n⚠️ Register with your ward office for support\n⚠️ Contact NDMA: 0800-723-253 (FREE)\n\nDial *384# for daily updates on any phone.\nShare this message with others."
+                },
+                "Alarm": {
+                    "body": "🔴 *SAMBURU EWS — ALARM 🚨*\n\nDrought Status: ALARM\nRisk Score: [SCORE]/100\nDate: [DATE]\n\nSevere conditions. Emergency response activated.\n\n🆘 Destock immediately — sell all weak animals\n🆘 Move to emergency grazing reserves\n🆘 Collect water relief at [nearest relief point]\n🆘 Kenya Red Cross: 0800-723-253 (FREE)\n🆘 County Government Emergency: 0703-044-000\n\nDial *384# for updates. SHARE URGENTLY."
+                },
+                "Emergency": {
+                    "body": "⛔ *SAMBURU EWS — EMERGENCY 🆘*\n\nDrought Status: EMERGENCY\nRisk Score: [SCORE]/100\nDate: [DATE]\n\n‼️ DROUGHT EMERGENCY DECLARED ‼️\n\n🆘 Evacuation to emergency pastures REQUIRED\n🆘 Report to nearest NDMA/County relief centre\n🆘 Emergency livestock off-take in progress\n🆘 NDMA Hotline: 0800-723-253 (FREE 24hrs)\n🆘 Red Cross Emergency: 0800-723-253\n🆘 Samburu County: 0703-044-000\n\nDial *384# now. Share with ALL community members."
+                }
+            }
+        },
+        "facebook": {
+            "audience": "Wider public, NGOs, government agencies, media, diaspora",
+            "guidance": "Post in county Facebook groups and pages. Tag NDMA, county government, and partner NGOs. Use the hashtags provided.",
+            "templates": {
+                "Normal": {
+                    "post": "🟢 Samburu EWS Update — NORMAL CONDITIONS\n\nOur latest drought risk assessment for Samburu County shows conditions within seasonal norms. Pastoralist communities can continue normal activities while maintaining routine monitoring.\n\n📊 Risk Score: [SCORE]/100\n📅 Assessment Date: [DATE]\n🌿 Indigenous indicators: Favourable\n🌦️ KMD outlook: Within normal range\n\nStay informed: dial *384# | Visit samburuews.example\n\n#SamburuEWS #DroughtEarlyWarning #Samburu #Kenya #NDMA"
+                },
+                "Alert": {
+                    "post": "🟠 Samburu EWS Update — ALERT LEVEL ⚠️\n\nDrought risk in Samburu County has reached ALERT level. Community members and stakeholders should begin early preparedness actions.\n\n📊 Risk Score: [SCORE]/100\n📅 Assessment Date: [DATE]\n⚠️ Recommended: Early destocking, livestock movement planning\n\nFor pastoralists: dial *384# on any phone for daily updates.\nFor NGOs/Government: see stakeholder actions at samburuews.example\n\n#SamburuEWS #DroughtAlert #EarlyWarning #Samburu #ASAL #Kenya"
+                },
+                "Emergency": {
+                    "post": "🆘 DROUGHT EMERGENCY — SAMBURU COUNTY\n\nSamburu EWS has recorded an EMERGENCY level drought risk. A humanitarian response is required immediately.\n\n📊 Risk Score: [SCORE]/100 | Status: EMERGENCY\n📅 Date: [DATE]\n\n🆘 NDMA Hotline: 0800-723-253 (Free, 24hrs)\n🆘 Red Cross Kenya: 0800-723-253\n🆘 Samburu County Gov: 0703-044-000\n\nAll stakeholders please refer to your emergency response protocols.\n\n#SamburuEWSEmergency #DroughtEmergency #HumanitarianAid #Kenya"
+                }
+            }
+        }
+    },
+    "radio": {
+        "language_note": "Scripts available in English. Translate to Samburu and Swahili before broadcasting. Read slowly and clearly. Station: [STATION NAME]. DJ/Presenter: [NAME].",
+        "scripts": {
+            "30s": {
+                "Normal": {
+                    "duration": "30s",
+                    "script": "[SFX: soft traditional music fade in]\nATTENTION Samburu County — This is a Drought Early Warning update.\nThe current drought risk level is NORMAL. Conditions are within seasonal norms.\nContinue normal grazing rotation and monitor water sources.\nFor daily updates, dial star three eight four hash on any phone — that is *384#.\nThis message is brought to you by the Samburu Early Warning System.\n[SFX: music fade out]"
+                },
+                "Alert": {
+                    "duration": "30s",
+                    "script": "[SFX: alert tone — three short beeps]\nATTENTION — DROUGHT ALERT for Samburu County.\nThe drought risk level is now ALERT. Pasture and water conditions are deteriorating.\nPastoralists: begin early destocking and move livestock to dry-season areas.\nFor help, call NDMA free on zero-eight-hundred — seven-two-three — two-five-three.\nDial *384# for daily alerts on any phone.\n[SFX: alert tone]"
+                },
+                "Alarm": {
+                    "duration": "30s",
+                    "script": "[SFX: urgent alarm tone]\nURGENT — DROUGHT ALARM for Samburu County.\nConditions are SEVERE. Emergency response has been activated.\nDestock now. Move to emergency grazing reserves.\nReport to your nearest ward office to register for relief support.\nNDMA Emergency Line: zero-eight-hundred-seven-two-three-two-five-three — FREE.\nDial *384# on any phone for live updates.\n[SFX: alarm tone]"
+                },
+                "Emergency": {
+                    "duration": "30s",
+                    "script": "[SFX: emergency siren]\nEMERGENCY BROADCAST — Samburu County Drought Emergency.\nA DROUGHT EMERGENCY has been declared. All pastoralists must take immediate action.\nEvacuate to emergency grazing areas. Report to relief centres for food and water.\nNDMA Hotline: zero-eight-hundred-seven-two-three-two-five-three — AVAILABLE 24 HOURS FREE.\nRepeat: NDMA zero-eight-hundred-seven-two-three-two-five-three.\n[SFX: siren]"
+                }
+            },
+            "60s": {
+                "Normal": {
+                    "duration": "60s",
+                    "script": "[SFX: soft traditional Samburu music, fade in slowly]\nGood [morning/afternoon/evening], Samburu County. This is your Drought Early Warning update from the Samburu EWS platform.\n\nThe current drought risk level is NORMAL — that means conditions are within seasonal norms. Pasture and water availability are adequate for this time of year.\n\nFor pastoralists: continue your normal grazing rotation. Monitor your water sources weekly. If you notice any changes — unusual livestock behaviour, plants dying early, or birds migrating early — please report to your community scout or dial *384# on any phone.\n\nThe Samburu EWS combines scientific data from the Kenya Meteorological Department and NDMA with traditional knowledge from Samburu elders. For the latest update, dial star-three-eight-four-hash — that is *384# — free on any Safaricom or Airtel phone.\n\nStay safe. Stay informed. Samburu EWS.\n[SFX: music fade out]"
+                },
+                "Alert": {
+                    "duration": "60s",
+                    "script": "[SFX: alert chime — three clear tones]\nThis is an important Drought Alert message for Samburu County from the Samburu EWS platform.\n\nThe current drought risk level is ALERT. Vegetation and water conditions are deteriorating faster than normal for this season. Indigenous indicators from community elders also signal concern.\n\nFor PASTORALISTS: Begin early destocking now — sell or move weak and unproductive animals before conditions worsen. Identify and move toward known dry-season grazing areas. Contact your chief or ward office to register your location.\n\nFor COMMUNITY LEADERS and CHIEFS: Alert your communities and report to the NDMA sub-county office. Coordinate with NGO partners for contingency planning.\n\nFor help: call NDMA free on zero-eight-hundred-seven-two-three-two-five-three. Or dial *384# on any phone for live daily updates.\n\nThis has been a Drought Alert from Samburu EWS. Stay prepared.\n[SFX: alert chime]"
+                },
+                "Alarm": {
+                    "duration": "60s",
+                    "script": "[SFX: urgent alarm — repeated beeping]\nURGENT DROUGHT ALARM — This is an emergency broadcast for Samburu County.\n\nThe Samburu EWS has declared ALARM level conditions. Pasture is severely depleted. Water sources are far beyond normal distances. Livestock body condition is poor and deteriorating.\n\nFor PASTORALISTS: Implement emergency destocking NOW. Do not wait — weak animals lose value rapidly. Move to emergency grazing reserves with prior clearance. Ensure children, elders, and the sick are near water relief points.\n\nFor NGOs and GOVERNMENT: Pre-position relief supplies at designated distribution points. Coordinate emergency livestock off-take programs. Activate your contingency plans.\n\nEmergency contacts: NDMA Hotline — zero-eight-hundred-seven-two-three-two-five-three, available FREE, 24 hours. Kenya Red Cross — zero-seven-one-nine-seven-two-seven-zero-zero.\n\nFor live updates, dial *384# on any phone.\n\nThis is an ALARM. Take action now.\n[SFX: alarm tone]"
+                },
+                "Emergency": {
+                    "duration": "60s",
+                    "script": "[SFX: emergency siren — sustained]\nEMERGENCY BROADCAST. DROUGHT EMERGENCY DECLARED IN SAMBURU COUNTY.\n\nThe Samburu County Government and NDMA have declared a DROUGHT EMERGENCY. This is the most severe level of drought risk. Immediate humanitarian action is required.\n\nFor ALL PASTORALISTS: Evacuate livestock to designated emergency grazing areas as directed by county officials. Report immediately to your nearest NDMA or county relief centre to register for food, water, and livestock support.\n\nFor SCHOOLS and HEALTH FACILITIES: Emergency water and food supplies are being coordinated. Contact the county emergency operations centre.\n\nFor ALL STAKEHOLDERS: Activate your emergency response protocols immediately.\n\nEmergency Contacts:\n- NDMA Hotline: zero-eight-hundred-seven-two-three-two-five-three — FREE, 24 hours\n- Kenya Red Cross: zero-seven-one-nine-seven-two-seven-zero-zero\n- Samburu County Emergency: zero-seven-zero-three-zero-four-four-zero-zero-zero\n\nDial *384# on any phone for live emergency information.\n\nThis is a DROUGHT EMERGENCY. Repeat: DROUGHT EMERGENCY in Samburu County.\n[SFX: siren]"
+                }
+            }
+        }
+    },
+    "ussd": {
+        "code": "*384#",
+        "description": "Pull-based USSD early warning service accessible on any mobile phone without internet or data. Charged at standard USSD rates (fractions of a cent per session).",
+        "menu": {
+            "1": { "label": "Current Alert Level",   "response": "Displays the current risk level (Normal/Watch/Alert/Alarm/Emergency), composite score, and top 3 reasons." },
+            "2": { "label": "Advice for Pastoralists","response": "Plain-language action guidance tailored to the current alert level, in English and Samburu." },
+            "3": { "label": "Where to Get Help",      "response": "Lists NDMA, Kenya Red Cross, and Samburu County emergency contact numbers with a call-back option." },
+            "4": { "label": "Change Language",        "response": "Switch menu language between English and Samburu (demo: two options)." }
+        }
+    }
+}

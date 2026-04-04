@@ -1,0 +1,50 @@
+[
+    {
+        "bulletin_month": "2026-04",
+        "valid_period": "April 2026",
+        "updated_at": "2026-03-31",
+        "outlook_category": "near_to_below_normal",
+        "outlook_label": "Near- to Below-Normal",
+        "rainfall_outlook": "The eastern parts of Turkana and Samburu are expected to receive near- to below-normal rainfall.",
+        "samburu_specific": "However, the eastern parts of Turkana and Samburu are expected to receive near- to below-normal rainfall.",
+        "advisory": "Farmers should strengthen field drainage, unclog furrows, and avoid activities that compact already-wet soils.",
+        "temperature_max_celsius": "22°C to 36°C",
+        "temperature_min_celsius": "13°C to 25°C"
+    },
+    {
+        "bulletin_month": "2026-03",
+        "valid_period": "March 2026",
+        "updated_at": "2026-02-27",
+        "outlook_category": "near_to_above_normal",
+        "outlook_label": "Near- to Above-Average",
+        "rainfall_outlook": "Rainfall is likely to be near-average to above-average.",
+        "samburu_specific": "North-western Kenya (Turkana and Samburu Counties): Rainfall is likely to be near-average to above-average. Intermittent rainfall, that may occasionally be heavy, is expected during the first half of the month with onsets expected in the 1st to 2nd weeks of April.",
+        "advisory": null,
+        "temperature_max_celsius": "20°C to 40°C",
+        "temperature_min_celsius": "09°C to 28°C"
+    },
+    {
+        "bulletin_month": "2026-02",
+        "valid_period": "February 2026",
+        "updated_at": "2026-01-31",
+        "outlook_category": "below_average",
+        "outlook_label": "Below-Average (Dry)",
+        "rainfall_outlook": "Sunny and dry conditions are expected to prevail. However occasional rainfall may be experienced.",
+        "samburu_specific": "North-western Region (Turkana, West Pokot, and Samburu): Sunny and dry conditions are expected to prevail in these areas. However occasional rainfall may be experienced.",
+        "advisory": "The sunny and dry weather conditions will be favorable for crop harvesting as well as land preparations in readiness for the coming planting season in the agricultural areas.",
+        "temperature_max_celsius": "30°C to 40°C",
+        "temperature_min_celsius": "20°C to 26°C"
+    },
+    {
+        "bulletin_month": "2026-01",
+        "valid_period": "January 2026",
+        "updated_at": "2025-12-30",
+        "outlook_category": "below_average",
+        "outlook_label": "Below-Average (Dry)",
+        "rainfall_outlook": "Sunny and dry conditions are expected.",
+        "samburu_specific": "North-western Region (Turkana, West Pokot and Samburu): Sunny and dry conditions are expected in the month of January.",
+        "advisory": "The public is advised to invest in water harvesting practices/techniques to harness the rainwater in areas where occasional rainfall is expected.",
+        "temperature_max_celsius": "30°C to 40°C",
+        "temperature_min_celsius": null
+    }
+]

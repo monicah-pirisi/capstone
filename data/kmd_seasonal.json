@@ -1,0 +1,224 @@
+{
+  "source_only_data": {
+    "seasons": [
+      {
+        "season_name": "MAM 2021",
+        "source_region": "Western parts of Samburu",
+        "rainfall": { "qualitative_category": "above normal", "numeric_value": null, "source_text": "The expected rainfall is likely to be higher than the long-term average amounts (above normal) for the season." },
+        "temperature": { "qualitative_category": null, "numeric_value": null, "source_text": null },
+        "vegetation_pasture": { "qualitative_category": "negative impact", "numeric_value": null, "source_text": "The depressed rainfall is expected to have a negative impact on the availability of foliage, water and pasture in the pastoral areas." }
+      },
+      {
+        "season_name": "MAM 2021",
+        "source_region": "Eastern parts of Samburu",
+        "rainfall": { "qualitative_category": "near average", "numeric_value": null, "source_text": "Eastern parts of Samburu are expected to experience near-average rainfall." },
+        "temperature": { "qualitative_category": null, "numeric_value": null, "source_text": null },
+        "vegetation_pasture": { "qualitative_category": null, "numeric_value": null, "source_text": null }
+      },
+      {
+        "season_name": "OND 2021",
+        "source_region": "Northwestern Counties (Turkana, Samburu, West Pokot)",
+        "rainfall": { "qualitative_category": "depressed rainfall", "numeric_value": null, "source_text": "The expected rainfall amount is likely to be below the long-term average for the season (depressed rainfall)." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "warmer than average temperatures are likely over most parts of the country during the season." },
+        "vegetation_pasture": { "qualitative_category": "negative impact", "numeric_value": null, "source_text": "Depressed rainfall will impact negatively on the availability of foliage and pasture in pastoral areas." }
+      },
+      {
+        "season_name": "MAM 2022",
+        "source_region": "Northwestern Counties: Turkana, Samburu",
+        "rainfall": { "qualitative_category": "near to above average", "numeric_value": null, "source_text": "The expected rainfall is likely to be near to above the long-term average amounts for the season." },
+        "temperature": { "qualitative_category": "near average", "numeric_value": null, "source_text": "Near average temperatures are expected in extreme north-western parts of the country." },
+        "vegetation_pasture": { "qualitative_category": "regenerate pasture", "numeric_value": null, "source_text": "The near average rainfall expected over the ASALs may regenerate pasture and browse as the season progresses but recovery from the current drought may take time." }
+      },
+      {
+        "season_name": "JJA 2022",
+        "source_region": "Northwestern regions (Turkana, parts of Samburu)",
+        "rainfall": { "qualitative_category": "slightly wetter than usual", "numeric_value": null, "source_text": "The expected total rainfall amounts are likely to be slightly higher than the long-term average amounts (slightly wetter than usual) for the season." },
+        "temperature": { "qualitative_category": "near to below-average", "numeric_value": null, "source_text": "Counties in Northwestern Kenya (Turkana and parts of Samburu) are likely to experience near to below-average temperatures (slightly cooler than average for the season)." },
+        "vegetation_pasture": { "qualitative_category": "shortage", "numeric_value": null, "source_text": "The current shortage of water, food, pasture and browse for both human and livestock over the ASAL areas of the Northeastern and parts of Northwestern Kenya is expected to worsen." }
+      },
+      {
+        "season_name": "OND 2022",
+        "source_region": "Northwestern Counties (Turkana, and Samburu)",
+        "rainfall": { "qualitative_category": "depressed rainfall", "numeric_value": null, "source_text": "The expected rainfall amount is likely to be below the long-term average for the season (depressed rainfall)." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "The forecast indicates that warmer than average temperatures are likely over most parts of the country." },
+        "vegetation_pasture": { "qualitative_category": "negative impact", "numeric_value": null, "source_text": "The depressed rainfall expected in the ASAL areas will impact negatively on the availability of foliage and pasture in the pastoral areas." }
+      },
+      {
+        "season_name": "MAM 2023",
+        "source_region": "Parts of the Northwest (Samburu)",
+        "rainfall": { "qualitative_category": "highly depressed rainfall", "numeric_value": null, "source_text": "Samburu and Eastern parts of Marsabit are expected to receive rainfall that is likely to be below the long-term average for the season (highly depressed rainfall)." },
+        "temperature": { "qualitative_category": "above-average", "numeric_value": null, "source_text": "Above-average temperatures are expected over the whole country with increased probabilities over the Northwestern region." },
+        "vegetation_pasture": { "qualitative_category": "severe stress / livestock deaths", "numeric_value": null, "source_text": "The projected low rainfall combined with above-average temperatures may have a negative impact on pasture regeneration. Consequently, the existing pasture and browse scarcity as well as poor animal body condition might persist." }
+      },
+      {
+        "season_name": "OND 2023",
+        "source_region": "Northwest (Turkana, Samburu)",
+        "rainfall": { "qualitative_category": "enhanced rainfall", "numeric_value": null, "source_text": "The forecast indicates that most parts of the country are likely to experience enhanced rainfall." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "The temperature forecast indicates that for the larger part of the country, the season is likely to be warmer than average." },
+        "vegetation_pasture": { "qualitative_category": "pasture rejuvenation", "numeric_value": null, "source_text": "Pasture rejuvenation will increase the productivity of livestock." }
+      },
+      {
+        "season_name": "MAM 2024",
+        "source_region": "Northwestern Counties (Turkana and Samburu)",
+        "rainfall": { "qualitative_category": "enhanced rainfall", "numeric_value": null, "source_text": "The expected rainfall amount is likely to be above the long-term average for the season (enhanced rainfall)." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "Warmer than average temperatures are expected over the whole country." },
+        "vegetation_pasture": { "qualitative_category": "pasture rejuvenation", "numeric_value": null, "source_text": "Pasture rejuvenation will increase the productivity of livestock." }
+      },
+      {
+        "season_name": "JJA 2024",
+        "source_region": "Western parts of Samburu County",
+        "rainfall": { "qualitative_category": "above average", "numeric_value": null, "source_text": "Western parts of Samburu County are likely to receive occasional showers and thunderstorms. The expected total rainfall amounts are likely to be higher than the long-term average amounts for the season." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "The temperatures in this region are expected to be warmer than the average for the season." },
+        "vegetation_pasture": { "qualitative_category": null, "numeric_value": null, "source_text": null }
+      },
+      {
+        "season_name": "JJA 2024",
+        "source_region": "Rest of Samburu County",
+        "rainfall": { "qualitative_category": "below average", "numeric_value": null, "source_text": "Northwestern regions (Turkana and Samburu counties) are expected to remain generally sunny and dry." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "The temperatures in this region are expected to be warmer than the average for the season." },
+        "vegetation_pasture": { "qualitative_category": null, "numeric_value": null, "source_text": null }
+      },
+      {
+        "season_name": "OND 2024",
+        "source_region": "Western Samburu",
+        "rainfall": { "qualitative_category": "near to slightly above average", "numeric_value": null, "source_text": "These areas are expected to receive occasional rainfall whose amounts are likely to be near to slightly above the long-term average for the season." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "Warmer than average temperatures are likely over most parts of the country." },
+        "vegetation_pasture": { "qualitative_category": "pasture rejuvenation", "numeric_value": null, "source_text": "For the western sector, near-average to slightly above-average rainfall was expected to bring pasture rejuvenation that will enhance livestock production." }
+      },
+      {
+        "season_name": "OND 2024",
+        "source_region": "Parts of Northwest (Samburu)",
+        "rainfall": { "qualitative_category": "near to below average", "numeric_value": null, "source_text": "The expected rainfall amounts are anticipated to be near to below the long-term average for the season." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "Warmer than average temperatures are likely over most parts of the country." },
+        "vegetation_pasture": { "qualitative_category": "strained", "numeric_value": null, "source_text": "In areas expected to have depressed rainfall, communities are advised to adapt efficient water management practices, grow drought tolerant and fast maturing crops and pasture." }
+      },
+      {
+        "season_name": "MAM 2025",
+        "source_region": "Western Samburu",
+        "rainfall": { "qualitative_category": "near to below average", "numeric_value": null, "source_text": "These areas are likely to receive occasional rainfall that is expected to be near to below the long-term average amounts for the season." },
+        "temperature": { "qualitative_category": "cooler than average", "numeric_value": null, "source_text": "Parts of Samburu are expected to experience cooler than average temperatures." },
+        "vegetation_pasture": { "qualitative_category": "strain on pasture", "numeric_value": null, "source_text": "Strain on pasture and water resources, potentially causing livestock fatalities and conflicts over scarce resources." }
+      },
+      {
+        "season_name": "MAM 2025",
+        "source_region": "Rest of Samburu",
+        "rainfall": { "qualitative_category": "below average", "numeric_value": null, "source_text": "Below average over the rest of the county." },
+        "temperature": { "qualitative_category": "cooler than average", "numeric_value": null, "source_text": "Parts of Samburu are expected to experience cooler than average temperatures." },
+        "vegetation_pasture": { "qualitative_category": "strain on pasture", "numeric_value": null, "source_text": "Strain on pasture and water resources, potentially causing livestock fatalities and conflicts over scarce resources." }
+      },
+      {
+        "season_name": "JJA 2025",
+        "source_region": "Northwestern regions",
+        "rainfall": { "qualitative_category": "near to above-average", "numeric_value": null, "source_text": "The northwestern regions are likely to receive near to above-average rainfall." },
+        "temperature": { "qualitative_category": "cooler than average", "numeric_value": null, "source_text": "Parts of Samburu are expected to experience cooler than average temperatures." },
+        "vegetation_pasture": { "qualitative_category": null, "numeric_value": null, "source_text": null }
+      },
+      {
+        "season_name": "OND 2025",
+        "source_region": "Western parts of Samburu",
+        "rainfall": { "qualitative_category": "near to below average", "numeric_value": null, "source_text": "Western parts of Samburu and Marsabit counties are expected to receive near to below average rainfall." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "Temperatures will generally be warmer than average over much of the country." },
+        "vegetation_pasture": { "qualitative_category": "reduced pasture / livestock mortality", "numeric_value": null, "source_text": "Reduced pasture and water scarcity will pose serious challenges. Herders will be forced to travel long distances in search of water and grazing, exposing livestock to poor body condition, mortality, and reduced productivity." }
+      },
+      {
+        "season_name": "OND 2025",
+        "source_region": "Rest of Samburu",
+        "rainfall": { "qualitative_category": "below average", "numeric_value": null, "source_text": "Below average over the rest of the county. Prolonged dry spells are likely." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "Temperatures will generally be warmer than average over much of the country." },
+        "vegetation_pasture": { "qualitative_category": "reduced pasture / livestock mortality", "numeric_value": null, "source_text": "Reduced pasture and water scarcity will pose serious challenges. Herders will be forced to travel long distances in search of water and grazing, exposing livestock to poor body condition, mortality, and reduced productivity." }
+      },
+      {
+        "season_name": "MAM 2026",
+        "source_region": "North-western Kenya (Turkana and Samburu Counties)",
+        "rainfall": { "qualitative_category": "near-average to above-average", "numeric_value": null, "source_text": "Rainfall is likely to be near-average to above-average. Occasional heavy rainfall events are likely to occur in a few areas." },
+        "temperature": { "qualitative_category": "warmer than average", "numeric_value": null, "source_text": "Warmer than average temperatures are expected over the whole country." },
+        "vegetation_pasture": { "qualitative_category": "improved pasture", "numeric_value": null, "source_text": "Increased pasture and browse. Good body condition of livestock expected." }
+      }
+    ]
+  },
+  "visualization_ready_data": {
+    "rainfall_trend_chart": [
+      { "season_name": "MAM 2021", "source_region": "West Samburu", "proxy_value": 90, "proxy_reason": "above_average", "source_text": "The expected rainfall is likely to be higher than the long-term average amounts (above normal) for the season." },
+      { "season_name": "MAM 2021", "source_region": "East Samburu", "proxy_value": 65, "proxy_reason": "near_average", "source_text": "Eastern parts of Samburu are expected to experience near-average rainfall." },
+      { "season_name": "OND 2021", "source_region": "NW Samburu", "proxy_value": 35, "proxy_reason": "depressed", "source_text": "The expected rainfall amount is likely to be below the long-term average for the season (depressed rainfall)." },
+      { "season_name": "MAM 2022", "source_region": "NW Samburu", "proxy_value": 75, "proxy_reason": "near_to_above", "source_text": "The expected rainfall is likely to be near to above the long-term average amounts for the season." },
+      { "season_name": "JJA 2022", "source_region": "NW Samburu", "proxy_value": 75, "proxy_reason": "near_to_above", "source_text": "The expected total rainfall amounts are likely to be slightly higher than the long-term average amounts (slightly wetter than usual) for the season." },
+      { "season_name": "OND 2022", "source_region": "NW Samburu", "proxy_value": 35, "proxy_reason": "depressed", "source_text": "The expected rainfall amount is likely to be below the long-term average for the season (depressed rainfall)." },
+      { "season_name": "MAM 2023", "source_region": "NW Samburu", "proxy_value": 25, "proxy_reason": "highly_depressed", "source_text": "Samburu and Eastern parts of Marsabit are expected to receive rainfall that is likely to be below the long-term average for the season (highly depressed rainfall)." },
+      { "season_name": "OND 2023", "source_region": "NW Samburu", "proxy_value": 90, "proxy_reason": "enhanced", "source_text": "The forecast indicates that most parts of the country are likely to experience enhanced rainfall." },
+      { "season_name": "MAM 2024", "source_region": "NW Samburu", "proxy_value": 90, "proxy_reason": "enhanced", "source_text": "The expected rainfall amount is likely to be above the long-term average for the season (enhanced rainfall)." },
+      { "season_name": "JJA 2024", "source_region": "West Samburu", "proxy_value": 90, "proxy_reason": "above_average", "source_text": "Western parts of Samburu County are likely to receive occasional showers and thunderstorms. The expected total rainfall amounts are likely to be higher than the long-term average amounts for the season." },
+      { "season_name": "JJA 2024", "source_region": "Rest Samburu", "proxy_value": 35, "proxy_reason": "below_average", "source_text": "Northwestern regions (Turkana and Samburu counties) are expected to remain generally sunny and dry." },
+      { "season_name": "OND 2024", "source_region": "West Samburu", "proxy_value": 75, "proxy_reason": "near_to_above", "source_text": "These areas are expected to receive occasional rainfall whose amounts are likely to be near to slightly above the long-term average for the season." },
+      { "season_name": "OND 2024", "source_region": "Rest Samburu", "proxy_value": 35, "proxy_reason": "below_average", "source_text": "The expected rainfall amounts are anticipated to be near to below the long-term average for the season." },
+      { "season_name": "MAM 2025", "source_region": "West Samburu", "proxy_value": 35, "proxy_reason": "below_average", "source_text": "These areas are likely to receive occasional rainfall that is expected to be near to below the long-term average amounts for the season." },
+      { "season_name": "MAM 2025", "source_region": "Rest Samburu", "proxy_value": 35, "proxy_reason": "below_average", "source_text": "Below average over the rest of the county." },
+      { "season_name": "JJA 2025", "source_region": "NW Samburu", "proxy_value": 75, "proxy_reason": "near_to_above", "source_text": "The northwestern regions are likely to receive near to above-average rainfall." },
+      { "season_name": "OND 2025", "source_region": "West Samburu", "proxy_value": 35, "proxy_reason": "below_average", "source_text": "Western parts of Samburu and Marsabit counties are expected to receive near to below average rainfall." },
+      { "season_name": "OND 2025", "source_region": "Rest Samburu", "proxy_value": 35, "proxy_reason": "below_average", "source_text": "Below average over the rest of the county. Prolonged dry spells are likely." },
+      { "season_name": "MAM 2026", "source_region": "NW Samburu", "proxy_value": 75, "proxy_reason": "near_to_above", "source_text": "Rainfall is likely to be near-average to above-average. Occasional heavy rainfall events are likely to occur in a few areas." }
+    ],
+    "temperature_trend_chart": [
+      { "season_name": "OND 2021", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "warmer_than_average", "source_text": "Warmer than average temperatures are likely over most parts of the country during the season." },
+      { "season_name": "MAM 2022", "source_region": "NW Samburu", "proxy_value": 0, "proxy_reason": "near_average", "source_text": "Near average temperatures are expected in extreme north-western parts of the country." },
+      { "season_name": "JJA 2022", "source_region": "NW Samburu", "proxy_value": -0.5, "proxy_reason": "cooler_than_average", "source_text": "Counties in Northwestern Kenya (Turkana and parts of Samburu) are likely to experience near to below-average temperatures (slightly cooler than average for the season)." },
+      { "season_name": "OND 2022", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "warmer_than_average", "source_text": "The forecast indicates that warmer than average temperatures are likely over most parts of the country." },
+      { "season_name": "MAM 2023", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "above_average", "source_text": "Above-average temperatures are expected over the whole country with increased probabilities over the Northwestern region." },
+      { "season_name": "OND 2023", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "warmer_than_average", "source_text": "The temperature forecast indicates that for the larger part of the country, the season is likely to be warmer than average." },
+      { "season_name": "MAM 2024", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "warmer_than_average", "source_text": "Warmer than average temperatures are expected over the whole country." },
+      { "season_name": "JJA 2024", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "warmer_than_average", "source_text": "The temperatures in this region are expected to be warmer than the average for the season." },
+      { "season_name": "OND 2024", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "warmer_than_average", "source_text": "Warmer than average temperatures are likely over most parts of the country." },
+      { "season_name": "MAM 2025", "source_region": "NW Samburu", "proxy_value": -0.5, "proxy_reason": "cooler_than_average", "source_text": "Parts of Samburu are expected to experience cooler than average temperatures." },
+      { "season_name": "JJA 2025", "source_region": "NW Samburu", "proxy_value": -0.5, "proxy_reason": "cooler_than_average", "source_text": "Parts of Samburu are expected to experience cooler than average temperatures." },
+      { "season_name": "OND 2025", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "warmer_than_average", "source_text": "Temperatures will generally be warmer than average over much of the country." },
+      { "season_name": "MAM 2026", "source_region": "NW Samburu", "proxy_value": 0.6, "proxy_reason": "warmer_than_average", "source_text": "Warmer than average temperatures are expected over the whole country." }
+    ],
+    "vegetation_chart": [
+      { "season_name": "MAM 2021", "source_region": "West Samburu", "proxy_value": 25, "proxy_reason": "stressed", "source_text": "The depressed rainfall is expected to have a negative impact on the availability of foliage, water and pasture in the pastoral areas." },
+      { "season_name": "OND 2021", "source_region": "NW Samburu", "proxy_value": 25, "proxy_reason": "stressed", "source_text": "Depressed rainfall will impact negatively on the availability of foliage and pasture in pastoral areas." },
+      { "season_name": "MAM 2022", "source_region": "NW Samburu", "proxy_value": 60, "proxy_reason": "improving", "source_text": "The near average rainfall expected over the ASALs may regenerate pasture and browse as the season progresses but recovery from the current drought may take time." },
+      { "season_name": "JJA 2022", "source_region": "NW Samburu", "proxy_value": 25, "proxy_reason": "shortage", "source_text": "The current shortage of water, food, pasture and browse for both human and livestock over the ASAL areas of the Northeastern and parts of Northwestern Kenya is expected to worsen." },
+      { "season_name": "OND 2022", "source_region": "NW Samburu", "proxy_value": 25, "proxy_reason": "stressed", "source_text": "The depressed rainfall expected in the ASAL areas will impact negatively on the availability of foliage and pasture in the pastoral areas." },
+      { "season_name": "MAM 2023", "source_region": "NW Samburu", "proxy_value": 15, "proxy_reason": "severe_stress", "source_text": "The projected low rainfall combined with above-average temperatures may have a negative impact on pasture regeneration. The existing pasture and browse scarcity as well as poor animal body condition might persist." },
+      { "season_name": "OND 2023", "source_region": "NW Samburu", "proxy_value": 70, "proxy_reason": "rejuvenating", "source_text": "Pasture rejuvenation will increase the productivity of livestock." },
+      { "season_name": "MAM 2024", "source_region": "NW Samburu", "proxy_value": 70, "proxy_reason": "rejuvenating", "source_text": "Pasture rejuvenation will increase the productivity of livestock." },
+      { "season_name": "OND 2024", "source_region": "West Samburu", "proxy_value": 70, "proxy_reason": "rejuvenating", "source_text": "For the western sector, near-average to slightly above-average rainfall was expected to bring pasture rejuvenation that will enhance livestock production." },
+      { "season_name": "OND 2024", "source_region": "Rest Samburu", "proxy_value": 30, "proxy_reason": "strained", "source_text": "In areas expected to have depressed rainfall, communities are advised to adapt efficient water management practices, grow drought tolerant and fast maturing crops and pasture." },
+      { "season_name": "MAM 2025", "source_region": "NW Samburu", "proxy_value": 15, "proxy_reason": "severe_stress", "source_text": "Strain on pasture and water resources, potentially causing livestock fatalities and conflicts over scarce resources." },
+      { "season_name": "OND 2025", "source_region": "NW Samburu", "proxy_value": 15, "proxy_reason": "severe_stress", "source_text": "Reduced pasture and water scarcity will pose serious challenges. Herders will be forced to travel long distances exposing livestock to poor body condition, mortality, and reduced productivity." },
+      { "season_name": "MAM 2026", "source_region": "NW Samburu", "proxy_value": 60, "proxy_reason": "improving", "source_text": "Increased pasture and browse. Good body condition of livestock expected." }
+    ],
+    "forecast_tercile_probabilities_chart": [
+      { "season": "OND 2021", "region": "Zone 2 (including Samburu)", "above_normal_percent": 20, "near_normal_percent": 35, "below_normal_percent": 45, "source_text": "A 20, N 35, B 45" },
+      { "season": "OND 2022", "region": "Zone 2 (including Samburu)", "above_normal_percent": 20, "near_normal_percent": 35, "below_normal_percent": 45, "source_text": "A 20, N 35, B 45" },
+      { "season": "OND 2023", "region": "Northwest (Turkana, Samburu)", "above_normal_percent": 55, "near_normal_percent": 35, "below_normal_percent": 10, "source_text": "A 55, N 35, B 10" },
+      { "season": "OND 2024", "region": "Marsabit/Samburu", "above_normal_percent": 25, "near_normal_percent": 40, "below_normal_percent": 35, "source_text": "A 25, N 40, B 35" },
+      { "season": "MAM 2025", "region": "Marsabit/Samburu", "above_normal_percent": 25, "near_normal_percent": 40, "below_normal_percent": 35, "source_text": "A 25, N 40, B 35" },
+      { "season": "MAM 2026", "region": "Marsabit/Samburu", "above_normal_percent": 25, "near_normal_percent": 40, "below_normal_percent": 35, "source_text": "A 25, N 40, B 35" }
+    ],
+    "rainfall_review_actuals_chart": [
+      { "season": "MAM 2021", "station": "Lodwar", "recorded_rainfall_mm": null, "percent_of_long_term_mean": 131.7, "source_text": "This was followed by Lodwar at 131.7%" },
+      { "season": "OND 2021", "station": "Lodwar", "recorded_rainfall_mm": 1.0,  "percent_of_long_term_mean": null,  "source_text": "Lodwar that reported 1.0mm" },
+      { "season": "MAM 2022", "station": "Lodwar", "recorded_rainfall_mm": 7.5,  "percent_of_long_term_mean": 8.7,   "source_text": "The lowest total (7.5mm (8.7%)) was recorded at Lodwar station." },
+      { "season": "OND 2022", "station": "Lodwar", "recorded_rainfall_mm": 8.5,  "percent_of_long_term_mean": 15.2,  "source_text": "Lodwar (8.5mm). recording the lowest percentage at 15.2%." },
+      { "season": "OND 2022", "station": "Marsabit", "recorded_rainfall_mm": 53.5,"percent_of_long_term_mean": null,  "source_text": "stations that recorded less than 100mm are Machakos (60.6mm), Marsabit (53.5mm)" },
+      { "season": "JJA 2023", "station": "Lodwar", "recorded_rainfall_mm": 0,    "percent_of_long_term_mean": null,  "source_text": "Lodwar, Mandera and Makindu recording no rainfall at all throughout the season." },
+      { "season": "OND 2023", "station": "Lodwar", "recorded_rainfall_mm": 50.1, "percent_of_long_term_mean": null,  "source_text": "Lodwar recording the least amount of 50.1mm." },
+      { "season": "OND 2023", "station": "Marsabit", "recorded_rainfall_mm": 710.0,"percent_of_long_term_mean": 222.3,"source_text": "Marsabit... reported rainfall amounts of 710.0 mm... corresponding to 222.30% of their LTMs" },
+      { "season": "JJA 2025", "station": "Lodwar", "recorded_rainfall_mm": 44.6, "percent_of_long_term_mean": null,  "source_text": "Predominantly dry (Mandera 0.3 mm, Wajir 5.1 mm, Moyale 24.9 mm, Lodwar 44.6 mm)" },
+      { "season": "OND 2025", "station": "Marsabit", "recorded_rainfall_mm": null,"percent_of_long_term_mean": 10.2,  "source_text": "Marsabit, Lamu and Mandera Meteorological Stations that recorded 10.2%, 8.7% and 7.6% of their OND LTMs." }
+    ],
+    "drought_spi_probabilities_chart": [
+      { "season": "OND 2021", "metric": "SPI < -0.09 (Alert Phase)",          "average_baseline_chance_percent": 46, "forecast_midpoint_pct": 75, "forecasted_chance_percent_text": "exceed 70%",          "source_text": "The average chance of SPI<-0.09 is 46%. The Probabilities exceed 70% over much of the country." },
+      { "season": "OND 2021", "metric": "SPI < -0.98 (Alarm Worsening Phase)","average_baseline_chance_percent": 16, "forecast_midpoint_pct": 40, "forecasted_chance_percent_text": "exceed 35%",          "source_text": "The average chance of SPI<-0.98 is 16%. The forecast probabilities exceed 35% over much of the country" },
+      { "season": "OND 2022", "metric": "SPI < -0.09 (Alert Phase)",          "average_baseline_chance_percent": 46, "forecast_midpoint_pct": 75, "forecasted_chance_percent_text": "exceed 70%",          "source_text": "The average chance of SPI<-0.09 is 46%. The probabilities exceed 70% over much of the country" },
+      { "season": "OND 2022", "metric": "SPI < -0.98 (Alarm Worsening Phase)","average_baseline_chance_percent": 16, "forecast_midpoint_pct": 45, "forecasted_chance_percent_text": "exceed 40%",          "source_text": "The average chance of SPI<-0.98 is 16%. The forecast probabilities exceed 40% over the eastern sector of the country" },
+      { "season": "OND 2023", "metric": "SPI < -0.09 (Alert Phase)",          "average_baseline_chance_percent": 46, "forecast_midpoint_pct": 8,  "forecasted_chance_percent_text": "below 15%",           "source_text": "The average chance of SPI<-0.09 is 46%. The probabilities are way below 15% over much of the country" },
+      { "season": "OND 2023", "metric": "SPI < -0.98 (Alarm Worsening Phase)","average_baseline_chance_percent": 16, "forecast_midpoint_pct": 3,  "forecasted_chance_percent_text": "less than 5%",        "source_text": "The average chance of SPI<-0.98 is 16%. The forecast probabilities are less than 5% over the entire country." },
+      { "season": "OND 2024", "metric": "SPI < -0.09 (Alert Phase)",          "average_baseline_chance_percent": 46, "forecast_midpoint_pct": 60, "forecasted_chance_percent_text": "between 50% to 70%",  "source_text": "The average chance of SPI<-0.09 occurring is 46% but the forecast indicates a high probability of between 50% to 70% over the eastern parts of the country" },
+      { "season": "OND 2024", "metric": "SPI < -0.98 (Alarm Worsening Phase)","average_baseline_chance_percent": 16, "forecast_midpoint_pct": 25, "forecasted_chance_percent_text": "between 20% and 30%", "source_text": "The average chance of SPI<-0.98 is 16%. The forecast probabilities are between 20% and 30% over the country" },
+      { "season": "OND 2025", "metric": "SPI < -0.09 (Alert Phase)",          "average_baseline_chance_percent": 46, "forecast_midpoint_pct": 73, "forecasted_chance_percent_text": "between 55% to 90%",  "source_text": "The average chance of SPI<-0.09 occurring is 46% but the forecast indicates a high probability of between 55% to 90% over much of the country" },
+      { "season": "OND 2025", "metric": "SPI < -0.98 (Alarm Worsening Phase)","average_baseline_chance_percent": 16, "forecast_midpoint_pct": 38, "forecasted_chance_percent_text": "between 20% and 55%", "source_text": "The average chance of SPI<-0.98 is 16%. The forecast probabilities are between 20% and 55% and they are higher over the eastern parts of the country." }
+    ]
+  }
+}

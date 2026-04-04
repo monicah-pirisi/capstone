@@ -1,0 +1,76 @@
+{
+    "meta": {
+        "title": "Samburu EWS — Qualitative Interview Findings",
+        "n": 12,
+        "method": "Semi-structured qualitative interviews",
+        "period": "2026",
+        "updated_at": "2026-01-01",
+        "location": "Samburu County, Kenya",
+        "note": "Data collected through semi-structured interviews with 12 participants. Analyzed using thematic analysis within the Socio-Technical Systems (STS) framework."
+    },
+    "themes": [
+        {
+            "number": 1,
+            "code": "ews_access",
+            "rq": "RQ1",
+            "title": "EWS Access, Channels, and Delivery",
+            "summary": "Formal EWS warnings reach participants primarily through digital channels — mobile phones, social media, and radio broadcasts. Smartphone weather apps, SMS, and WhatsApp are the first points of contact for connected users. However, network coverage is confined to towns and trading centres, leaving pastoralists in remote grazing areas without access to warning information.",
+            "key_quote": "When it comes to early warning systems, the first time I encounter it is mostly on social media when we get some meteorological report, either an informal pictorial or a social media post.",
+            "finding": "The primary warning delivery channels are functionally inaccessible to pastoral communities in Samburu's remote areas — a core socio-technical misalignment."
+        },
+        {
+            "number": 2,
+            "code": "indigenous_knowledge",
+            "rq": "RQ2",
+            "title": "Indigenous Knowledge Systems for Climate Prediction",
+            "summary": "Samburu elders use a systematic, multi-source indigenous forecasting system drawing on animal behaviour, sky and cloud patterns, land conditions, and — in specialist cases — celestial and spiritual indicators. This is a structured, tiered knowledge practice validated over generations, not informal guesswork.",
+            "key_quote": "For them, it works because that is what they have been using. They become experts. Even what they say, and mostly what the government says, they give in small differences.",
+            "finding": "The social subsystem contains a functioning, trusted, and locally validated knowledge system operating in parallel to the formal technical subsystem."
+        },
+        {
+            "number": 3,
+            "code": "trust_dynamics",
+            "rq": "RQ2",
+            "title": "Competing Knowledge Systems and Trust Dynamics",
+            "summary": "Elders are the primary trusted authority on climate guidance in pastoralist communities. Formal EWS is trusted conditionally and inconsistently — trust erodes each time a forecast proves inaccurate or promised assistance fails to arrive. Information is more likely to be acted upon when it passes through elder validation.",
+            "key_quote": "If the government talks to the officers on the ground, the village admin, and even the elders, and the elders comply with the information they have, then that will be more powerful than when they have information from only one source.",
+            "finding": "Elder authority functions as a trust gateway — warnings that bypass elder validation lose credibility before they can influence behaviour."
+        },
+        {
+            "number": 4,
+            "code": "barriers",
+            "rq": "RQ3",
+            "title": "Socio-Technical Misalignment and Barriers to EWS Utilization",
+            "summary": "A compounding set of technical, language, timing, and structural barriers prevents formal EWS from being received, understood, trusted, and acted upon. The system was designed for educated, urban, literate users — not for the pastoral communities it is meant to serve.",
+            "key_quote": "If you look at the early warning systems available, they use language designed for literate people. They were not designing for communities.",
+            "finding": "Barriers are interconnected — a single fix will not resolve them. The whole system, from message format to governance, needs to be redesigned to fit community communication realities."
+        },
+        {
+            "number": 5,
+            "code": "social_inequalities",
+            "rq": "RQ3",
+            "title": "Social Inequalities in Warning Distribution",
+            "summary": "Warning information flows through a strict social hierarchy: from government to chiefs, to elders, to male household heads, and finally to youth. Women are systematically excluded — in male-headed households, drought response decisions are treated as a male responsibility. Remote pastoralists are the last to receive information.",
+            "key_quote": "When it comes to women, that information is not so much getting to them, because what is expected of them is so little that it doesn't really matter, unless some families are run by women.",
+            "finding": "Gender-based exclusion is embedded in the social subsystem through cultural norms. Female-headed households — a particularly vulnerable group — are structurally underserved by the current warning architecture."
+        },
+        {
+            "number": 6,
+            "code": "institutional_weakness",
+            "rq": "RQ3",
+            "title": "Institutional Subsystem Weaknesses",
+            "summary": "Multiple agencies — NDMA, KMD, Kenya Red Cross, the county government, chiefs, and elders — operate in the EWS landscape without consistent coordination. They sometimes send overlapping or slightly inconsistent messages. Communication intensifies during active emergencies but is largely absent during preparedness phases.",
+            "key_quote": "The Red Cross has its own agenda, so they go to the community and do their own work. The government comes and does what it wants. At the end of the day, there is no coordinated delivery for all these activities.",
+            "finding": "EWS in Samburu is operationalized as emergency response rather than sustained preparedness. The institutional subsystem lacks a long-term coordination mandate."
+        },
+        {
+            "number": 7,
+            "code": "alignment_pathways",
+            "rq": "RQ4",
+            "title": "Pathways to Socio-Technical Alignment",
+            "summary": "Participants identified four practical pathways: combining scientific forecasts and indigenous knowledge in the same warning message; joint validation by a local committee of elders, chiefs, and government; using radio and community meetings with local-language voice formats; and community co-design with civic education that places pastoralists at the centre.",
+            "key_quote": "When both the government and elders communicate the same message, communities are more likely to believe the warning and prepare.",
+            "finding": "The institutions, knowledge systems, and communication channels already exist. What remains is to bring them together in a way that places communities at the centre."
+        }
+    ]
+}

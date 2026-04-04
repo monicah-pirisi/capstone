@@ -1,0 +1,98 @@
+[
+    {
+        "indicator": "Animals Moving Earlier Than Usual",
+        "category": "animals",
+        "status": "Early movement observed",
+        "reliability": "High",
+        "community_note": "Livestock and wildlife beginning seasonal migration earlier than the normal calendar — a strong signal that drought onset is imminent and pasture will fail sooner than expected",
+        "tier": "general"
+    },
+    {
+        "indicator": "Animal Weakness and Body Condition Decline",
+        "category": "animals",
+        "status": "Deteriorating",
+        "reliability": "High",
+        "community_note": "Cattle losing weight, ribs becoming visible, reduced energy — indicates pasture quality and water availability are already below adequate levels",
+        "tier": "general"
+    },
+    {
+        "indicator": "Cattle Behavioural Patterns (Rainy Season Indicator)",
+        "category": "animals",
+        "status": "Monitored",
+        "reliability": "High",
+        "community_note": "Elders monitor specific behavioural cues in cattle — restlessness, altered grazing direction — to estimate when the rainy season is about to begin",
+        "tier": "general"
+    },
+    {
+        "indicator": "Cloud Movement and Formation Patterns",
+        "category": "weather",
+        "status": "Dry-season clouds dominant",
+        "reliability": "High",
+        "community_note": "Elders observe cloud types, direction of movement, density, and colour to distinguish rain-bearing clouds from those associated with prolonged dry conditions",
+        "tier": "general"
+    },
+    {
+        "indicator": "Sky Appearance at Dawn and Dusk",
+        "category": "weather",
+        "status": "Drought signals present",
+        "reliability": "Medium",
+        "community_note": "Colour, clarity, and overall appearance of the sky at sunrise and sunset are interpreted by elders as indicators of coming rain or continued drought",
+        "tier": "general"
+    },
+    {
+        "indicator": "Strong Dry Winds",
+        "category": "weather",
+        "status": "Observed",
+        "reliability": "Medium",
+        "community_note": "Unusually strong winds with low humidity from specific directions — identified by elders as a signal of delayed rainfall or an incoming dry period",
+        "tier": "general"
+    },
+    {
+        "indicator": "Rate of Land and Ground Surface Drying",
+        "category": "land",
+        "status": "Drying rapidly",
+        "reliability": "High",
+        "community_note": "How quickly the topsoil and ground surface dry out between rainfall events — rapid drying relative to the season indicates soil moisture deficit and early drought stress",
+        "tier": "general"
+    },
+    {
+        "indicator": "Unusual Heat Intensity",
+        "category": "land",
+        "status": "Above normal",
+        "reliability": "Medium",
+        "community_note": "Abnormally high ambient temperatures and ground heat, assessed through community experience — combined with other indicators, signals drought onset",
+        "tier": "general"
+    },
+    {
+        "indicator": "Drying and Browning of Grass",
+        "category": "plants",
+        "status": "Sparse — browning early",
+        "reliability": "High",
+        "community_note": "Early or accelerated drying and browning of seasonal grasses before the expected end of the rains — a primary trigger for livestock movement decisions",
+        "tier": "general"
+    },
+    {
+        "indicator": "Unusual or Early Changes in Trees and Shrubs",
+        "category": "plants",
+        "status": "Unusual changes noted",
+        "reliability": "Medium",
+        "community_note": "Premature leaf drop, early flowering, or unusual changes in specific tree and shrub species that elders associate with coming dry conditions",
+        "tier": "general"
+    },
+    {
+        "indicator": "Celestial and Star Positions",
+        "category": "celestial",
+        "status": "Specialist assessment",
+        "reliability": "High (within specialist community)",
+        "community_note": "Reading of star positions and celestial signs by specialist elders — an advanced tier of indigenous forecasting consulted when ordinary indicators are ambiguous. Distinct from general elder knowledge.",
+        "tier": "specialist"
+    },
+    {
+        "indicator": "Spiritual and Prophetic Forecasting",
+        "category": "spiritual",
+        "status": "Consulted in remote areas",
+        "reliability": "High (within deepest communities)",
+        "community_note": "Forecasting by recognised divine seers in the most remote Samburu communities — the primary warning source for communities beyond the reach of formal EWS",
+        "tier": "specialist"
+    }
+]

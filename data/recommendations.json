@@ -1,0 +1,58 @@
+[
+    {
+        "number": 1,
+        "title": "Combine Scientific Forecasts with Indigenous Knowledge",
+        "description": "Warnings should include both meteorological information and observations from local elders. When both sources point to the same outcome, communities are more likely to trust the message.",
+        "responsible": "NDMA, KMD, and county government EWS teams",
+        "priority": "Critical",
+        "addresses_barriers": ["Distrust and Unreliability of Formal Forecasts", "Competing Knowledge Systems and Trust Dynamics"]
+    },
+    {
+        "number": 2,
+        "title": "Provide Clear Action Guidance on EWS Channels",
+        "description": "Warnings should explain the expected severity of the risk and outline practical steps communities can take, such as livestock movement, accessing support services, or preparing resources.",
+        "responsible": "NDMA, KMD, and county government communication officers",
+        "priority": "Critical",
+        "addresses_barriers": ["Poor Timeliness and Lack of Action Guidance"]
+    },
+    {
+        "number": 3,
+        "title": "Use Radio and Community Meetings as the Primary Warning Channels",
+        "description": "Many pastoralists do not have reliable internet or smartphones. Radio broadcasts and meetings organised through local leaders are more accessible and trusted.",
+        "responsible": "NDMA, KMD, the county government, and NGOs operating in Samburu County",
+        "priority": "Critical",
+        "addresses_barriers": ["Device and Connectivity Gaps", "Language and Literacy Gap"]
+    },
+    {
+        "number": 4,
+        "title": "Communicate Warnings in Local Languages and Accessible Formats",
+        "description": "Warnings should be delivered in Samburu and Kiswahili and supported with voice messages, pictures, and colour-coded indicators that clearly show levels of risk.",
+        "responsible": "NDMA, KMD, county government communication teams, and NGO field officers",
+        "priority": "Critical",
+        "addresses_barriers": ["Language and Literacy Gap", "Device and Connectivity Gaps"]
+    },
+    {
+        "number": 5,
+        "title": "Establish a Joint Warning Validation Committee",
+        "description": "A local committee including elders, chiefs, and government representatives could meet regularly to review forecasts, compare them with local observations, and agree on a shared message.",
+        "responsible": "County government, NDMA, and community leadership structures including councils of elders and chiefs",
+        "priority": "High",
+        "addresses_barriers": ["Distrust and Unreliability of Formal Forecasts", "Fragmented Institutional Coordination"]
+    },
+    {
+        "number": 6,
+        "title": "Establish a Shared Resource Pool for Early Response",
+        "description": "Communities often know a drought is coming but lack the means to respond. Pre-positioned resources such as livestock feed or water support could allow earlier action before conditions worsen.",
+        "responsible": "County government, NDMA, and development partners and NGOs funding drought preparedness in Samburu County",
+        "priority": "High",
+        "addresses_barriers": ["Structural Barriers: Poverty and Disengagement"]
+    },
+    {
+        "number": 7,
+        "title": "Ensure Women Are Included in Warning Dissemination Pathways",
+        "description": "Women play a major role in household food security but are often excluded from information channels. Deliberately sharing warnings through women's groups and community networks could improve overall preparedness.",
+        "responsible": "NGOs, community leaders, chiefs, and local government officers responsible for community outreach in Samburu County",
+        "priority": "High",
+        "addresses_barriers": ["Gendered and Hierarchical Exclusion"]
+    }
+]

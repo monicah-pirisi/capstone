@@ -1,0 +1,14 @@
+{
+    "source": "Kenya Meteorological Department",
+    "source_url": "https://meteo.go.ke/our-products/monthly-forecast/",
+    "valid_period": "April 2026",
+    "updated_at": "2026-03-31",
+    "outlook": {
+        "samburu": "The eastern parts of Turkana and Samburu are expected to receive near- to below-normal rainfall."
+    },
+    "advisory": "Farmers should strengthen field drainage, unclog furrows, and avoid activities that compact already-wet soils.",
+    "temperature": {
+        "max_celsius": 36,
+        "min_celsius": 13
+    }
+}

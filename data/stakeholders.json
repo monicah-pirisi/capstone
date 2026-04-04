@@ -1,0 +1,135 @@
+{
+    "groups": [
+        {
+            "id": "government",
+            "name": "Government Agencies",
+            "icon": "🏛️",
+            "badge": "Policy & Coordination",
+            "role": "National and county government agencies are the primary coordinators of drought response. They set policy, allocate resources, activate emergency protocols, and liaise with international humanitarian actors. Their decisions determine the scale and speed of the formal response.",
+            "members": [
+                "National Drought Management Authority (NDMA)",
+                "Samburu County Government",
+                "Kenya Meteorological Department (KMD)",
+                "Ministry of Agriculture & Livestock Development",
+                "National Treasury (drought response fund)"
+            ],
+            "preferred_channels": ["Email / Web portal", "NDMA API / Bulletin", "WhatsApp (secure groups)", "Official briefings"],
+            "what_you_receive": "Composite risk score and sub-scores, NDMA bulletin summary, KMD seasonal forecast, stakeholder routing table, monthly trend data, and flagged anomalies requiring policy response.",
+            "what_you_do": "Activate monitoring protocols at Alert level. Pre-position relief resources at Alarm. Declare drought emergency at Emergency level. Co-ordinate inter-agency response through county emergency operations centre.",
+            "how_you_share": "Issue official sub-county bulletins within 24 hours of national bulletin release. Distribute via ward administrators, chiefs, and NGO partners. Brief media for radio/TV coverage. Use WhatsApp for rapid coordination with county team.",
+            "feedback_loop": "Submit monthly field condition reports to NDMA. Flag discrepancies between EWS score and observed conditions. Review and validate indigenous indicator data submitted by community scouts.",
+            "alert_actions": {
+                "Normal":    "Continue monitoring; review preparedness plans quarterly",
+                "Watch":     "Increase field monitoring frequency to bi-weekly",
+                "Alert":     "Activate contingency plan; alert ward administrators; verify relief stock",
+                "Alarm":     "Co-ordinate emergency response; pre-position relief; brief media",
+                "Emergency": "Declare drought emergency; deploy humanitarian aid; request national support"
+            }
+        },
+        {
+            "id": "ngos",
+            "name": "NGOs & Development Partners",
+            "icon": "🤝",
+            "badge": "Funding & Technical Support",
+            "role": "International and local NGOs provide technical capacity, humanitarian logistics, and funding. They operate in the field, running water trucking, food distribution, livestock off-take, and community health programs. Their pre-positioning decisions at Alert level are critical to reducing harm.",
+            "members": [
+                "Kenya Red Cross Society",
+                "World Food Programme (WFP)",
+                "FAO Kenya",
+                "Save the Children Kenya",
+                "Action Against Hunger (ACF)",
+                "Oxfam Kenya",
+                "Mercy Corps Kenya"
+            ],
+            "preferred_channels": ["Email / Web portal", "WhatsApp coordination groups", "OCHA Kenya updates", "Field team SMS"],
+            "what_you_receive": "Risk level, score, reasons, recommended actions, channel message templates (for passing on to communities), and contact information for county coordination.",
+            "what_you_do": "At Alert: review contingency plans and confirm supply stock. At Alarm: pre-position water, food, and veterinary supplies. At Emergency: deploy field teams; activate emergency cash transfers; coordinate with NDMA.",
+            "how_you_share": "Relay translated WhatsApp messages to community groups. Support radio stations with script production costs. Train community scouts on indigenous indicator reporting. Operate community information desks.",
+            "feedback_loop": "Report field conditions to NDMA via monthly situation reports. Contribute to EWS improvement by sharing beneficiary feedback on alert timeliness and usefulness.",
+            "alert_actions": {
+                "Normal":    "Maintain preparedness; review contingency plans",
+                "Watch":     "Pre-identify supply depots; alert logistics teams",
+                "Alert":     "Prepare contingency plans; begin supply pre-positioning",
+                "Alarm":     "Deploy field teams; pre-position relief supplies",
+                "Emergency": "Full humanitarian response; cash transfers; emergency water/food"
+            }
+        },
+        {
+            "id": "radio",
+            "name": "Community Radio Stations",
+            "icon": "📻",
+            "badge": "Information Broadcast",
+            "role": "Local FM radio stations are the most trusted and widely reached information channel in Samburu County, particularly in areas without cellular coverage. They broadcast in Samburu vernacular and Swahili, making warnings accessible to non-literate and phone-less community members.",
+            "members": [
+                "Samburu FM (local community station)",
+                "Maralal FM",
+                "Kenya Broadcasting Corporation (KBC) — regional relay",
+                "Any community radio licensed in the county"
+            ],
+            "preferred_channels": ["WhatsApp (receive scripts)", "Email (backup)", "Phone call from county government"],
+            "what_you_receive": "Ready-made 30-second and 60-second radio scripts for each alert level, auto-filled with the current risk level and date. Available in English (for translation). Updated whenever the risk level changes.",
+            "what_you_do": "Broadcast scripted alerts at minimum 3 times daily (6am, 12pm, 6pm) during Alert/Alarm/Emergency phases. Translate scripts into Samburu before airing. Include emergency contact numbers in every broadcast.",
+            "how_you_share": "Airwaves reach the furthest communities. Coordinate with chiefs to announce broadcast times at barazas so communities know when to listen.",
+            "feedback_loop": "Report listener call-ins and questions to county government. Flag confusing or unclear message phrasing. Track reach estimates by coverage area.",
+            "alert_actions": {
+                "Normal":    "Regular seasonal weather updates; no special broadcast required",
+                "Watch":     "Include weekly drought watch segment in programmes",
+                "Alert":     "Broadcast 30s alert spot 3× daily in Samburu/Swahili",
+                "Alarm":     "Increase to 6× daily broadcasts; include emergency contacts",
+                "Emergency": "Continuous emergency broadcasts; interrupt regular programming"
+            }
+        },
+        {
+            "id": "pastoralists",
+            "name": "Pastoralist Communities",
+            "icon": "🐄",
+            "badge": "Primary Beneficiaries",
+            "role": "Semi-nomadic pastoralist households in Samburu County are the primary intended beneficiaries of the EWS. Their livelihoods depend on livestock and rangeland. They have the most at stake and are often the last to receive timely, actionable information under the current system.",
+            "members": [
+                "Semi-nomadic herder families across Samburu County",
+                "Women-headed households (particularly vulnerable)",
+                "Youth herders",
+                "Small-scale agro-pastoralists"
+            ],
+            "preferred_channels": ["Community Radio (most trusted)", "USSD *384# (any phone)", "Chief/baraza announcements", "WhatsApp (where connectivity allows)"],
+            "what_you_receive": "Plain-language alert level (Low / Moderate / High), specific action recommendations, emergency contact numbers, and the next steps for livestock and migration decisions.",
+            "what_you_do": "At Alert: begin early destocking (sell weak animals). Move toward known dry-season pastures. Register with your ward office. At Alarm/Emergency: implement full destocking, move to emergency grazing areas, report to relief centres.",
+            "how_you_share": "Share alert information verbally with family, neighbours, and other herders you encounter during migration. Report unusual environmental observations (early plant die-off, livestock behaviour changes) to community scouts.",
+            "feedback_loop": "Report to community scouts or chief if the EWS alert does not match what you are observing on the ground. Your traditional knowledge is a critical input to the system.",
+            "alert_actions": {
+                "Normal":    "Continue normal grazing rotation; monitor water sources",
+                "Watch":     "Note nearest dry-season grazing areas; monitor herd condition weekly",
+                "Alert":     "Begin early destocking; move toward dry-season pastures",
+                "Alarm":     "Implement full destocking; move to emergency grazing areas",
+                "Emergency": "Evacuate to designated relief areas; register for emergency support"
+            }
+        },
+        {
+            "id": "intermediaries",
+            "name": "Intermediaries & Community Leaders",
+            "icon": "🔗",
+            "badge": "Community Liaison",
+            "role": "Village chiefs, ward administrators, community health volunteers (CHVs), religious leaders, and extension officers are the critical last-mile link between formal institutions and pastoralist households. They translate, relay, and amplify official warnings using community trust and local language authority.",
+            "members": [
+                "Village chiefs and sub-chiefs",
+                "Ward administrators",
+                "Community Health Volunteers (CHVs)",
+                "Religious leaders (churches, mosques)",
+                "Livestock extension officers",
+                "Community scouts (EWS-trained)"
+            ],
+            "preferred_channels": ["Chief barazas (community meetings)", "WhatsApp groups", "Phone calls", "Community noticeboards"],
+            "what_you_receive": "Risk level summary, recommended actions per stakeholder group, emergency contact list, and radio script schedule so you can direct communities to tune in at the right times.",
+            "what_you_do": "Call a baraza at Alert level to relay the warning and answer questions. Translate messages into Samburu. Identify the most vulnerable households and ensure they receive the warning. Coordinate with NGO field staff.",
+            "how_you_share": "Verbal announcements at barazas and markets. Post notices at water points. Forward WhatsApp messages to community group chats. Direct people to *384# and community radio.",
+            "feedback_loop": "Collect community questions and concerns about warnings. Report field observations to sub-county NDMA office. Submit indigenous indicator observations to community scouts for integration into the EWS.",
+            "alert_actions": {
+                "Normal":    "Routine community liaison; monthly drought briefings",
+                "Watch":     "Alert community at next baraza; remind of dry-season protocols",
+                "Alert":     "Call urgent baraza; relay action guidance; contact NGO partners",
+                "Alarm":     "Daily community updates; identify vulnerable households for priority support",
+                "Emergency": "Co-ordinate evacuation; liaise between community and relief teams"
+            }
+        }
+    ]
+}

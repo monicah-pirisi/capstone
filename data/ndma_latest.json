@@ -1,0 +1,38 @@
+{
+    "source": "National Drought Management Authority (NDMA)",
+    "source_url": "https://ndma.go.ke/drought-information/",
+    "bulletin_month": "February 2026",
+    "updated_at": "2026-02-28",
+    "phase": "Alert",
+    "phase_justification": "The drought situation was at Alert phase but with an improving trend.",
+    "summary": "The county received significant rains in the third dekad of February while the vegetation greenness as depicted by the 3-Month VCI indicated moderate vegetation deficit. Livestock body condition for cattle was fair while for small stocks it was good. Nearly half of the sampled households did not have acceptable food consumption score with almost all the cases coming from the Pastoral livelihood zone.",
+    "samburu_specific": {
+        "rainfall": "Significant off-season rains were received especially in Samburu Central and parts of Samburu North sub-counties.",
+        "vegetation_east": "Samburu East sub-county was the most affected with severe vegetation deficit.",
+        "vegetation_north": "Samburu North sub-county was mostly experiencing moderate vegetation deficit.",
+        "vegetation_central": "Most parts of Samburu Central sub-county had normal vegetation."
+    },
+    "vegetation_condition": {
+        "ndvi": null,
+        "ndvi_normal": null,
+        "status": "Moderate vegetation deficit (Samburu East: severe deficit)"
+    },
+    "rainfall": {
+        "current_mm": null,
+        "long_term_avg_mm": 17,
+        "status": "Above Average"
+    },
+    "livestock": {
+        "body_condition": "Fair for cattle, Good for small stocks",
+        "migration_status": "Unusual migrations"
+    },
+    "water": {
+        "distance_to_water_km": 5,
+        "normal_distance_km": 7
+    },
+    "food_security": {
+        "acceptable_pct": 53,
+        "borderline_pct": 46,
+        "poor_pct": 1
+    }
+}

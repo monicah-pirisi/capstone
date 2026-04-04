@@ -1,0 +1,13 @@
+# Local dev config
+config.local.php
+
+# XAMPP / server logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

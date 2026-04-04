@@ -1,0 +1,58 @@
+[
+    {
+        "rank": 1,
+        "barrier": "Device and Connectivity Gaps",
+        "description": "Formal EWS warnings are delivered primarily through smartphones, social media, and SMS — channels that require internet connectivity and device ownership. Network coverage in Samburu is confined to towns and trading centres, leaving pastoralists in remote grazing areas without access to warning information, particularly during drought when they migrate furthest from infrastructure.",
+        "evidence": "Interview participants confirmed that network coverage 'is only confined to towns and maybe some centres, but for pastoralists or farmers, mostly they do not have the impact, so they miss even that kind of information they need.' The reliability of smartphone-based warnings also 'depends on the ability of their device to fetch their location and also the network of the area. Since not all the pastoralists possess smartphones, and all areas have good network coverage.' (Qualitative interviews, Samburu County, 2026)",
+        "design_implication": "Any EWS must include offline or low-tech channels — specifically community radio and USSD — that do not depend on data connectivity or smartphone ownership.",
+        "affected_groups": ["Pastoralists", "Remote communities", "Intermediaries"]
+    },
+    {
+        "rank": 2,
+        "barrier": "Language and Literacy Gap",
+        "description": "Existing NDMA and KMD bulletins are produced in English. Many Samburu pastoralists have limited formal literacy and are more comfortable in the Samburu language or Kiswahili, making technical reports and text-based alerts inaccessible. EWS channels such as SMS and smartphone apps were noted as 'designed for literate people', not for pastoral communities.",
+        "evidence": "Participants stated: 'Most of this information is in English, and some do not understand it unless it is translated. So that also impacts how much importance people attach to this.' A fundamental design flaw was also identified: 'If you look at the early warning systems available, they use language designed for literate people. They were not designing for communities.' (Qualitative interviews, Samburu County, 2026)",
+        "design_implication": "All pastoralist-facing content must be available in Samburu vernacular and Kiswahili. Radio scripts and USSD menus must use simple oral language, not technical terminology.",
+        "affected_groups": ["Pastoralists", "Women", "Elderly community members"]
+    },
+    {
+        "rank": 3,
+        "barrier": "Poor Timeliness and Lack of Action Guidance",
+        "description": "Warnings consistently arrive after conditions have already deteriorated, closing the window for preventive action such as early destocking or livestock migration. Even when warnings arrive, they lack specific guidance on what communities should do, rendering them informative but not actionable.",
+        "evidence": "Participants stated: 'When it comes to timeliness, the message is conveyed late, which is a barrier' and 'Sometimes the information arrives too late for people to prepare properly.' On action guidance: 'First, you need to know the intensity of what you're expecting, the magnitude of the drought or event. Then, from there, the question of what action you are going to take. The government should also take the risk that we're anticipating and then give them the possible solution of what to do next.' (Qualitative interviews, Samburu County, 2026)",
+        "design_implication": "The platform must show a clear data-freshness date on every alert and must include explicit, specific action recommendations — not just risk level statements — for each stakeholder group.",
+        "affected_groups": ["Pastoralists", "Government officers", "NGOs"]
+    },
+    {
+        "rank": 4,
+        "barrier": "Distrust and Unreliability of Formal Forecasts",
+        "description": "Trust in formal EWS is conditional and has been eroded by past forecast inaccuracies and by experiences where government warnings were not followed by timely assistance. When forecasts have proved wrong — either over-predicting rain or under-predicting drought severity — communities have learned to discount them. Warnings that lack transparent data and reasoning are less trusted than elder-validated indigenous observations.",
+        "evidence": "Participants noted: 'Reliability is sometimes 50/50 because the government can say you will get rain, and then it doesn't rain, or it can say there will be a prolonged drought, and then it doesn't rain. So it is not 100% reliable. This led the pastoralists not to really trust the government's warnings.' Trust further erodes when aid is delayed: 'the government will issue warnings about a big drought coming, and then it hits so hard because the government lacks preparedness to come and help them.' (Qualitative interviews, Samburu County, 2026)",
+        "design_implication": "The platform must visibly integrate indigenous indicators alongside scientific data. Showing both sources on the same alert, supported by clear evidence and past patterns, increases perceived legitimacy and uptake.",
+        "affected_groups": ["Pastoralists", "Community leaders", "Intermediaries"]
+    },
+    {
+        "rank": 5,
+        "barrier": "Structural Barriers: Poverty and Disengagement",
+        "description": "Even when warnings are received and understood, some community members disengage because they believe they have no means to respond. Without pre-positioned resources or support, a warning communicates risk without enabling action, leading to a form of learned helplessness. This is compounded by low household assets, meaning the ability to act on a warning — destock early, move livestock, purchase supplementary feed — is itself a function of wealth.",
+        "evidence": "Participants identified this dynamic directly: 'Even if someone gets the information, they definitely tend to ignore it because maybe they'll say they have nothing to do about it. So some people just tend to ignore that, which is also another issue.' Another added: 'In other cases, people receive the warning but lack the resources to act on it. These challenges make it difficult to fully use formal early warning systems.' (Qualitative interviews, Samburu County, 2026)",
+        "design_implication": "Warning dissemination alone is insufficient. EWS must be linked to pre-positioned response resources — livestock feed, water support, emergency destocking facilities — so that communities who receive a warning can act on it.",
+        "affected_groups": ["Subsistence pastoralists", "Women-headed households", "Youth herders"]
+    },
+    {
+        "rank": 6,
+        "barrier": "Gendered and Hierarchical Exclusion",
+        "description": "Warning information flows through a social hierarchy — from government to chiefs, to elders, to male household heads — before reaching pastoralists. This introduces delays and filtering at each level. Women are systematically excluded: in households headed by men, EWS-relevant decisions about livestock and drought response are treated as male responsibilities, meaning many women never receive warning information directly.",
+        "evidence": "Participants confirmed: 'When it comes to women, that information is not so much getting to them, because what is expected of them is so little that it doesn't really matter, unless some families are run by women. For a family that has a man, it's the man's responsibility to respond.' The hierarchical pathway was also described: 'The chief gets the information first. Then it comes to the elders, and then the elders communicate to other people... After that, it moves to the youth.' Those in remote areas 'may receive the information later.' (Qualitative interviews, Samburu County, 2026)",
+        "design_implication": "Warnings must deliberately reach women through separate pathways such as women's groups, community health volunteers, and targeted radio programming. The system cannot rely solely on male household heads as the endpoint.",
+        "affected_groups": ["Women", "Women-headed households", "Remote pastoralists", "Youth"]
+    },
+    {
+        "rank": 7,
+        "barrier": "Fragmented Institutional Coordination",
+        "description": "Multiple organisations — NDMA, KMD, Kenya Red Cross, the county government, chiefs, and elders — operate in the EWS landscape without consistent coordination. They sometimes send overlapping or slightly inconsistent messages, and each follows its own schedule and agenda. Communication is more frequent during active emergencies than during preparedness phases, making the overall system reactive rather than preventive.",
+        "evidence": "Participants described the problem: 'One huge problem is the lack of coordination from agencies that are working to ensure there is a functioning system. The Red Cross has its own agenda, so they go to the community and do their own work. The government comes and does what it wants. At the end of the day, there is no coordinated delivery.' The reactive pattern was also observed: 'A lot has happened, and the government is stepping in to provide relief food, which is a very short-term solution to the problem.' (Qualitative interviews, Samburu County, 2026)",
+        "design_implication": "A joint warning validation committee — including elders, chiefs, and government representatives — meeting regularly would reduce inconsistency and shift from emergency response to sustained preparedness. No single agency can close this gap alone.",
+        "affected_groups": ["All community groups", "Government agencies", "NGOs"]
+    }
+]

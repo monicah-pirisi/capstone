@@ -1,0 +1,29 @@
+# ─────────────────────────────────────────────────
+# Samburu EWS — Public .htaccess
+# Apache 2.4+  ·  Requires mod_rewrite, mod_headers
+# ─────────────────────────────────────────────────
+
+# Deny direct access to application directories
+# (these folders must live OUTSIDE public/ in production,
+#  but this protects them if accidentally exposed)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block access to /app, /migrations, /docs
+    RewriteRule ^\.\./(app|migrations|docs)(/|$) - [F,L]
+</IfModule>
+
+# ── Security Headers ────────────────────────────
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Default charset
+AddDefaultCharset UTF-8
