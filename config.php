@@ -14,11 +14,11 @@ error_reporting(E_ALL); // still log errors server-side, never show them
  * DATABASE: update these values for your hosting MySQL database.
  * InfinityFree / Hostinger: get credentials from your control panel.
  */
-define('DB_HOST',    'localhost');
+define('DB_HOST',    'sql313.infinityfree.com');
 define('DB_PORT',    '3306');
-define('DB_NAME',    'samburu_ews');   // your Hostinger DB name
-define('DB_USER',    'root');          // your Hostinger DB username
-define('DB_PASS',    '');              // your Hostinger DB password
+define('DB_NAME',    'if0_41763079_samburu');
+define('DB_USER',    'if0_41763079');
+define('DB_PASS',    'PwDstfGrb4tC9s');
 define('DB_CHARSET', 'utf8mb4');
 
 define('DB_DSN', 'mysql:host=' . DB_HOST .
