@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Problem Statement
+ * Samburu EWS: Problem Statement
  *
  * Outlines the drought challenge, communication barriers,
  * and why a better EWS is needed. Loads barriers.json.
@@ -30,26 +30,26 @@ require __DIR__ . '/includes/header.php';
                 <h2 style="color:var(--clr-primary);margin-bottom:var(--sp-md);">Drought in Samburu County</h2>
                 <p class="text-muted" style="line-height:1.8;">
                     Pastoralist communities in Samburu County face critical climate hazards, with livestock
-                    production contributing between <strong>60–85%</strong> of household cash income across
-                    the pastoral and agro-pastoral livelihood zones. Recurrent droughts — such as the
-                    2021–2022 event which resulted in over <strong>2.4 million livestock deaths</strong> nationwide,
-                    with Samburu among the most affected counties — continue to threaten these livelihoods.
+                    production contributing between <strong>60 to 85%</strong> of household cash income across
+                    the pastoral and agro-pastoral livelihood zones. Recurrent droughts, such as the
+                    2021-2022 event which resulted in over <strong>2.4 million livestock deaths</strong> nationwide,
+                    with Samburu among the most affected counties, continue to threaten these livelihoods.
                 </p>
                 <p class="text-muted mt-md" style="line-height:1.8;">
                     Despite the critical role of Early Warning Systems (EWS) in climate adaptation, their
                     effectiveness remains limited. Top-down EWS designs often neglect local ecological knowledge
                     and socio-cultural dynamics, while infrastructural limitations hinder the timely issuance
-                    of warnings — <strong>worsening community vulnerability</strong> rather than reducing it.
+                    of warnings, <strong>worsening community vulnerability</strong> rather than reducing it.
                 </p>
             </div>
             <div class="card" style="background:var(--clr-danger-light);border-color:var(--clr-danger);">
                 <h3 class="card-title" style="color:var(--clr-danger);">Key Evidence</h3>
                 <ul style="list-style:none;margin-top:var(--sp-md);font-size:var(--fs-sm);line-height:2;">
-                    <li>Livestock contributes <strong>60–85%</strong> of household cash income across pastoral and agro-pastoral livelihood zones <em>(KFSSG &amp; NDMA, 2024)</em></li>
-                    <li>The <strong>2021–2022 drought</strong> caused over <strong>2.4 million livestock deaths</strong> nationwide — Samburu among the most affected counties <em>(NDMA, 2022; FEWS NET, 2022)</em></li>
-                    <li>Systemic gaps identified: disconnect between formal EWS and indigenous knowledge <em>(Derbyshire et al., 2024)</em></li>
-                    <li>Mistrust in external information sources documented in pastoral communities <em>(Radeny et al., 2019)</em></li>
-                    <li>Institutional fragmentation undermines EWS coordination <em>(Caravani et al., 2022)</em></li>
+                    <li>Livestock contributes <strong>60 to 85%</strong> of household cash income across pastoral and agro-pastoral livelihood zones <em>[1]</em></li>
+                    <li>The <strong>2021-2022 drought</strong> caused over <strong>2.4 million livestock deaths</strong> nationwide, with Samburu among the most affected counties <em>[2, 3]</em></li>
+                    <li>Systemic gaps identified: disconnect between formal EWS and indigenous knowledge <em>[4]</em></li>
+                    <li>Mistrust in external information sources documented in pastoral communities <em>[5]</em></li>
+                    <li>Institutional fragmentation undermines EWS coordination <em>[6]</em></li>
                 </ul>
                 <p style="font-size:var(--fs-xs);color:var(--clr-danger);margin-top:var(--sp-sm);font-style:italic;">Sources: Abstract &amp; literature review, Chapter 2</p>
             </div>
@@ -102,8 +102,8 @@ require __DIR__ . '/includes/header.php';
     <div class="container text-center">
         <h2 style="color:var(--clr-primary);margin-bottom:var(--sp-md);">The Gap This Platform Addresses</h2>
         <p class="text-muted" style="max-width:700px;margin-inline:auto;line-height:1.8;">
-            Existing systems produce technically accurate data — but it never reaches the people who need it most.
-            The Samburu EWS Recommender bridges this gap by translating scientific and indigenous indicators
+            Existing systems produce technically accurate data, but it never reaches the people who need it most.
+            <?= SITE_NAME ?> bridges this gap by translating scientific and indigenous indicators
             into actionable, multilingual, multi-channel warnings tailored to each stakeholder group.
         </p>
         <a href="solution.php" class="btn btn-primary btn-lg mt-lg">View Our Solution →</a>

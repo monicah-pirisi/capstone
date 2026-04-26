@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — WhatsApp Templates
+ * Samburu EWS: WhatsApp Templates
  *
  * Displays pre-formatted WhatsApp messages for different
  * drought alert levels and stakeholder groups.
@@ -33,7 +33,7 @@ require __DIR__ . '/includes/header.php';
             <div class="card-body">
                 <p>Use for: No drought conditions, normal pastoral activities</p>
                 <div class="code-block mt-md">
-                    <pre>⚠️ Samburu EWS - NORMAL
+                    <pre id="template-normal">⚠️ Samburu EWS - NORMAL
 
 Samburu County is currently under NORMAL drought conditions.
 
@@ -45,7 +45,7 @@ Continue normal activities. Next update: [DATE]
 
 Powered by Samburu EWS</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-normal')">Copy Template</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-normal', this)">Copy Template</button>
             </div>
         </div>
 
@@ -58,7 +58,7 @@ Powered by Samburu EWS</pre>
             <div class="card-body">
                 <p>Use for: Early signs of drought, monitor conditions</p>
                 <div class="code-block mt-md">
-                    <pre>⚠️ Samburu EWS - WATCH
+                    <pre id="template-watch">⚠️ Samburu EWS - WATCH
 
 Samburu County is now under WATCH phase.
 
@@ -72,7 +72,7 @@ Actions: Monitor livestock, prepare for possible movement
 Next update: [DATE]
 Powered by Samburu EWS</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-watch')">Copy Template</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-watch', this)">Copy Template</button>
             </div>
         </div>
 
@@ -85,7 +85,7 @@ Powered by Samburu EWS</pre>
             <div class="card-body">
                 <p>Use for: Drought alert issued, prepare response</p>
                 <div class="code-block mt-md">
-                    <pre>⚠️🚨 Samburu EWS - ALERT
+                    <pre id="template-alert">⚠️🚨 Samburu EWS - ALERT
 
 ⚠️ DROUGHT ALERT issued for Samburu County!
 
@@ -105,7 +105,7 @@ Emergency contacts:
 
 Next update: [DATE]</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-alert')">Copy Template</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-alert', this)">Copy Template</button>
             </div>
         </div>
 
@@ -118,7 +118,7 @@ Next update: [DATE]</pre>
             <div class="card-body">
                 <p>Use for: Severe drought, immediate action required</p>
                 <div class="code-block mt-md">
-                    <pre>🚨🔴 Samburu EWS - ALARM
+                    <pre id="template-alarm">🚨🔴 Samburu EWS - ALARM
 
 🚨 SEVERE DROUGHT ALARM for Samburu County!
 
@@ -139,7 +139,7 @@ Emergency contacts:
 
 DO NOT DELAY - Act now!</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-alarm')">Copy Template</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-alarm', this)">Copy Template</button>
             </div>
         </div>
 
@@ -152,7 +152,7 @@ DO NOT DELAY - Act now!</pre>
             <div class="card-body">
                 <p>Use for: Critical emergency, humanitarian response needed</p>
                 <div class="code-block mt-md">
-                    <pre>⛔🆘 Samburu EWS - EMERGENCY
+                    <pre id="template-emergency">⛔🆘 Samburu EWS - EMERGENCY
 
 ⛔ DROUGHT EMERGENCY - IMMEDIATE HELP REQUIRED
 
@@ -173,7 +173,7 @@ Contact emergency services NOW!
 
 Emergency: 999 | NDMA: [PHONE]</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-emergency')">Copy Template</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('template-emergency', this)">Copy Template</button>
             </div>
         </div>
 
@@ -195,11 +195,11 @@ Emergency: 999 | NDMA: [PHONE]</pre>
                         <tbody>
                             <tr>
                                 <td>Government Agencies</td>
-                                <td class="text-muted" style="font-size:var(--fs-xs);">Stakeholder-specific templates to be added — use the phase templates above and address to relevant group.</td>
+                                <td class="text-muted" style="font-size:var(--fs-xs);">Stakeholder-specific templates to be added; use the phase templates above and address to the relevant group.</td>
                             </tr>
                             <tr>
                                 <td>NGOs</td>
-                                <td class="text-muted" style="font-size:var(--fs-xs);">Stakeholder-specific templates to be added — use the phase templates above and address to relevant group.</td>
+                                <td class="text-muted" style="font-size:var(--fs-xs);">Stakeholder-specific templates to be added; use the phase templates above and address to the relevant group.</td>
                             </tr>
                             <tr>
                                 <td>Radio Stations</td>
@@ -207,7 +207,7 @@ Emergency: 999 | NDMA: [PHONE]</pre>
                             </tr>
                             <tr>
                                 <td>Community Chiefs</td>
-                                <td class="text-muted" style="font-size:var(--fs-xs);">Stakeholder-specific templates to be added — use the phase templates above and address to relevant group.</td>
+                                <td class="text-muted" style="font-size:var(--fs-xs);">Stakeholder-specific templates to be added; use the phase templates above and address to the relevant group.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -237,17 +237,29 @@ Emergency: 999 | NDMA: [PHONE]</pre>
 </style>
 
 <script>
-function copyToClipboard(id) {
+function copyToClipboard(id, btn) {
     const el = document.getElementById(id);
     const text = el ? el.innerText : '';
     if (!text) return;
-    navigator.clipboard.writeText(text).then(function () {
-        const btn = event.target;
-        const original = btn.textContent;
+    const original = btn.textContent;
+    function markCopied() {
         btn.textContent = 'Copied!';
         btn.disabled = true;
         setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 1800);
-    }).catch(function () {
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(markCopied).catch(function () {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            markCopied();
+        });
+    } else {
         const ta = document.createElement('textarea');
         ta.value = text;
         ta.style.position = 'fixed';
@@ -256,7 +268,8 @@ function copyToClipboard(id) {
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
-    });
+        markCopied();
+    }
 }
 </script>
 

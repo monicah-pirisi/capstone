@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Radio Scripts
+ * Samburu EWS: Radio Scripts
  *
  * Pre-written radio broadcast scripts for different
  * drought alert levels in English and Samburu.
@@ -79,7 +79,7 @@ This is Samburu EWS, keeping our community informed.
 
 [approx. 30 seconds]</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('radio-30-normal')">Copy Script</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('radio-30-normal', this)">Copy Script</button>
             </div>
         </div>
 
@@ -114,7 +114,7 @@ The next update will be on [DAY/DATE]. Stay safe, Samburu.
 
 [approx. 60 seconds]</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('radio-60-watch')">Copy Script</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('radio-60-watch', this)">Copy Script</button>
             </div>
         </div>
 
@@ -125,7 +125,7 @@ The next update will be on [DAY/DATE]. Stay safe, Samburu.
             </div>
             <div class="card-body">
                 <div class="code-block">
-                    <pre id="radio-60-alert">[MUSIC FADE IN — URGENT TONE]
+                    <pre id="radio-60-alert">[MUSIC FADE IN, URGENT TONE]
 
 ANCHOR: URGENT ALERT from Samburu Early Warning System.
 
@@ -152,7 +152,7 @@ This is a serious situation. Stay tuned for updates.
 
 [approx. 60 seconds]</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('radio-60-alert')">Copy Script</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('radio-60-alert', this)">Copy Script</button>
             </div>
         </div>
 
@@ -163,12 +163,12 @@ This is a serious situation. Stay tuned for updates.
             </div>
             <div class="card-body">
                 <div class="code-block">
-                    <pre id="radio-2min-alarm">[MUSIC FADE IN — VERY URGENT]
+                    <pre id="radio-2min-alarm">[MUSIC FADE IN: VERY URGENT]
 
-ANCHOR: CRITICAL DROUGHT ALARM — Samburu County.
+ANCHOR: CRITICAL DROUGHT ALARM: Samburu County.
 
 This is an emergency broadcast from the Samburu Early Warning
-System. We are now under ALARM phase — the highest level
+System. We are now under ALARM phase, the highest level
 before emergency.
 
 Severe drought conditions:
@@ -179,13 +179,13 @@ Severe drought conditions:
 
 Immediate actions required:
 
-1. MOVE YOUR LIVESTOCK — Go to designated water points and
+1. MOVE YOUR LIVESTOCK: Go to designated water points and
    grazing areas identified by your chief.
 
-2. SEEK ASSISTANCE — Contact your ward administrator or
+2. SEEK ASSISTANCE: Contact your ward administrator or
    village chief for emergency support.
 
-3. PROTECT YOUR FAMILY — Ensure you have enough water
+3. PROTECT YOUR FAMILY: Ensure you have enough water
    and food for your household.
 
 Emergency contacts:
@@ -194,13 +194,13 @@ Emergency contacts:
 - Kenya Red Cross: [PHONE]
 - Police Emergency: 999
 
-Humanitarian aid is being organised. Do not delay — act now.
+Humanitarian aid is being organised. Do not delay, act now.
 
-[MUSIC FADE OUT — HOLD FOR 5 SECONDS]
+[MUSIC FADE OUT: HOLD FOR 5 SECONDS]
 
 [approx. 2 minutes]</pre>
                 </div>
-                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('radio-2min-alarm')">Copy Script</button>
+                <button class="btn btn-sm btn-outline mt-md" onclick="copyToClipboard('radio-2min-alarm', this)">Copy Script</button>
             </div>
         </div>
 
@@ -224,23 +224,23 @@ Humanitarian aid is being organised. Do not delay — act now.
                         <tbody>
                             <tr>
                                 <td><span class="badge badge-green">Normal</span></td>
-                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added — contact the project team.</td>
+                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added, contact the project team.</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-blue">Watch</span></td>
-                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added — contact the project team.</td>
+                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added, contact the project team.</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-amber">Alert</span></td>
-                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added — contact the project team.</td>
+                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added, contact the project team.</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-red">Alarm</span></td>
-                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added — contact the project team.</td>
+                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added, contact the project team.</td>
                             </tr>
                             <tr>
                                 <td><span class="badge" style="background:#333;color:#fff;">Emergency</span></td>
-                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added — contact the project team.</td>
+                                <td colspan="3" class="text-muted" style="font-size:var(--fs-xs);">Samburu-language translations to be added, contact the project team.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -270,17 +270,29 @@ Humanitarian aid is being organised. Do not delay — act now.
 </style>
 
 <script>
-function copyToClipboard(id) {
+function copyToClipboard(id, btn) {
     const el = document.getElementById(id);
     const text = el ? el.innerText : '';
     if (!text) return;
-    navigator.clipboard.writeText(text).then(function () {
-        const btn = event.target;
-        const original = btn.textContent;
+    const original = btn.textContent;
+    function markCopied() {
         btn.textContent = 'Copied!';
         btn.disabled = true;
         setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 1800);
-    }).catch(function () {
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(markCopied).catch(function () {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            markCopied();
+        });
+    } else {
         const ta = document.createElement('textarea');
         ta.value = text;
         ta.style.position = 'fixed';
@@ -289,7 +301,8 @@ function copyToClipboard(id) {
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
-    });
+        markCopied();
+    }
 }
 </script>
 

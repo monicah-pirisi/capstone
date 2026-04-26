@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Stakeholders
+ * Samburu EWS: Stakeholders
  *
  * Tabbed interface for all five stakeholder groups.
  * Each tab shows: What you receive · What you do ·

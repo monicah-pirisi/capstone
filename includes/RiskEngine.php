@@ -1,155 +1,218 @@
 <?php
 /**
- * Samburu EWS — Risk Assessment Engine
+ * Samburu EWS: Risk Assessment Engine
+ *
+ * Scoring uses the exact three-indicator Combined Drought Index (CDI)
+ * published by Balint et al. (2013) "Monitoring Drought with the Combined
+ * Drought Index in Kenya" — the only peer-reviewed study providing
+ * empirically derived weights for a Kenya ASAL composite drought index:
+ *
+ *   Precipitation (Rainfall)  50%  — NDMA bulletin data
+ *   Vegetation (NDVI/VCI)     25%  — NDMA bulletin data, threshold VCI=35
+ *   Temperature               25%  — KMD bulletin data
+ *
+ * Indicators without published weights (Livestock, Water distance, FCS)
+ * are displayed as a Ground Conditions context panel using real NDMA/WFP
+ * data and published thresholds, but are not assigned a weight in the score.
+ *
+ * Indigenous knowledge is included as a cross-validation adjustment (±5 pts)
+ * using the raw community stress ratio — no lookup values, no arbitrary weight.
  */
 
 class RiskEngine
 {
-    // Risk phase thresholds
-    const PHASE_NORMAL = 'Normal';
-    const PHASE_ALERT = 'Alert';
-    const PHASE_ALARM = 'Alarm';
+    const PHASE_NORMAL    = 'Normal';
+    const PHASE_ALERT     = 'Alert';
+    const PHASE_ALARM     = 'Alarm';
     const PHASE_EMERGENCY = 'Emergency';
 
     /**
-     * Assess risk based on input indicators
+     * Assess drought risk.
+     *
+     * Scored inputs (Balint et al. CDI):
+     *   rainfall_mm            float  NDMA bulletin current rainfall
+     *   rainfall_avg_mm        float  NDMA bulletin long-term average
+     *   ndvi                   float  NDMA bulletin VCI reading (0–100 scale)
+     *   ndvi_normal            float  NDMA published VCI threshold = 35
+     *   temp_max_celsius       float  KMD bulletin forecast maximum temperature
+     *   temp_normal_max        float  KMD long-term normal max for Samburu = 30°C
+     *   temp_extreme_max       float  Recorded northern Kenya ASAL extreme = 40°C
+     *
+     * Cross-validation input (not scored):
+     *   indigenous_stress_ratio float  Proportion of stressed community indicators (0.0–1.0)
+     *
+     * Context-only inputs (real NDMA/WFP data, displayed not scored):
+     *   livestock_condition    string  NDMA field classification
+     *   water_distance_km      float   NDMA bulletin
+     *   water_normal_km        float   NDMA bulletin
+     *   food_consumption_score float   NDMA bulletin (WFP FCS, max 42)
      */
     public static function assess(array $inputs): array
     {
-        $scores = [];
-        
-        // NDVI Score (0-100)
-        $ndvi = (float)($inputs['ndvi'] ?? 0);
-        $ndviNormal = (float)($inputs['ndvi_normal'] ?? 0.32);
-        $ndviScore = self::calculateNdviScore($ndvi, $ndviNormal);
-        $scores['ndvi'] = $ndviScore;
-
-        // Rainfall Score (0-100)
-        $rainfall = (float)($inputs['rainfall_mm'] ?? 0);
+        // ── SCORED INDICATOR 1: Rainfall ─────────────────────────────────────
+        // Weight: 50% — Balint et al. (2013) CDI
+        // Data:   NDMA Samburu County Drought Bulletin (current_mm, long_term_avg_mm)
+        $rainfall    = (float)($inputs['rainfall_mm']     ?? 0);
         $rainfallAvg = (float)($inputs['rainfall_avg_mm'] ?? 95);
         $rainfallScore = self::calculateRainfallScore($rainfall, $rainfallAvg);
-        $scores['rainfall'] = $rainfallScore;
 
-        // Water Distance Score (0-100, inverted)
-        $waterDist = (float)($inputs['water_distance_km'] ?? 0);
-        $waterNormal = (float)($inputs['water_normal_km'] ?? 5);
-        $waterScore = self::calculateWaterScore($waterDist, $waterNormal);
-        $scores['water'] = $waterScore;
+        // ── SCORED INDICATOR 2: Vegetation (VCI) ─────────────────────────────
+        // Weight: 25% — Balint et al. (2013) CDI
+        // Data:   NDMA Samburu County Drought Bulletin (VCI reading)
+        // Normal: VCI = 35 — NDMA published operational trigger (VCI3M below 35
+        //         activates the National Drought Contingency Fund)
+        $ndvi       = (float)($inputs['ndvi']       ?? 0);
+        $ndviNormal = (float)($inputs['ndvi_normal'] ?? 35);
+        $ndviScore  = self::calculateNdviScore($ndvi, $ndviNormal);
 
-        // Livestock Condition Score (0-100)
-        $livestock = (string)($inputs['livestock_condition'] ?? 'Fair');
-        $livestockScore = self::calculateLivestockScore($livestock);
-        $scores['livestock'] = $livestockScore;
+        // ── SCORED INDICATOR 3: Temperature ──────────────────────────────────
+        // Weight: 25% — Balint et al. (2013) CDI
+        // Data:   KMD monthly forecast bulletin (max_celsius)
+        // Normal: 30°C — KMD long-term mean maximum for Samburu ASAL zone
+        // Extreme: 40°C — recorded ceiling for northern Kenya ASAL counties
+        // Direction: inverted — higher temperature = more evapotranspiration = worse
+        $tempMax     = (float)($inputs['temp_max_celsius']  ?? 30);
+        $tempNormal  = (float)($inputs['temp_normal_max']   ?? 30);
+        $tempExtreme = (float)($inputs['temp_extreme_max']  ?? 40);
+        $tempScore   = self::calculateTemperatureScore($tempMax, $tempNormal, $tempExtreme);
 
-        // Food Consumption Score (0-100)
-        $foodScore = (float)($inputs['food_consumption_score'] ?? 0);
-        $scores['food'] = min(100, ($foodScore / 42) * 100);
-
-        // Indigenous Outlook Score
-        $outlook = (string)($inputs['indigenous_outlook'] ?? 'Favourable');
-        $indigenousScore = self::calculateIndigenousScore($outlook);
-        $scores['indigenous'] = $indigenousScore;
-
-        // Calculate composite score (weighted average)
-        $weights = [
-            'ndvi' => 0.20,
-            'rainfall' => 0.20,
-            'water' => 0.15,
-            'livestock' => 0.20,
-            'food' => 0.10,
-            'indigenous' => 0.15,
+        // ── WEIGHTED COMPOSITE ────────────────────────────────────────────────
+        // Exact weights from Balint et al. (2013) — sum to 1.0
+        $scores = [
+            'rainfall'    => $rainfallScore,
+            'ndvi'        => $ndviScore,
+            'temperature' => $tempScore,
         ];
 
-        $compositeScore = 0;
+        $weights = [
+            'rainfall'    => 0.50,
+            'ndvi'        => 0.25,
+            'temperature' => 0.25,
+        ];
+
+        $compositeScore = 0.0;
         foreach ($weights as $key => $weight) {
-            $compositeScore += ($scores[$key] ?? 0) * $weight;
+            $compositeScore += $scores[$key] * $weight;
         }
 
-        // Determine phase
-        $phase = self::determinePhase($compositeScore);
+        // ── INDIGENOUS CROSS-VALIDATION ADJUSTMENT ────────────────────────────
+        // Not a weighted indicator — no published composite index assigns a numeric
+        // weight to indigenous knowledge. Instead, the raw community stress ratio
+        // (0.0–1.0) adjusts the composite score by up to ±5 points:
+        //
+        //   adjustment = (0.5 − ratio) × 10   [capped at ±5]
+        //
+        //   ratio = 1.0  → −5 pts  (community signals maximum drought stress)
+        //   ratio = 0.5  →  0 pts  (community neutral — scientific score unchanged)
+        //   ratio = 0.0  → +5 pts  (community signals no stress)
+        //
+        // Basis: Derbyshire et al. (2024) and Radeny et al. (2019) document that
+        // indigenous indicators in northern Kenya detect drought stress earlier than
+        // satellite data — justifying their role as a directional cross-check.
+        $indigenousRatio      = (float)($inputs['indigenous_stress_ratio'] ?? 0.5);
+        $indigenousAdjustment = max(-5.0, min(5.0, (0.5 - $indigenousRatio) * 10));
+        $compositeScore       = max(0.0, min(100.0, $compositeScore + $indigenousAdjustment));
 
-        // Generate reasons and recommendations
-        $reasons = self::generateReasons($inputs, $scores);
+        $scores['indigenous_stress_pct'] = (int)round($indigenousRatio * 100);
+        $scores['indigenous_adjustment'] = round($indigenousAdjustment, 1);
+
+        // ── GROUND CONDITIONS CONTEXT ─────────────────────────────────────────
+        // Real NDMA/WFP data displayed alongside the score.
+        // Not weighted because no published study provides weights for these
+        // indicators in a Kenya ASAL composite drought index.
+        // Status labels use published thresholds:
+        //   Livestock: NDMA field body condition classification
+        //   Water:     NDMA bulletin normal baseline
+        //   FCS:       WFP Kenya-specific thresholds (poor <21, borderline 21–35,
+        //              acceptable >35, ceiling 42 for high-staple-consumption zones)
+        $livestock  = (string)($inputs['livestock_condition']    ?? '');
+        $waterKm    = (float)($inputs['water_distance_km']       ?? 0);
+        $waterNorm  = (float)($inputs['water_normal_km']         ?? 7);
+        $fcs        = (float)($inputs['food_consumption_score']  ?? 0);
+
+        $scores['ground_conditions'] = [
+            'livestock' => [
+                'value'   => $livestock,
+                'status'  => self::livestockStatus($livestock),
+                'source'  => 'NDMA bulletin',
+            ],
+            'water' => [
+                'value'        => $waterKm . ' km',
+                'normal'       => $waterNorm . ' km',
+                'status'       => $waterKm <= $waterNorm ? 'Within normal' : 'Above normal',
+                'status_level' => $waterKm <= $waterNorm ? 'good' : ($waterKm <= $waterNorm * 1.3 ? 'moderate' : 'stressed'),
+                'source'       => 'NDMA bulletin',
+            ],
+            'food_security' => [
+                'value'   => $fcs . ' / 42',
+                'status'  => self::fcsStatus($fcs),
+                'source'  => 'NDMA bulletin, WFP FCS methodology',
+            ],
+        ];
+
+        $phase   = self::determinePhase($compositeScore);
+        $reasons = self::generateReasons($scores);
         $actions = self::getStakeholderActions($phase);
 
         return [
-            'phase' => $phase,
-            'score' => round($compositeScore, 1),
+            'phase'      => $phase,
+            'score'      => round($compositeScore, 1),
             'sub_scores' => $scores,
-            'reasons' => $reasons,
-            'actions' => $actions,
+            'reasons'    => $reasons,
+            'actions'    => $actions,
         ];
     }
 
-    /**
-     * Calculate NDVI score (lower is worse)
-     */
-    private static function calculateNdviScore(float $ndvi, float $normal): float
-    {
-        if ($ndvi >= $normal) return 100;
-        if ($ndvi <= 0.1) return 0;
-        
-        $ratio = $ndvi / $normal;
-        return min(100, $ratio * 100);
-    }
+    // ── SCORING FUNCTIONS ─────────────────────────────────────────────────────
 
-    /**
-     * Calculate rainfall score
-     */
     private static function calculateRainfallScore(float $rainfall, float $avg): float
     {
         if ($rainfall >= $avg) return 100;
-        if ($rainfall <= 0) return 0;
-        
-        $ratio = $rainfall / $avg;
-        return min(100, $ratio * 100);
+        if ($rainfall <= 0)   return 0;
+        return min(100, ($rainfall / $avg) * 100);
     }
 
-    /**
-     * Calculate water distance score (inverted)
-     */
-    private static function calculateWaterScore(float $distance, float $normal): float
+    private static function calculateNdviScore(float $ndvi, float $normal): float
     {
-        if ($distance <= $normal) return 100;
-        if ($distance >= 30) return 0;
-        
-        $ratio = 1 - (($distance - $normal) / (30 - $normal));
-        return max(0, $ratio * 100);
+        if ($ndvi >= $normal) return 100;
+        if ($ndvi <= 0.1)    return 0;
+        return min(100, ($ndvi / $normal) * 100);
     }
 
     /**
-     * Calculate livestock condition score
+     * Inverted linear decay — higher temperature = more evapotranspiration = lower score.
+     * Normal (30°C) scores 100. At or above extreme (40°C) scores 0.
      */
-    private static function calculateLivestockScore(string $condition): float
+    private static function calculateTemperatureScore(float $temp, float $normal, float $extreme): float
     {
-        $scores = [
-            'Good' => 100,
-            'Fair' => 70,
-            'Poor' => 40,
-            'Very Poor' => 15,
-        ];
-        
-        return $scores[$condition] ?? 50;
+        if ($temp <= $normal)  return 100;
+        if ($temp >= $extreme) return 0;
+        return max(0, (1 - (($temp - $normal) / ($extreme - $normal))) * 100);
     }
 
-    /**
-     * Calculate indigenous outlook score
-     */
-    private static function calculateIndigenousScore(string $outlook): float
+    // ── STATUS HELPERS FOR CONTEXT PANEL ─────────────────────────────────────
+
+    private static function livestockStatus(string $condition): string
     {
-        $scores = [
-            'Favourable' => 100,
-            'Watch' => 75,
-            'Concerning' => 50,
-            'Severe' => 25,
-        ];
-        
-        return $scores[$outlook] ?? 50;
+        return match($condition) {
+            'Good'      => 'Normal',
+            'Fair'      => 'Marginal',
+            'Poor'      => 'Stressed',
+            'Very Poor' => 'Critical',
+            default     => 'Unknown',
+        };
     }
 
-    /**
-     * Determine risk phase from composite score
-     */
+    private static function fcsStatus(float $fcs): string
+    {
+        // WFP Kenya thresholds: poor <21, borderline 21–35, acceptable >35 (ceiling 42)
+        if ($fcs > 35)  return 'Acceptable';
+        if ($fcs >= 21) return 'Borderline';
+        return 'Poor';
+    }
+
+    // ── PHASE CLASSIFICATION ──────────────────────────────────────────────────
+
     private static function determinePhase(float $score): string
     {
         if ($score >= 80) return self::PHASE_NORMAL;
@@ -158,64 +221,74 @@ class RiskEngine
         return self::PHASE_EMERGENCY;
     }
 
-    /**
-     * Generate explanation reasons
-     */
-    private static function generateReasons(array $inputs, array $scores): array
+    // ── REASON FLAGS ──────────────────────────────────────────────────────────
+
+    private static function generateReasons(array $scores): array
     {
         $reasons = [];
-        
-        if ($scores['ndvi'] < 50) {
-            $reasons[] = 'Vegetation condition significantly below normal';
+
+        if ($scores['rainfall'] < 40) {
+            $reasons[] = ['severity' => 'high',   'text' => 'Rainfall critically below long-term average, causing severe seasonal moisture deficit'];
+        } elseif ($scores['rainfall'] < 75) {
+            $reasons[] = ['severity' => 'medium', 'text' => 'Rainfall below long-term average, with seasonal moisture stress present'];
         }
-        if ($scores['rainfall'] < 50) {
-            $reasons[] = 'Current rainfall well below long-term average';
+
+        if ($scores['ndvi'] < 40) {
+            $reasons[] = ['severity' => 'high',   'text' => 'Vegetation critically degraded, with VCI indicating severe pasture deficit across sub-counties'];
+        } elseif ($scores['ndvi'] < 75) {
+            $reasons[] = ['severity' => 'medium', 'text' => 'Vegetation below normal, with moderate pasture deficit present, particularly in Samburu East'];
         }
-        if ($scores['water'] < 50) {
-            $reasons[] = 'Water sources are further than normal distances';
+
+        if ($scores['temperature'] < 40) {
+            $reasons[] = ['severity' => 'high',   'text' => 'Temperatures critically above normal, accelerating soil moisture loss and pasture deterioration'];
+        } elseif ($scores['temperature'] < 75) {
+            $reasons[] = ['severity' => 'medium', 'text' => 'Temperatures above normal, increasing evapotranspiration and moisture deficit'];
         }
-        if ($scores['livestock'] < 50) {
-            $reasons[] = 'Livestock body condition is deteriorating';
+
+        $stressPct = $scores['indigenous_stress_pct'] ?? 50;
+        $adj       = $scores['indigenous_adjustment']  ?? 0;
+        $adjLabel  = $adj >= 0 ? "+{$adj}" : "{$adj}";
+
+        if ($stressPct >= 80) {
+            $reasons[] = ['severity' => 'high',   'text' => "Community indicators: {$stressPct}% stressed (score adjusted {$adjLabel} pts) — community signals conditions worse than scientific data alone suggests"];
+        } elseif ($stressPct >= 50) {
+            $reasons[] = ['severity' => 'medium', 'text' => "Community indicators: {$stressPct}% stressed (score adjusted {$adjLabel} pts) — consistent with emerging drought conditions"];
+        } elseif ($stressPct < 30) {
+            $reasons[] = ['severity' => 'low',    'text' => "Community indicators: only {$stressPct}% stressed (score adjusted {$adjLabel} pts) — community observations suggest less severe conditions than satellite data indicates"];
         }
-        
+
         return $reasons;
     }
 
-    /**
-     * Get stakeholder-specific actions for a phase
-     */
+    // ── STAKEHOLDER ACTIONS ───────────────────────────────────────────────────
+
     private static function getStakeholderActions(string $phase): array
     {
-        $actions = [
-            'government' => '',
-            'ngos' => '',
-            'radio' => '',
-            'pastoralists' => '',
-        ];
+        $actions = ['government' => '', 'ngos' => '', 'radio' => '', 'pastoralists' => ''];
 
         switch ($phase) {
             case self::PHASE_NORMAL:
-                $actions['government'] = 'Continue monitoring';
-                $actions['ngos'] = 'Maintain preparedness';
-                $actions['radio'] = 'Regular weather updates';
+                $actions['government']   = 'Continue monitoring';
+                $actions['ngos']         = 'Maintain preparedness';
+                $actions['radio']        = 'Regular weather updates';
                 $actions['pastoralists'] = 'Normal activities';
                 break;
             case self::PHASE_ALERT:
-                $actions['government'] = 'Activate monitoring protocols';
-                $actions['ngos'] = 'Prepare contingency plans';
-                $actions['radio'] = 'Broadcast drought watch messages';
+                $actions['government']   = 'Activate monitoring protocols';
+                $actions['ngos']         = 'Prepare contingency plans';
+                $actions['radio']        = 'Broadcast drought watch messages';
                 $actions['pastoralists'] = 'Consider early livestock movement';
                 break;
             case self::PHASE_ALARM:
-                $actions['government'] = 'Coordinate emergency response';
-                $actions['ngos'] = 'Pre-position relief supplies';
-                $actions['radio'] = 'Air emergency alerts';
+                $actions['government']   = 'Coordinate emergency response';
+                $actions['ngos']         = 'Pre-position relief supplies';
+                $actions['radio']        = 'Air emergency alerts';
                 $actions['pastoralists'] = 'Implement destocking decisions';
                 break;
             case self::PHASE_EMERGENCY:
-                $actions['government'] = 'Declare drought emergency';
-                $actions['ngos'] = 'Deploy humanitarian aid';
-                $actions['radio'] = 'Continuous emergency broadcasts';
+                $actions['government']   = 'Declare drought emergency';
+                $actions['ngos']         = 'Deploy humanitarian aid';
+                $actions['radio']        = 'Continuous emergency broadcasts';
                 $actions['pastoralists'] = 'Evacuate to emergency grazing areas';
                 break;
         }

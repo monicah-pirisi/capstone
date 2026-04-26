@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Integrated Early Warning Prototype
+ * Samburu EWS: Integrated Early Warning Prototype
  *
  * The integration / trust page: shows how scientific and indigenous
  * knowledge are combined into one socio-technical decision interface.
@@ -27,7 +27,7 @@ try {
     // DB not ready, JSON fallback above is fine
 }
 
-/* ── Agreement logic ─────────────────────────────────────────────── */
+// Agreement logic
 // Official stress: KMD keyword match OR NDMA phase ≥ Alert
 $kmdOutlookText = implode(' ', $kmd['outlook'] ?? []) . ' ' . ($kmd['advisory'] ?? '');
 $kmdStress      = (bool) preg_match('/below|drought|dry|stress|deficit/i', $kmdOutlookText);
@@ -55,7 +55,7 @@ $officialSummary = implode(' and ', $officialParts);
 if ($officialStress && $indigStress) {
     $agreement      = 'agreement';
     $agreementLabel = 'Agreement';
-    $trustMsg       = ($officialSummary ? $officialSummary . ' and indigenous indicators all point to elevated drought concern' : 'All systems indicate elevated drought concern') . ' — confidence is highest when both knowledge systems align (§4.7.1).';
+    $trustMsg       = ($officialSummary ? $officialSummary . ' and indigenous indicators all point to elevated drought concern' : 'All systems indicate elevated drought concern') . ', confidence is highest when both knowledge systems align (§4.7.1).';
     $trustColor     = 'var(--clr-danger)';
     $trustBg        = 'var(--clr-danger-light)';
     $confidence     = 90;
@@ -79,7 +79,7 @@ if ($officialStress && $indigStress) {
 require __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Hero ──────────────────────────────────────────────────────── -->
+<!-- Hero -->
 <section class="hero" style="padding:var(--sp-2xl) 0;">
     <div class="container">
         <h1>Integrated Early Warning Prototype</h1>
@@ -87,12 +87,12 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Section 1: Integrated Comparison Overview ─────────────────── -->
+<!-- Section 1: Integrated Comparison Overview -->
 <section class="page-section proto-comparison-section">
     <div class="container">
         <div class="section-header">
             <h2>Integrated Knowledge Comparison</h2>
-            <p>Scientific forecasts and community indigenous signals compared side-by-side. When both align, confidence in the warning is stronger — the core recommendation of §4.7.1 and Recommendation 1 of the study (§5.3).</p>
+            <p>Scientific forecasts and community indigenous signals compared side-by-side. When both align, confidence in the warning is stronger, the core recommendation of §4.7.1 and Recommendation 1 of the study (§5.3).</p>
         </div>
 
         <div class="proto-comparison-grid">
@@ -109,7 +109,7 @@ require __DIR__ . '/includes/header.php';
 
                     <!-- KMD sub-section -->
                     <div class="proto-official-sub">
-                        <div class="proto-official-sub-label">KMD Forecast — <?= htmlspecialchars($kmd['valid_period'] ?? '—') ?></div>
+                        <div class="proto-official-sub-label">KMD Forecast: <?= htmlspecialchars($kmd['valid_period'] ?? '—') ?></div>
                         <ul class="proto-source-list">
                             <?php foreach ($kmd['outlook'] ?? [] as $month => $text): ?>
                             <li><strong><?= ucfirst(htmlspecialchars($month)) ?>:</strong> <?= htmlspecialchars($text) ?></li>
@@ -139,7 +139,7 @@ require __DIR__ . '/includes/header.php';
                         };
                         ?>
                         <div class="proto-official-sub-label">
-                            NDMA Bulletin — <?= htmlspecialchars($ndma['bulletin_month'] ?? '—') ?>
+                            NDMA Bulletin: <?= htmlspecialchars($ndma['bulletin_month'] ?? '—') ?>
                             <span class="proto-phase-badge <?= $ndmaPhaseClass ?>"><?= htmlspecialchars($ndmaPhase) ?></span>
                         </div>
                         <p style="font-size:var(--fs-xs);font-style:italic;color:var(--clr-text-muted);margin-bottom:var(--sp-xs);"><?= htmlspecialchars($ndma['phase_justification'] ?? '') ?></p>
@@ -182,7 +182,7 @@ require __DIR__ . '/includes/header.php';
                 </div>
                 <div class="card-body">
                     <p class="text-muted" style="font-size:var(--fs-xs);margin-bottom:var(--sp-sm);">
-                        Source: Samburu elders &amp; pastoralists — documented in §4.2.1, Chapter 4 (2026).
+                        Source: Samburu elders &amp; pastoralists, documented in §4.2.1, Chapter 4 (2026).
                         <?= count($indigenous) ?> indicators across 2 knowledge tiers.
                     </p>
 
@@ -206,7 +206,7 @@ require __DIR__ . '/includes/header.php';
                     ?>
 
                     <!-- Tier 1: General indicators -->
-                    <div class="proto-tier-label">Tier 1 — General Elders</div>
+                    <div class="proto-tier-label">Tier 1: General Elders</div>
                     <div class="proto-ind-scroll">
                         <?php foreach ($catLabels as $catKey => $catLabel): ?>
                         <?php if (empty($indByCat[$catKey])) continue; ?>
@@ -231,7 +231,7 @@ require __DIR__ . '/includes/header.php';
 
                     <!-- Tier 2: Specialist indicators -->
                     <?php if (!empty($indSpecialist)): ?>
-                    <div class="proto-tier-label proto-tier-specialist-label">Tier 2 — Specialist Elders</div>
+                    <div class="proto-tier-label proto-tier-specialist-label">Tier 2: Specialist Elders</div>
                     <div class="proto-specialist-rows">
                         <?php foreach ($indSpecialist as $ind): ?>
                         <div class="proto-ind-row proto-specialist-row">
@@ -248,11 +248,11 @@ require __DIR__ . '/includes/header.php';
                         <?php
                         $stressRatio = count($indigenous) > 0 ? $stressCount / count($indigenous) : 0;
                         if ($stressRatio >= 0.7)
-                            echo $stressCount . ' of ' . count($indigenous) . ' indicators show stress — community signals align with drought concern.';
+                            echo $stressCount . ' of ' . count($indigenous) . ' indicators show stress, community signals align with drought concern.';
                         elseif ($stressRatio >= 0.4)
-                            echo $stressCount . ' of ' . count($indigenous) . ' indicators show stress — mixed conditions, some concern present.';
+                            echo $stressCount . ' of ' . count($indigenous) . ' indicators show stress, mixed conditions, some concern present.';
                         else
-                            echo $stressCount . ' of ' . count($indigenous) . ' indicators show stress — relatively normal seasonal conditions.';
+                            echo $stressCount . ' of ' . count($indigenous) . ' indicators show stress, relatively normal seasonal conditions.';
                         ?>
                     </p>
 
@@ -304,7 +304,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Section 2: Why Integration Matters ───────────────────────── -->
+<!-- Section 2: Why Integration Matters -->
 <section class="page-section" style="background:var(--clr-bg-alt);">
     <div class="container">
         <div class="section-header">
@@ -315,21 +315,21 @@ require __DIR__ . '/includes/header.php';
             <div class="card proto-why-card">
                 <h3 class="card-title">Trust</h3>
                 <p style="font-size:var(--fs-sm);color:var(--clr-text-muted);line-height:1.7;">
-                    Elder authority functions as a trust gateway — information is more likely to be acted upon
+                    Elder authority functions as a trust gateway, information is more likely to be acted upon
                     when it passes through elder validation (§4.3.1). When a government warning and an elder
                     observation point to the same outcome, communities respond earlier and more confidently.
                 </p>
-                <p class="proto-why-quote">"If the government talks to the elders, and the elders comply with the information they have, then that will be more powerful than when they have information from only one source." — Research participant (§4.3.1)</p>
+                <p class="proto-why-quote">"If the government talks to the elders, and the elders comply with the information they have, then that will be more powerful than when they have information from only one source." Research participant (§4.3.1)</p>
             </div>
             <div class="card proto-why-card">
                 <h3 class="card-title">Local Relevance</h3>
                 <p style="font-size:var(--fs-sm);color:var(--clr-text-muted);line-height:1.7;">
                     KMD warnings are issued at county level rather than sub-county level, which reduces
                     their practical value for local decision-making (§4.1.2). Samburu North, East, Central,
-                    and West have different rainfall patterns — indigenous indicators fill that gap with
+                    and West have different rainfall patterns, indigenous indicators fill that gap with
                     location-specific, on-the-ground signals.
                 </p>
-                <p class="proto-why-quote">"Samburu County is also divided into North, East, Central, and West. Regions like the North receive less rainfall than the West, so the warnings are too general for them." — Research participant (§4.1.2)</p>
+                <p class="proto-why-quote">"Samburu County is also divided into North, East, Central, and West. Regions like the North receive less rainfall than the West, so the warnings are too general for them." Research participant (§4.1.2)</p>
             </div>
             <div class="card proto-why-card">
                 <h3 class="card-title">Better Decisions</h3>
@@ -339,13 +339,13 @@ require __DIR__ . '/includes/header.php';
                     This is Recommendation 1 of the study: combine meteorological forecasts with elder
                     observations in the same warning message (§5.3).
                 </p>
-                <p class="proto-why-quote">"When both the government and elders communicate the same message, communities are more likely to believe the warning and prepare." — Research participant (§4.7.1)</p>
+                <p class="proto-why-quote">"When both the government and elders communicate the same message, communities are more likely to believe the warning and prepare." Research participant (§4.7.1)</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ── Section 3: How the Integration Works ─────────────────────── -->
+<!-- Section 3: How the Integration Works -->
 <section class="page-section">
     <div class="container">
         <div class="section-header">
@@ -386,7 +386,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Section 4: Interactive Modules ───────────────────────────── -->
+<!-- Section 4: Interactive Modules -->
 <section class="page-section" style="background:var(--clr-bg-alt);">
     <div class="container">
         <div class="section-header">
@@ -442,7 +442,7 @@ require __DIR__ . '/includes/header.php';
                     </div>
                 </div>
                 <div class="card-body">
-                    <p>Pre-formatted alert templates for WhatsApp, Facebook/X, vernacular radio scripts, and USSD menu content — auto-filled from risk level.</p>
+                    <p>Pre-formatted alert templates for WhatsApp, Facebook/X, vernacular radio scripts, and USSD menu content, auto-filled from risk level.</p>
                     <ul class="proto-features">
                         <li>WhatsApp templates (5 alert levels)</li>
                         <li>Radio scripts with SFX cues</li>
@@ -480,7 +480,7 @@ require __DIR__ . '/includes/header.php';
                     </div>
                 </div>
                 <div class="card-body">
-                    <p>Detailed profiles for Government, NGOs, Radio Stations, Pastoralists, and Intermediaries — with per-phase response actions.</p>
+                    <p>Detailed profiles for Government, NGOs, Radio Stations, Pastoralists, and Intermediaries, with per-phase response actions.</p>
                     <ul class="proto-features">
                         <li>Members &amp; entities list</li>
                         <li>Preferred channels per group</li>
@@ -511,7 +511,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Section 5: Now vs Future ─────────────────────────────────── -->
+<!-- Section 5: Now vs Future -->
 <section class="page-section">
     <div class="container">
         <div class="section-header">
@@ -546,7 +546,7 @@ require __DIR__ . '/includes/header.php';
                     <tr>
                         <td><strong>Risk Computation</strong></td>
                         <td>Rule-based agreement scoring between KMD forecast and indigenous indicators; confidence level computed on page load</td>
-                        <td>Joint warning validation committee (elders, chiefs, government) reviews and confirms the score before dissemination — Recommendation 5, §5.3</td>
+                        <td>Joint warning validation committee (elders, chiefs, government) reviews and confirms the score before dissemination, Recommendation 5, §5.3</td>
                     </tr>
                     <tr>
                         <td><strong>USSD</strong></td>
@@ -588,7 +588,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Section 6: Technology Stack ──────────────────────────────── -->
+<!-- Section 6: Technology Stack -->
 <section class="page-section" style="background:var(--clr-bg-alt);">
     <div class="container">
         <div class="section-header">
@@ -605,14 +605,14 @@ require __DIR__ . '/includes/header.php';
             </div>
             <div class="card text-center">
                 <h3 class="card-title">HTML / CSS / Vanilla JS</h3>
-                <p class="text-muted" style="font-size:var(--fs-sm);">No frameworks — responsive, accessible, performant across all devices</p>
+                <p class="text-muted" style="font-size:var(--fs-sm);">No frameworks, responsive, accessible, performant across all devices</p>
             </div>
         </div>
     </div>
 </section>
 
 <style>
-/* ── Comparison section ──────────────────────────────── */
+/* Comparison section */
 .proto-comparison-section { background: linear-gradient(135deg, #f0faf4 0%, #e8f4fb 100%); }
 
 .proto-comparison-grid {
@@ -694,7 +694,7 @@ require __DIR__ . '/includes/header.php';
 .proto-badge-blue  { background: var(--clr-info-light);    color: var(--clr-info); }
 .proto-badge-green { background: var(--clr-success-light);  color: var(--clr-success); }
 
-/* ── Official sub-sections (KMD + NDMA in one card) ─── */
+/* Official sub-sections (KMD + NDMA in one card) */
 .proto-official-sub {
     padding-bottom: var(--sp-md);
     margin-bottom: var(--sp-md);
@@ -727,7 +727,7 @@ require __DIR__ . '/includes/header.php';
 .proto-phase-alarm     { background: var(--clr-danger-light);  color: var(--clr-danger); }
 .proto-phase-emergency { background: #5a0000; color: #fff; }
 
-/* ── Why integration matters cards ──────────────────── */
+/* Why integration matters cards */
 .proto-why-card {
     padding: var(--sp-xl);
     display: flex;
@@ -744,7 +744,7 @@ require __DIR__ . '/includes/header.php';
     margin-top: var(--sp-xs);
 }
 
-/* ── Process steps ───────────────────────────────────── */
+/* Process steps */
 .proto-steps {
     display: flex;
     align-items: flex-start;
@@ -788,7 +788,7 @@ require __DIR__ . '/includes/header.php';
     .proto-step { max-width: 100%; width: 100%; }
 }
 
-/* ── Indigenous indicator display ───────────────────── */
+/* Indigenous indicator display */
 .proto-tier-label {
     font-size: var(--fs-xs);
     font-weight: var(--fw-semi);
@@ -850,7 +850,7 @@ require __DIR__ . '/includes/header.php';
 .proto-specialist-rows { margin-top: var(--sp-xs); }
 .proto-specialist-row  { background: #faf5ff; border-radius: var(--radius-sm); margin-bottom: 2px; }
 
-/* ── Module cards (existing) ────────────────────────── */
+/* Module cards */
 .prototype-card { transition: transform var(--tr-base), box-shadow var(--tr-base); }
 .prototype-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 .proto-features {

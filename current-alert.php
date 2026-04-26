@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Current Alert
+ * Samburu EWS: Current Alert
  *
  * Final action page: current warning level, assessment breakdown,
  * stakeholder actions, and dissemination channel messages.
@@ -10,236 +10,221 @@ require __DIR__ . '/includes/DataRepository.php';
 
 $pageTitle = 'Current Alert';
 
-/* PHP-side source data for provenance bar (static from JSON) */
-$kmd      = DataRepository::load('kmd_summary.json');
-$ndma     = DataRepository::load('ndma_latest.json');
-$bulletins = DataRepository::load('kmd_bulletins.json') ?? [];
+$kmd         = DataRepository::load('kmd_summary.json');
+$ndma        = DataRepository::load('ndma_latest.json');
+$ndmaHistory = DataRepository::load('ndma_history.json') ?? [];
+
+// Compute trend: compare last two months' phases
+$trendArrow = '';
+$trendLabel = '';
+$trendColor = '';
+if (count($ndmaHistory) >= 2) {
+    $phaseOrder = ['Normal' => 1, 'Watch' => 2, 'Alert' => 3, 'Alarm' => 4, 'Emergency' => 5];
+    $prev    = $ndmaHistory[count($ndmaHistory) - 2]['phase'] ?? '';
+    $current = $ndmaHistory[count($ndmaHistory) - 1]['phase'] ?? '';
+    $prevVal = $phaseOrder[$prev]    ?? 0;
+    $currVal = $phaseOrder[$current] ?? 0;
+    if ($currVal > $prevVal)      { $trendArrow = '↑'; $trendLabel = 'Worsening'; $trendColor = '#dc2626'; }
+    elseif ($currVal < $prevVal)  { $trendArrow = '↓'; $trendLabel = 'Improving'; $trendColor = '#16a34a'; }
+    else                          { $trendArrow = '→'; $trendLabel = 'Stable';    $trendColor = '#d97706'; }
+    $prevMonth = $ndmaHistory[count($ndmaHistory) - 2]['month'] ?? '';
+}
 
 require __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Hero ─────────────────────────────────────────────────────── -->
-<section class="hero" style="padding:var(--sp-2xl) 0;">
+<!-- Hero -->
+<section class="hero" style="padding:var(--sp-xl) 0 var(--sp-lg);">
     <div class="container">
         <h1>Current Drought Alert</h1>
-        <p>Current drought warning based on the latest scientific bulletin and community observations. Use this page to understand the alert level, verify the reasons, and take appropriate action.</p>
+        <p>Live risk assessment from the latest NDMA bulletin, KMD forecast, and community indigenous observations for Samburu County.</p>
     </div>
 </section>
 
-<!-- ── Alert Risk Banner ─────────────────────────────────────────── -->
-<section class="page-section" style="padding-top:var(--sp-lg);padding-bottom:0;">
+<!-- Loading -->
+<div id="loadingOverlay" class="ca-loading">
+    <div class="container" style="text-align:center;padding:var(--sp-2xl) 0;">
+        <div class="spinner"></div>
+        <p style="color:var(--clr-text-muted);margin-top:var(--sp-md);">Computing risk assessment…</p>
+    </div>
+</div>
+
+<!-- Command Section: Banner + Gauge -->
+<section id="alertCommandSection" class="page-section ca-command-section" style="padding-top:0;display:none;">
     <div class="container">
-        <!-- Loading state shown while JS computes the risk score -->
-        <div id="loadingOverlay" class="ca-loading">
-            <div class="spinner"></div>
-            <p>Computing risk assessment…</p>
-        </div>
-        <!-- Banner revealed by JS after computation -->
-        <div id="alertBanner" class="alert-banner-large" style="display:none;">
-            <div class="alert-large-icon" id="alertIcon"></div>
-            <div class="alert-large-body">
-                <div class="alert-large-level" id="alertLevel">—</div>
-                <div class="alert-large-score">
-                    Composite Score: <strong id="alertScore">—</strong> / 100
+        <div class="ca-command-grid">
+
+            <!-- Left: Phase Panel -->
+            <div class="ca-phase-panel" id="alertBanner">
+                <div class="ca-phase-top">
+                    <span class="ca-phase-icon" id="alertIcon"></span>
+                    <div class="ca-phase-text">
+                        <div class="ca-phase-label" id="alertLevel"></div>
+                        <div class="ca-phase-time" id="alertTime"></div>
+                    </div>
                 </div>
-                <div class="alert-large-time" id="alertTime"></div>
+
+                <!-- Trend badge -->
+                <?php if ($trendArrow): ?>
+                <div class="ca-trend-badge" style="border-color:<?= $trendColor ?>;color:<?= $trendColor ?>;">
+                    <span class="ca-trend-arrow"><?= $trendArrow ?></span>
+                    <span class="ca-trend-text">
+                        <?= htmlspecialchars($trendLabel) ?> since <?= htmlspecialchars($prevMonth) ?>
+                    </span>
+                    <a href="scientific-data.php#ndmaTrend" class="ca-trend-link">View trend →</a>
+                </div>
+                <?php endif; ?>
+
+                <!-- Risk Scale -->
+                <div class="ca-scale-section">
+                    <div class="ca-scale-title">Risk Scale</div>
+                    <div class="ca-scale-track">
+                        <div class="ca-scale-seg ca-seg-normal">Normal<span>80–100</span></div>
+                        <div class="ca-scale-seg ca-seg-alert">Alert<span>60–79</span></div>
+                        <div class="ca-scale-seg ca-seg-alarm">Alarm<span>40–59</span></div>
+                        <div class="ca-scale-seg ca-seg-emergency">Emergency<span>0–39</span></div>
+                    </div>
+                    <div class="ca-scale-marker-row">
+                        <div class="ca-scale-marker" id="scaleMarker" title="Current score"></div>
+                    </div>
+                </div>
+
+                <!-- Provenance -->
+                <div class="ca-provenance">
+                    Sources: NDMA (<?= htmlspecialchars($ndma['bulletin_month'] ?? '—') ?>)
+                    &nbsp;·&nbsp; KMD (<?= htmlspecialchars($kmd['valid_period'] ?? '—') ?>)
+                    &nbsp;·&nbsp; Indigenous observations
+                </div>
+                <div class="ca-phase-actions">
+                    <a href="prototype.php" class="btn btn-sm btn-outline">Integrated View</a>
+                    <a href="scientific-data.php" class="btn btn-sm btn-outline">Scientific Data</a>
+                </div>
             </div>
+
+            <!-- Right: Gauge Panel -->
+            <div class="ca-gauge-panel">
+                <div id="scoreGauge" class="ca-gauge-wrap"></div>
+                <div class="ca-gauge-caption">Composite Risk Score</div>
+                <div class="ca-gauge-sub">Weighted across 6 indicators</div>
+            </div>
+
         </div>
     </div>
 </section>
 
-<!-- ── Provenance bar ────────────────────────────────────────────── -->
-<section style="padding:var(--sp-md) 0 var(--sp-lg);">
-    <div class="container">
-        <div class="alert-provenance-bar">
-            <div class="alert-provenance-text">
-                <span>
-                    Based on
-                    <strong><?= htmlspecialchars($kmd['source'] ?? 'KMD') ?></strong>
-                    bulletin (<?= htmlspecialchars($kmd['valid_period'] ?? '—') ?>),
-                    <strong><?= htmlspecialchars($ndma['source'] ?? 'NDMA') ?></strong>
-                    assessment (<?= htmlspecialchars($ndma['bulletin_month'] ?? '—') ?>),
-                    and community indigenous observations.
-                </span>
-            </div>
-            <div class="alert-provenance-actions">
-                <a href="prototype.php" class="btn btn-sm btn-outline">View Integrated Comparison</a>
-                <a href="scientific-data.php" class="btn btn-sm btn-outline">Scientific Data</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── Assessment Breakdown ──────────────────────────────────────── -->
-<section class="page-section" style="padding-top:0;">
-    <div class="container">
-        <div class="section-header">
-            <h2>Assessment Breakdown</h2>
-            <p>Indicator sub-scores and the reasons driving the current alert level.</p>
-        </div>
-        <div class="grid grid-2 grid-auto">
-            <div class="card" id="subScoresCard" style="display:none;">
-                <h3 class="card-title mb-md">Indicator Sub-Scores</h3>
-                <div id="subScoreBars"></div>
-            </div>
-            <div class="card" id="reasonsCard" style="display:none;">
-                <h3 class="card-title mb-md">Assessment Reasons</h3>
-                <ul id="reasonsList" class="reasons-list"></ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── KMD Bulletin History ──────────────────────────────────────── -->
-<?php if (!empty($bulletins)): ?>
+<!-- Assessment Breakdown -->
 <section class="page-section" style="background:var(--clr-bg-alt);">
     <div class="container">
         <div class="section-header">
-            <h2>KMD Monthly Forecast History</h2>
-            <p>Official Kenya Meteorological Department forecasts for Samburu County — January to April 2026, latest first.</p>
+            <h2>Assessment Breakdown</h2>
+            <p>Sub-score per indicator with weight contribution. Threshold lines mark Alert (60) and Normal (80) boundaries.</p>
         </div>
+        <div class="ca-breakdown-grid">
 
-        <div class="bulletin-timeline">
-        <?php foreach ($bulletins as $i => $b):
-            $catClass = match($b['outlook_category'] ?? '') {
-                'below_average'        => 'bul-dry',
-                'near_to_below_normal' => 'bul-mixed',
-                'near_to_above_normal',
-                'above_average'        => 'bul-wet',
-                default                => 'bul-mixed',
-            };
-            $catIcon = match($b['outlook_category'] ?? '') {
-                'below_average'        => '☀️',
-                'near_to_below_normal' => '🌤',
-                'near_to_above_normal',
-                'above_average'        => '🌧',
-                default                => '🌤',
-            };
-            $isLatest = $i === 0;
-        ?>
-        <div class="bulletin-card <?= $catClass ?>">
-            <div class="bulletin-card-header">
-                <div class="bulletin-month-icon"><?= $catIcon ?></div>
-                <div class="bulletin-card-title">
-                    <div class="bulletin-month">
-                        <?= htmlspecialchars($b['valid_period']) ?>
-                        <?php if ($isLatest): ?>
-                        <span class="bulletin-latest-badge">Latest</span>
-                        <?php endif; ?>
+            <div class="card ca-scores-card" id="subScoresCard" style="display:none;">
+                <div class="ca-scores-head">
+                    <h3 class="card-title">Indicator Sub-Scores</h3>
+                    <div class="ca-legend">
+                        <span class="ca-legend-item"><span class="ca-legend-dot" style="background:#16a34a;"></span>Good (&ge;75)</span>
+                        <span class="ca-legend-item"><span class="ca-legend-dot" style="background:#d97706;"></span>Moderate (50–74)</span>
+                        <span class="ca-legend-item"><span class="ca-legend-dot" style="background:#dc2626;"></span>Stressed (&lt;50)</span>
                     </div>
-                    <div class="bulletin-outlook-label"><?= htmlspecialchars($b['outlook_label'] ?? '—') ?></div>
                 </div>
-                <div class="bulletin-updated">
-                    Updated: <?= htmlspecialchars($b['updated_at']) ?>
+                <div id="subScoreBars"></div>
+                <div class="ca-threshold-key">
+                    <span class="ca-thr-item"><span class="ca-thr-line ca-thr-alert"></span>Alert threshold (60)</span>
+                    <span class="ca-thr-item"><span class="ca-thr-line ca-thr-normal"></span>Normal threshold (80)</span>
                 </div>
             </div>
 
-            <div class="bulletin-card-body">
-                <div class="bulletin-samburu-extract">
-                    <div class="bulletin-extract-label">Samburu County — KMD Statement</div>
-                    <p>"<?= htmlspecialchars($b['samburu_specific']) ?>"</p>
-                </div>
-
-                <div class="bulletin-meta-row">
-                    <?php if (!empty($b['temperature_max_celsius']) || !empty($b['temperature_min_celsius'])): ?>
-                    <div class="bulletin-meta-item">
-                        <span class="bulletin-meta-key">Temperature</span>
-                        <span class="bulletin-meta-val">
-                            <?php
-                            $parts = [];
-                            if (!empty($b['temperature_min_celsius'])) $parts[] = 'Min ' . $b['temperature_min_celsius'];
-                            if (!empty($b['temperature_max_celsius'])) $parts[] = 'Max ' . $b['temperature_max_celsius'];
-                            echo htmlspecialchars(implode(' · ', $parts));
-                            ?>
-                        </span>
-                    </div>
-                    <?php endif; ?>
-
-                    <?php if (!empty($b['advisory'])): ?>
-                    <div class="bulletin-meta-item">
-                        <span class="bulletin-meta-key">Advisory</span>
-                        <span class="bulletin-meta-val"><?= htmlspecialchars($b['advisory']) ?></span>
-                    </div>
-                    <?php endif; ?>
-                </div>
+            <div class="card ca-reasons-card" id="reasonsCard" style="display:none;">
+                <h3 class="card-title mb-md">Why This Alert Level?</h3>
+                <div id="reasonsList"></div>
             </div>
-        </div>
-        <?php endforeach; ?>
-        </div><!-- .bulletin-timeline -->
 
-        <p style="font-size:var(--fs-xs);color:var(--clr-text-muted);margin-top:var(--sp-md);text-align:center;">
-            Source: Kenya Meteorological Department (KMD) monthly forecasts.
-            <a href="https://meteo.go.ke/our-products/monthly-forecast/" target="_blank" rel="noopener" style="color:var(--clr-primary);">meteo.go.ke →</a>
-        </p>
+        </div>
     </div>
 </section>
-<?php endif; ?>
 
-<!-- ── Stakeholder Actions ───────────────────────────────────────── -->
+<!-- Data Inputs -->
 <section class="page-section">
     <div class="container">
         <div class="section-header">
-            <h2>Stakeholder Actions</h2>
-            <p>Recommended immediate actions for each group at the current alert level.</p>
+            <h2>Data Inputs Used</h2>
+            <p>Raw values extracted from the <?= htmlspecialchars($ndma['bulletin_month'] ?? 'latest NDMA') ?> bulletin and fed into the risk engine.</p>
         </div>
-        <div class="table-wrap">
-            <table class="data-table" id="routingTable">
-                <thead>
-                    <tr>
-                        <th>Stakeholder Group</th>
-                        <th>Recommended Action</th>
-                    </tr>
-                </thead>
-                <tbody id="routingBody">
-                    <!-- Populated by JS -->
-                </tbody>
-            </table>
+        <div class="ca-inputs-grid" id="dataInputsGrid">
+            <!-- Populated by JS -->
         </div>
     </div>
 </section>
 
-<!-- ── Dissemination Messages ────────────────────────────────────── -->
+
+<!-- Stakeholder Response -->
+<section class="page-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Stakeholder Response</h2>
+            <p>Recommended immediate actions for each group at the current alert level.</p>
+        </div>
+        <div class="ca-stakeholder-grid" id="stakeholderGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- Dissemination Messages -->
 <section class="page-section" style="background:var(--clr-bg-alt);">
     <div class="container">
         <div class="section-header">
             <h2>Dissemination Messages</h2>
-            <p>Auto-filled templates ready for immediate dissemination at the current alert level. Select a channel, review, and copy.</p>
+            <p>Auto-filled templates ready for immediate dissemination. Select a channel, review, and copy.</p>
         </div>
 
-        <div class="tab-list" role="tablist" aria-label="Channel message tabs">
-            <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="tabWhatsApp" id="btnWhatsApp" data-tab="tabWhatsApp">WhatsApp</button>
-            <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tabFacebook" id="btnFacebook" data-tab="tabFacebook">Facebook / X</button>
-            <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tabRadio30"  id="btnRadio30"  data-tab="tabRadio30">Radio 30s</button>
-            <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tabRadio60"  id="btnRadio60"  data-tab="tabRadio60">Radio 60s</button>
-            <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tabUSSD"     id="btnUSSD"     data-tab="tabUSSD">USSD</button>
+        <div class="ca-tab-list" role="tablist">
+            <button class="ca-tab-btn active" data-tab="tabWhatsApp" aria-selected="true">
+                <span class="ca-tab-icon">💬</span> WhatsApp
+            </button>
+            <button class="ca-tab-btn" data-tab="tabFacebook" aria-selected="false">
+                <span class="ca-tab-icon">📘</span> Facebook / X
+            </button>
+            <button class="ca-tab-btn" data-tab="tabRadio30" aria-selected="false">
+                <span class="ca-tab-icon">📻</span> Radio 30s
+            </button>
+            <button class="ca-tab-btn" data-tab="tabRadio60" aria-selected="false">
+                <span class="ca-tab-icon">📻</span> Radio 60s
+            </button>
+            <button class="ca-tab-btn" data-tab="tabUSSD" aria-selected="false">
+                <span class="ca-tab-icon">📱</span> USSD
+            </button>
         </div>
 
-        <div class="tab-panel active" role="tabpanel" id="tabWhatsApp" aria-labelledby="btnWhatsApp">
-            <div class="card msg-preview"><pre id="msgWhatsApp" class="msg-pre"></pre></div>
+        <div class="ca-tab-panel active" id="tabWhatsApp">
+            <div class="card ca-msg-card"><pre id="msgWhatsApp" class="ca-msg-pre"></pre></div>
             <button class="btn btn-primary btn-sm mt-sm copy-btn" data-target="msgWhatsApp">Copy message</button>
         </div>
-        <div class="tab-panel" role="tabpanel" id="tabFacebook" aria-labelledby="btnFacebook">
-            <div class="card msg-preview"><pre id="msgFacebook" class="msg-pre"></pre></div>
+        <div class="ca-tab-panel" id="tabFacebook">
+            <div class="card ca-msg-card"><pre id="msgFacebook" class="ca-msg-pre"></pre></div>
             <button class="btn btn-primary btn-sm mt-sm copy-btn" data-target="msgFacebook">Copy message</button>
         </div>
-        <div class="tab-panel" role="tabpanel" id="tabRadio30" aria-labelledby="btnRadio30">
-            <div class="card msg-preview"><pre id="msgRadio30" class="msg-pre"></pre></div>
+        <div class="ca-tab-panel" id="tabRadio30">
+            <div class="card ca-msg-card"><pre id="msgRadio30" class="ca-msg-pre"></pre></div>
             <button class="btn btn-primary btn-sm mt-sm copy-btn" data-target="msgRadio30">Copy message</button>
         </div>
-        <div class="tab-panel" role="tabpanel" id="tabRadio60" aria-labelledby="btnRadio60">
-            <div class="card msg-preview"><pre id="msgRadio60" class="msg-pre"></pre></div>
+        <div class="ca-tab-panel" id="tabRadio60">
+            <div class="card ca-msg-card"><pre id="msgRadio60" class="ca-msg-pre"></pre></div>
             <button class="btn btn-primary btn-sm mt-sm copy-btn" data-target="msgRadio60">Copy message</button>
         </div>
-        <div class="tab-panel" role="tabpanel" id="tabUSSD" aria-labelledby="btnUSSD">
-            <div class="card msg-preview ussd-phone"><pre id="msgUSSD" class="ussd-screen" style="min-height:auto;"></pre></div>
+        <div class="ca-tab-panel" id="tabUSSD">
+            <div class="card ca-msg-card ca-ussd-card"><pre id="msgUSSD" class="ca-msg-pre ca-ussd-pre"></pre></div>
         </div>
     </div>
 </section>
 
-<!-- ── Data Sources ──────────────────────────────────────────────── -->
-<section class="page-section" style="padding-top:var(--sp-lg);padding-bottom:var(--sp-lg);">
+<!-- Data Sources -->
+<section class="page-section" style="padding:var(--sp-xl) 0;">
     <div class="container">
-        <h3 style="font-size:var(--fs-md);margin-bottom:var(--sp-md);color:var(--clr-text-muted);">Data Sources</h3>
+        <h3 style="font-size:var(--fs-md);font-weight:var(--fw-semi);margin-bottom:var(--sp-lg);color:var(--clr-text);">Data Sources</h3>
         <div class="grid grid-2 grid-auto">
             <div class="card ca-source-card" id="ndmaCard" style="display:none;">
                 <div class="ca-source-header">
@@ -253,7 +238,6 @@ require __DIR__ . '/includes/header.php';
                 </div>
                 <a href="#" id="ndmaLink" target="_blank" rel="noopener" class="btn btn-outline btn-sm mt-sm">View NDMA Source →</a>
             </div>
-
             <div class="card ca-source-card" id="kmdCard" style="display:none;">
                 <div class="ca-source-header">
                     <span class="ca-source-label">KMD Forecast</span>
@@ -264,98 +248,308 @@ require __DIR__ . '/includes/header.php';
                     <span>Outlook: <strong id="kmdOutlook"></strong></span>
                     <span>Updated: <span id="kmdUpdated"></span></span>
                 </div>
-                <!-- Hidden fields kept in DOM for JS compatibility -->
                 <span id="kmdBelowPct" style="display:none;"></span>
                 <span id="kmdOnset"    style="display:none;"></span>
                 <a href="#" id="kmdLink" target="_blank" rel="noopener" class="btn btn-outline btn-sm mt-sm">View KMD Bulletin →</a>
             </div>
         </div>
-
-        <!-- Indigenous grid: kept in DOM, hidden — data is on indigenous-data.php -->
         <div id="indigenousGrid" style="display:none;"></div>
     </div>
 </section>
 
 <style>
-/* ── Loading & spinner ───────────────────────────── */
-.ca-loading {
-    text-align: center;
-    padding: var(--sp-2xl) 0;
-    color: var(--clr-text-muted);
-}
+/* ── Loading ─────────────────────────────────────── */
+.ca-loading { padding: var(--sp-2xl) 0; }
 .spinner {
-    width: 40px; height: 40px; margin: 0 auto var(--sp-md);
-    border: 4px solid var(--clr-border-light); border-top-color: var(--clr-primary);
+    width: 44px; height: 44px; margin: 0 auto var(--sp-md);
+    border: 4px solid var(--clr-border); border-top-color: var(--clr-primary);
     border-radius: 50%; animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Big alert banner ────────────────────────────── */
-.alert-banner-large {
-    display: flex; align-items: center; gap: var(--sp-xl);
-    padding: var(--sp-xl) var(--sp-2xl); border-radius: var(--radius-xl);
-    border-left: 6px solid; box-shadow: var(--shadow-lg);
-}
-.alert-large-icon  { font-size: 3rem; }
-.alert-large-level { font-size: var(--fs-2xl); font-weight: var(--fw-extra); }
-.alert-large-score { font-size: var(--fs-md); margin-top: var(--sp-xs); }
-.alert-large-time  { font-size: var(--fs-xs); color: var(--clr-text-muted); margin-top: var(--sp-xs); }
-
-.alert-banner-large.level-normal    { background: var(--clr-primary-pale);   border-color: var(--clr-primary-light); color: var(--clr-primary); }
-.alert-banner-large.level-watch     { background: #e8f4fd;                   border-color: var(--clr-info);          color: #084298; }
-.alert-banner-large.level-alert     { background: var(--clr-warning-light);  border-color: var(--clr-warning);       color: #664d03; }
-.alert-banner-large.level-alarm     { background: #fde2de;                   border-color: var(--clr-danger);        color: var(--clr-danger); }
-.alert-banner-large.level-emergency { background: #5a0000;                   border-color: #ff2020;                  color: #fff; }
-
-/* ── Provenance bar ──────────────────────────────── */
-.alert-provenance-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: var(--sp-md); background: #f0faf4;
-    border: 1px solid var(--clr-primary-pale);
-    border-left: 4px solid var(--clr-primary-light);
-    border-radius: var(--radius-lg);
-    padding: var(--sp-md) var(--sp-lg);
-    font-size: var(--fs-sm); flex-wrap: wrap;
-}
-.alert-provenance-text {
-    display: flex; align-items: flex-start; gap: var(--sp-sm);
-    color: var(--clr-text-muted); flex: 1;
-}
-.alert-provenance-actions {
-    display: flex; gap: var(--sp-sm); flex-wrap: wrap; flex-shrink: 0;
+/* ── Command Section ─────────────────────────────── */
+.ca-command-section { padding-bottom: var(--sp-xl); }
+.ca-command-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--sp-xl);
+    align-items: start;
 }
 
-/* ── Sub-score bars ──────────────────────────────── */
-.subscore-row   { display: flex; align-items: center; gap: var(--sp-sm); margin-bottom: var(--sp-sm); }
-.subscore-label { width: 120px; font-size: var(--fs-sm); font-weight: var(--fw-medium); flex-shrink: 0; }
+/* Phase Panel */
+.ca-phase-panel {
+    padding: var(--sp-xl);
+    border-radius: var(--radius-xl);
+    border-left: 6px solid;
+    box-shadow: var(--shadow-lg);
+}
+.level-normal    .ca-phase-panel,
+.ca-phase-panel.level-normal    { background: #f0fdf4; border-color: #16a34a; }
+.ca-phase-panel.level-watch     { background: #eff6ff; border-color: #2563eb; }
+.ca-phase-panel.level-alert     { background: #fffbeb; border-color: #d97706; }
+.ca-phase-panel.level-alarm     { background: #fff1f2; border-color: #e11d48; }
+.ca-phase-panel.level-emergency { background: #3b0000; border-color: #ef4444; color:#fff; }
+
+.ca-phase-top {
+    display: flex; align-items: center; gap: var(--sp-md);
+    margin-bottom: var(--sp-lg);
+}
+.ca-phase-icon { font-size: 2.8rem; line-height: 1; }
+.ca-phase-label {
+    font-size: var(--fs-xl); font-weight: var(--fw-extra);
+    letter-spacing: -.02em; line-height: 1.2;
+}
+.ca-phase-time { font-size: var(--fs-xs); color: var(--clr-text-muted); margin-top: 4px; }
+.ca-phase-panel.level-emergency .ca-phase-time { color: rgba(255,255,255,.7); }
+
+/* Risk Scale */
+.ca-scale-section { margin: var(--sp-lg) 0 var(--sp-md); }
+.ca-scale-title {
+    font-size: var(--fs-xs); font-weight: var(--fw-semi); text-transform: uppercase;
+    letter-spacing: .06em; color: var(--clr-text-muted); margin-bottom: var(--sp-xs);
+}
+.ca-scale-track {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-radius: var(--radius-md); overflow: hidden; height: 38px;
+}
+.ca-scale-seg {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; font-size: 0.6rem; font-weight: var(--fw-semi);
+    text-transform: uppercase; letter-spacing: .04em; color: #fff;
+    line-height: 1.2;
+}
+.ca-scale-seg span { font-size: 0.55rem; opacity: .8; font-weight: var(--fw-normal); }
+.ca-seg-normal    { background: #16a34a; }
+.ca-seg-alert     { background: #d97706; }
+.ca-seg-alarm     { background: #dc2626; }
+.ca-seg-emergency { background: #7f1d1d; }
+
+.ca-scale-marker-row { position: relative; height: 16px; }
+.ca-scale-marker {
+    position: absolute; top: 2px;
+    width: 0; height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid var(--clr-text);
+    transform: translateX(-50%);
+    transition: left .8s ease;
+}
+
+.ca-provenance {
+    font-size: var(--fs-xs); color: var(--clr-text-muted);
+    margin-bottom: var(--sp-md); line-height: 1.6;
+}
+.ca-phase-panel.level-emergency .ca-provenance { color: rgba(255,255,255,.6); }
+.ca-phase-actions { display: flex; gap: var(--sp-sm); flex-wrap: wrap; }
+
+/* Trend badge */
+.ca-trend-badge {
+    display: flex; align-items: center; gap: var(--sp-sm);
+    padding: var(--sp-sm) var(--sp-md);
+    border: 1.5px solid; border-radius: var(--radius-md);
+    margin-bottom: var(--sp-md); flex-wrap: wrap;
+    background: rgba(255,255,255,.5);
+}
+.ca-trend-arrow { font-size: var(--fs-lg); font-weight: var(--fw-black); line-height: 1; }
+.ca-trend-text  { font-size: var(--fs-sm); font-weight: var(--fw-semi); flex: 1; }
+.ca-trend-link  {
+    font-size: var(--fs-xs); color: var(--clr-primary);
+    text-decoration: none; white-space: nowrap;
+}
+.ca-trend-link:hover { text-decoration: underline; }
+
+/* Gauge Panel */
+.ca-gauge-panel {
+    display: flex; flex-direction: column; align-items: center;
+    gap: var(--sp-xs); padding: var(--sp-xl);
+    background: var(--clr-surface); border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md); min-width: 200px;
+}
+.ca-gauge-wrap { width: 180px; height: 180px; }
+.ca-gauge-wrap svg { width: 100%; height: 100%; }
+.ca-gauge-caption {
+    font-size: var(--fs-sm); font-weight: var(--fw-semi);
+    color: var(--clr-text); text-align: center;
+}
+.ca-gauge-sub { font-size: var(--fs-xs); color: var(--clr-text-muted); text-align: center; }
+
+/* ── Assessment Breakdown ────────────────────────── */
+.ca-breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-lg);
+    align-items: start;
+}
+.ca-scores-card { padding: var(--sp-xl); }
+.ca-scores-head {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: var(--sp-md);
+    margin-bottom: var(--sp-lg); flex-wrap: wrap;
+}
+.ca-legend { display: flex; gap: var(--sp-md); flex-wrap: wrap; align-items: center; }
+.ca-legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: var(--fs-xs); color: var(--clr-text-muted);
+}
+.ca-legend-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* Enhanced sub-score rows */
+.subscore-row { margin-bottom: var(--sp-md); }
+.subscore-meta {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 5px;
+}
+.subscore-label { font-size: var(--fs-sm); font-weight: var(--fw-semi); color: var(--clr-text); }
+.subscore-weight { font-size: var(--fs-xs); color: var(--clr-text-muted); }
+.subscore-track-wrap { display: flex; align-items: center; gap: var(--sp-sm); }
 .subscore-track {
-    flex: 1; height: 20px; background: var(--clr-border-light);
-    border-radius: var(--radius-pill); overflow: hidden;
+    flex: 1; height: 22px; background: var(--clr-border-light);
+    border-radius: var(--radius-pill); overflow: visible; position: relative;
 }
 .subscore-fill {
-    height: 100%; border-radius: var(--radius-pill); transition: width .6s ease;
-    display: flex; align-items: center; justify-content: flex-end; padding-right: 6px;
-    font-size: var(--fs-xs); font-weight: var(--fw-semi); color: #fff;
+    height: 100%; border-radius: var(--radius-pill);
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 8px; font-size: var(--fs-xs); font-weight: var(--fw-semi);
+    color: #fff; min-width: 28px; transition: width .9s cubic-bezier(.4,0,.2,1);
+    position: relative; z-index: 1;
+}
+/* Threshold markers */
+.subscore-threshold {
+    position: absolute; top: -4px; bottom: -4px; width: 2px;
+    z-index: 2; border-radius: 1px;
+}
+.thr-alert  { background: #d97706; left: 60%; }
+.thr-normal { background: #16a34a; left: 80%; }
+.subscore-contrib {
+    font-size: var(--fs-xs); color: var(--clr-text-muted);
+    white-space: nowrap; width: 48px; text-align: right;
+    flex-shrink: 0;
 }
 
-/* ── Reasons list ────────────────────────────────── */
-.reasons-list { list-style: none; }
-.reasons-list li {
-    padding: var(--sp-sm) 0; border-bottom: 1px solid var(--clr-border-light);
-    font-size: var(--fs-sm); line-height: 1.6;
+.ca-threshold-key {
+    display: flex; gap: var(--sp-lg); margin-top: var(--sp-lg);
+    padding-top: var(--sp-md); border-top: 1px solid var(--clr-border-light);
+    flex-wrap: wrap;
 }
-.reasons-list li::before { content: '› '; }
-.reasons-list li:last-child { border-bottom: none; }
+.ca-thr-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: var(--fs-xs); color: var(--clr-text-muted);
+}
+.ca-thr-line {
+    display: inline-block; width: 14px; height: 3px; border-radius: 2px;
+}
+.ca-thr-alert  { background: #d97706; }
+.ca-thr-normal { background: #16a34a; }
 
-/* ── Message previews ────────────────────────────── */
-.msg-preview { background: var(--clr-bg); }
-.msg-pre {
+/* Reasons card */
+.ca-reasons-card { padding: var(--sp-xl); }
+.ca-reason-item {
+    display: flex; gap: var(--sp-sm); padding: var(--sp-md);
+    border-radius: var(--radius-md); margin-bottom: var(--sp-sm);
+    font-size: var(--fs-sm); line-height: 1.6; border-left: 3px solid;
+}
+.ca-reason-high   { background: var(--clr-danger-light);  border-color: var(--clr-danger);  color: #5f1313; }
+.ca-reason-medium { background: var(--clr-warning-light); border-color: var(--clr-warning); color: #5a3700; }
+.ca-reason-icon   { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+.ca-reason-ok {
+    display: flex; gap: var(--sp-sm); align-items: center;
+    padding: var(--sp-md); background: var(--clr-success-light);
+    border-radius: var(--radius-md); color: #0a4a1e;
+    font-size: var(--fs-sm); border-left: 3px solid var(--clr-success);
+}
+
+/* ── Data Inputs ─────────────────────────────────── */
+.ca-inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--sp-md);
+}
+.ca-input-card {
+    background: var(--clr-surface); border-radius: var(--radius-lg);
+    padding: var(--sp-md) var(--sp-lg); border: 1px solid var(--clr-border-light);
+    box-shadow: var(--shadow-xs);
+}
+.ca-input-icon { font-size: 1.4rem; margin-bottom: var(--sp-xs); }
+.ca-input-label {
+    font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .06em;
+    color: var(--clr-text-muted); font-weight: var(--fw-semi); margin-bottom: 4px;
+}
+.ca-input-value {
+    font-size: var(--fs-lg); font-weight: var(--fw-bold); color: var(--clr-text);
+    line-height: 1.2; margin-bottom: 2px;
+}
+.ca-input-note { font-size: var(--fs-xs); color: var(--clr-text-muted); line-height: 1.4; }
+
+
+/* ── Stakeholder Cards ───────────────────────────── */
+.ca-stakeholder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--sp-md);
+}
+.ca-stakeholder-card {
+    background: var(--clr-surface); border-radius: var(--radius-lg);
+    padding: var(--sp-lg); border: 1px solid var(--clr-border-light);
+    box-shadow: var(--shadow-sm); border-top: 3px solid;
+    transition: transform .2s, box-shadow .2s;
+}
+.ca-stakeholder-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.ca-sth-icon { font-size: 1.8rem; margin-bottom: var(--sp-sm); }
+.ca-sth-name {
+    font-size: var(--fs-sm); font-weight: var(--fw-bold);
+    color: var(--clr-text); margin-bottom: var(--sp-sm);
+}
+.ca-sth-action {
+    font-size: var(--fs-sm); color: var(--clr-text-muted);
+    line-height: 1.6;
+}
+.sth-normal    { border-top-color: #16a34a; }
+.sth-alert     { border-top-color: #d97706; }
+.sth-alarm     { border-top-color: #dc2626; }
+.sth-emergency { border-top-color: #7f1d1d; }
+
+/* ── Message Tabs ────────────────────────────────── */
+.ca-tab-list {
+    display: flex; gap: var(--sp-xs); flex-wrap: wrap;
+    margin-bottom: var(--sp-md);
+    border-bottom: 2px solid var(--clr-border-light);
+    padding-bottom: 0;
+}
+.ca-tab-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: var(--sp-sm) var(--sp-md);
+    background: none; border: none; border-bottom: 3px solid transparent;
+    margin-bottom: -2px; cursor: pointer;
+    font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--clr-text-muted);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    transition: color .15s, border-color .15s, background .15s;
+}
+.ca-tab-btn:hover { color: var(--clr-text); background: var(--clr-border-light); }
+.ca-tab-btn.active {
+    color: var(--clr-primary); border-bottom-color: var(--clr-primary);
+    font-weight: var(--fw-semi);
+}
+.ca-tab-icon { font-size: 1rem; }
+.ca-tab-panel { display: none; }
+.ca-tab-panel.active { display: block; }
+.ca-msg-card { background: var(--clr-bg); padding: var(--sp-lg); }
+.ca-msg-pre {
     white-space: pre-wrap; word-break: break-word;
     font-family: 'Inter', sans-serif; font-size: var(--fs-sm);
     line-height: 1.7; color: var(--clr-text); margin: 0;
 }
+.ca-ussd-card {
+    background: #0d0d0d; border-radius: var(--radius-lg);
+    max-width: 320px; margin: 0 auto;
+}
+.ca-ussd-pre {
+    color: #00ff88; font-family: 'Courier New', monospace;
+    font-size: var(--fs-sm); line-height: 1.8;
+}
 
-/* ── Compact source cards ────────────────────────── */
+/* ── Source Cards ────────────────────────────────── */
 .ca-source-card { padding: var(--sp-md) var(--sp-lg); }
 .ca-source-header {
     display: flex; align-items: center; justify-content: space-between;
@@ -371,76 +565,17 @@ require __DIR__ . '/includes/header.php';
     color: var(--clr-text-muted); flex-wrap: wrap;
 }
 
-/* ── Bulletin timeline ───────────────────────────── */
-.bulletin-timeline {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--sp-lg);
-}
-.bulletin-card {
-    background: var(--clr-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-    border-top: 4px solid;
-    transition: transform var(--tr-base), box-shadow var(--tr-base);
-}
-.bulletin-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-}
-.bul-dry   { border-color: var(--clr-danger);        }
-.bul-mixed { border-color: var(--clr-warning);       }
-.bul-wet   { border-color: var(--clr-primary-light); }
-
-.bulletin-card-header {
-    display: flex; align-items: flex-start; gap: var(--sp-md);
-    padding: var(--sp-md) var(--sp-lg) var(--sp-sm);
-    border-bottom: 1px solid var(--clr-border-light);
-}
-.bulletin-month-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
-.bulletin-card-title { flex: 1; }
-.bulletin-month {
-    font-size: var(--fs-md); font-weight: var(--fw-bold); color: var(--clr-text);
-    display: flex; align-items: center; gap: var(--sp-xs); flex-wrap: wrap;
-}
-.bulletin-latest-badge {
-    font-size: var(--fs-xs); padding: 2px 8px; border-radius: var(--radius-pill);
-    background: var(--clr-primary); color: #fff; font-weight: var(--fw-semi);
-}
-.bulletin-outlook-label { font-size: var(--fs-sm); color: var(--clr-text-muted); margin-top: 2px; }
-.bulletin-updated { font-size: var(--fs-xs); color: var(--clr-text-muted); white-space: nowrap; flex-shrink: 0; }
-.bulletin-card-body { padding: var(--sp-md) var(--sp-lg) var(--sp-lg); }
-.bulletin-samburu-extract {
-    background: var(--clr-bg);
-    border-left: 3px solid var(--clr-primary-light);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    padding: var(--sp-sm) var(--sp-md);
-    margin-bottom: var(--sp-md);
-}
-.bul-dry   .bulletin-samburu-extract { border-color: var(--clr-danger); }
-.bul-mixed .bulletin-samburu-extract { border-color: var(--clr-warning); }
-.bulletin-extract-label {
-    font-size: var(--fs-xs); font-weight: var(--fw-semi); color: var(--clr-primary);
-    text-transform: uppercase; letter-spacing: .06em; margin-bottom: var(--sp-xs);
-}
-.bulletin-samburu-extract p {
-    font-size: var(--fs-sm); color: var(--clr-text); font-style: italic;
-    line-height: 1.6; margin: 0;
-}
-.bulletin-meta-row { display: flex; flex-direction: column; gap: var(--sp-sm); }
-.bulletin-meta-item { display: flex; flex-direction: column; gap: 2px; }
-.bulletin-meta-key {
-    font-size: var(--fs-xs); font-weight: var(--fw-semi); color: var(--clr-text-muted);
-    text-transform: uppercase; letter-spacing: .05em;
-}
-.bulletin-meta-val { font-size: var(--fs-sm); color: var(--clr-text); line-height: 1.5; }
-
 /* ── Responsive ──────────────────────────────────── */
-@media (max-width: 768px) {
-    .alert-banner-large   { flex-direction: column; text-align: center; padding: var(--sp-lg); }
-    .subscore-label       { width: 90px; font-size: var(--fs-xs); }
-    .alert-provenance-bar { flex-direction: column; align-items: flex-start; }
+@media (max-width: 900px) {
+    .ca-command-grid   { grid-template-columns: 1fr; }
+    .ca-gauge-panel    { flex-direction: row; align-items: center; justify-content: center; gap: var(--sp-lg); }
+    .ca-breakdown-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+    .ca-phase-panel  { padding: var(--sp-lg); }
+    .ca-scale-track  { height: 32px; }
+    .ca-scale-seg    { font-size: 0.55rem; }
+    .ca-gauge-wrap   { width: 140px; height: 140px; }
 }
 </style>
 

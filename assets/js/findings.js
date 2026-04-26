@@ -1,9 +1,9 @@
 /**
- * Samburu EWS — findings.js
+ * Samburu EWS - findings.js
  *
  * Fetches /api/findings-data.php and renders:
  *   1. Study overview meta card
- *   2. Seven emergent theme cards (with key quote + STS finding)
+ *   2. Seven emergent theme cards (with key quote and STS finding)
  *   3. Barrier detail cards (with evidence quotes, affected groups, design implication)
  *   4. Recommendation cards (exactly as per Chapter 5 §5.3)
  */
@@ -13,10 +13,6 @@
 
     const API_URL = 'api/findings-data.php';
     const loading = document.getElementById('loadingOverlay');
-
-    /* ═══════════════════════════════════════════
-       FETCH
-       ═══════════════════════════════════════════ */
 
     fetch(API_URL)
         .then(res => {
@@ -38,9 +34,9 @@
             }
         });
 
-    /* ═══════════════════════════════════════════
-       STUDY OVERVIEW
-       ═══════════════════════════════════════════ */
+    // ---------------------------------------------------------------
+    // STUDY OVERVIEW
+    // ---------------------------------------------------------------
 
     function renderMeta(meta) {
         if (!meta) return;
@@ -73,9 +69,9 @@
         show('sectionMeta');
     }
 
-    /* ═══════════════════════════════════════════
-       SEVEN THEMES
-       ═══════════════════════════════════════════ */
+    // ---------------------------------------------------------------
+    // SEVEN THEMES
+    // ---------------------------------------------------------------
 
     function renderThemes(themes) {
         const container = document.getElementById('themeCards');
@@ -101,9 +97,9 @@
         show('sectionThemes');
     }
 
-    /* ═══════════════════════════════════════════
-       BARRIER CARDS
-       ═══════════════════════════════════════════ */
+    // ---------------------------------------------------------------
+    // BARRIER CARDS
+    // ---------------------------------------------------------------
 
     function renderBarriers(barriers) {
         const container = document.getElementById('barrierCards');
@@ -144,9 +140,9 @@
         show('sectionBarriers');
     }
 
-    /* ═══════════════════════════════════════════
-       RECOMMENDATION CARDS
-       ═══════════════════════════════════════════ */
+    // ---------------------------------------------------------------
+    // RECOMMENDATION CARDS
+    // ---------------------------------------------------------------
 
     function renderRecommendations(recs) {
         const container = document.getElementById('recCards');
@@ -191,9 +187,9 @@
         show('sectionRecs');
     }
 
-    /* ═══════════════════════════════════════════
-       UTILITY
-       ═══════════════════════════════════════════ */
+    // ---------------------------------------------------------------
+    // UTILITIES
+    // ---------------------------------------------------------------
 
     function show(id) {
         const el = document.getElementById(id);

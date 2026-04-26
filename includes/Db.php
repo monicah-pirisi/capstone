@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Database Connection (PDO)
+ * Samburu EWS: Database Connection (PDO)
  * Note: Uses config.php db() function for singleton connection
  */
 

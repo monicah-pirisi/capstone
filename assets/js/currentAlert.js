@@ -1,322 +1,373 @@
 /**
- * Samburu EWS — currentAlert.js
+ * Samburu EWS - currentAlert.js
  *
- * Fetches /api/current-alert-data.php and renders:
- *   • Alert banner with level + score
- *   • Sub-score bars
- *   • Reasons list
- *   • NDMA + KMD source cards
- *   • Indigenous indicator grid
- *   • Stakeholder routing table
- *   • Tabbed channel message previews (WhatsApp, Facebook, Radio, USSD)
+ * Fetches /api/current-alert-data.php and renders the full
+ * Current Alert dashboard: gauge, sub-score bars, reasons,
+ * data inputs, stakeholder cards, and channel messages.
  */
 
 (function () {
     'use strict';
 
     const API_URL = 'api/current-alert-data.php';
-    const loading = document.getElementById('loadingOverlay');
 
-    /* ═══════════════════════════════════════════
-       LEVEL CONFIG
-       ═══════════════════════════════════════════ */
-
+    // ── Level configuration ────────────────────────────────────────
     const LEVEL_CFG = {
-        Normal: { icon: '🟢', css: 'level-normal', label: 'NORMAL — LOW RISK' },
-        Watch: { icon: '🔵', css: 'level-watch', label: 'WATCH — MODERATE RISK' },
-        Alert: { icon: '🟠', css: 'level-alert', label: 'ALERT — HIGH RISK' },
-        Alarm: { icon: '🔴', css: 'level-alarm', label: 'ALARM — VERY HIGH RISK' },
-        Emergency: { icon: '⛔', css: 'level-emergency', label: 'EMERGENCY — CRITICAL' },
+        Normal:    { icon: '🟢', css: 'level-normal',    label: 'NORMAL: LOW RISK',        color: '#16a34a', sthClass: 'sth-normal'    },
+        Watch:     { icon: '🔵', css: 'level-watch',     label: 'WATCH: MODERATE RISK',    color: '#2563eb', sthClass: 'sth-alert'     },
+        Alert:     { icon: '🟠', css: 'level-alert',     label: 'ALERT: HIGH RISK',        color: '#d97706', sthClass: 'sth-alert'     },
+        Alarm:     { icon: '🔴', css: 'level-alarm',     label: 'ALARM: VERY HIGH RISK',   color: '#dc2626', sthClass: 'sth-alarm'     },
+        Emergency: { icon: '⛔', css: 'level-emergency', label: 'EMERGENCY: CRITICAL',     color: '#7f1d1d', sthClass: 'sth-emergency' },
     };
 
     const BAR_COLORS = {
-        ndvi: '#198754',
-        rainfall: '#2980b9',
-        livestock: '#e07b00',
-        water: '#6f42c1',
-        food_security: '#c0392b',
-        indigenous: '#0f5132',
+        ndvi:          { good: '#16a34a', mod: '#d97706', stress: '#dc2626' },
+        rainfall:      { good: '#2980b9', mod: '#2980b9', stress: '#dc2626' },
+        livestock:     { good: '#16a34a', mod: '#d97706', stress: '#dc2626' },
+        water:         { good: '#6f42c1', mod: '#d97706', stress: '#dc2626' },
+        food_security: { good: '#0891b2', mod: '#d97706', stress: '#dc2626' },
+        indigenous:    { good: '#0f5132', mod: '#d97706', stress: '#dc2626' },
     };
 
     const BAR_LABELS = {
-        ndvi: 'Vegetation',
-        rainfall: 'Rainfall',
-        livestock: 'Livestock',
-        water: 'Water',
-        food_security: 'Food Sec.',
-        indigenous: 'Indigenous',
+        ndvi:          'Vegetation',
+        rainfall:      'Rainfall',
+        livestock:     'Livestock',
+        water:         'Water',
+        food_security: 'Food Security',
+        indigenous:    'Indigenous',
     };
 
-    /* ═══════════════════════════════════════════
-       FETCH
-       ═══════════════════════════════════════════ */
+    const BAR_WEIGHTS = {
+        ndvi: 20, rainfall: 20, livestock: 20,
+        water: 15, food_security: 10, indigenous: 15,
+    };
 
+    const BAR_DESCS = {
+        ndvi:          'VCI vegetation index vs normal',
+        rainfall:      'Current vs long-term average',
+        livestock:     'Herd body condition',
+        water:         'Distance to water source',
+        food_security: 'Household food consumption',
+        indigenous:    'Community observations',
+    };
+
+    // ── Icons for data inputs ──────────────────────────────────────
+    const INPUT_CARDS = [
+        { key: 'ndvi',                   icon: '🌿', label: 'VCI (Vegetation)',  unit: '',    note: 'Current VCI vs normal 35' },
+        { key: 'rainfall_mm',            icon: '🌧',  label: 'Rainfall',          unit: ' mm', note: 'vs long-term avg' },
+        { key: 'rainfall_avg_mm',        icon: '📊',  label: 'LTM Rainfall',      unit: ' mm', note: 'Long-term monthly average' },
+        { key: 'water_distance_km',      icon: '💧',  label: 'Water Distance',    unit: ' km', note: 'vs normal distance' },
+        { key: 'livestock_condition',    icon: '🐄',  label: 'Livestock',         unit: '',    note: 'Body condition rating' },
+        { key: 'food_consumption_score', icon: '🍽',  label: 'Food Score',        unit: '/42', note: 'Derived from bulletin %' },
+        { key: 'indigenous_outlook',     icon: '🌍',  label: 'Indigenous',        unit: '',    note: 'Derived from 10 indicators' },
+    ];
+
+    // ── Fetch ──────────────────────────────────────────────────────
     fetch(API_URL)
-        .then(res => {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return res.json();
-        })
+        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
         .then(data => {
             if (!data.ok) throw new Error(data.error || 'API error');
+
+            const loading = document.getElementById('loadingOverlay');
+            const command = document.getElementById('alertCommandSection');
             if (loading) loading.style.display = 'none';
+            if (command) command.style.display = '';
 
             const a = data.assessment;
             const s = data.sources;
+            const inputs = data.inputs || {};
 
             renderAlertBanner(a);
+            renderGauge(a.score, a.risk_level);
+            renderScaleMarker(a.score);
             renderSubScores(a.sub_scores);
             renderReasons(a.reasons);
+            renderDataInputs(inputs);
+            renderRouting(a.recommended_actions, a.risk_level);
+            renderMessages(a.channel_messages);
             renderNDMA(s.ndma);
             renderKMD(s.kmd);
-            renderIndigenous(s.indigenous);
-            renderRouting(a.recommended_actions);
-            renderMessages(a.channel_messages);
             initTabs();
             initCopyButtons();
 
-            if (window.EWS?.toast) {
-                const lvl = a.risk_level || 'Unknown';
-                const tType = ['Normal', 'Watch'].includes(lvl) ? 'success' : (lvl === 'Emergency' ? 'error' : 'warning');
-                EWS.toast(`Risk level: ${lvl} — Score: ${a.score}`, tType, 4000);
+            if (window.EWS && window.EWS.toast) {
+                const lvl   = a.risk_level || 'Unknown';
+                const tType = ['Normal','Watch'].includes(lvl) ? 'success' : lvl === 'Emergency' ? 'error' : 'warning';
+                EWS.toast(`Risk level: ${lvl}, Score: ${a.score}`, tType, 4000);
             }
         })
         .catch(err => {
             console.error('Alert fetch error:', err);
-            if (loading) {
-                loading.innerHTML = '<p style="color:var(--clr-danger);">⚠️ Failed to load alert data. Please try again later.</p>';
-            }
+            const loading = document.getElementById('loadingOverlay');
+            if (loading) loading.innerHTML = `
+                <div class="container" style="text-align:center;padding:var(--sp-2xl) 0;">
+                    <p style="color:var(--clr-danger);font-size:var(--fs-md);">
+                        ⚠️ Failed to load alert data. Please refresh or try again.
+                    </p>
+                </div>`;
         });
 
-    /* ═══════════════════════════════════════════
-       1. ALERT BANNER
-       ═══════════════════════════════════════════ */
-
+    // ── 1. Alert Banner ────────────────────────────────────────────
     function renderAlertBanner(a) {
-        const el = document.getElementById('alertBanner');
-        if (!el) return;
-
+        const panel = document.getElementById('alertBanner');
+        if (!panel) return;
         const cfg = LEVEL_CFG[a.risk_level] || LEVEL_CFG.Alert;
-        el.className = 'alert-banner-large ' + cfg.css;
-        el.style.display = 'flex';
-
-        setText('alertIcon', cfg.icon);
+        panel.className = 'ca-phase-panel ' + cfg.css;
+        setText('alertIcon',  cfg.icon);
         setText('alertLevel', cfg.label);
-        setText('alertScore', a.score);
-        setText('alertTime', 'Assessed: ' + formatDate(a.assessed_at));
+        setText('alertTime',  'Assessed: ' + formatDate(a.assessed_at));
     }
 
-    /* ═══════════════════════════════════════════
-       2. SUB-SCORE BARS
-       ═══════════════════════════════════════════ */
+    // ── 2. Circular Gauge ─────────────────────────────────────────
+    function renderGauge(score, level) {
+        const wrap = document.getElementById('scoreGauge');
+        if (!wrap) return;
 
+        const cfg    = LEVEL_CFG[level] || LEVEL_CFG.Alert;
+        const color  = cfg.color;
+        const r      = 70, cx = 90, cy = 90;
+        const circ   = 2 * Math.PI * r;          // 439.8
+        const offset = circ * (1 - score / 100); // how much to leave unfilled
+
+        // Phase ring: thin outer ring coloured by phase
+        const rOuter = 82;
+        const circO  = 2 * Math.PI * rOuter;
+
+        wrap.innerHTML = `
+        <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background track -->
+          <circle cx="${cx}" cy="${cy}" r="${r}"
+                  fill="none" stroke="#e5e7eb" stroke-width="14"/>
+          <!-- Coloured progress arc (starts at top: rotate -90) -->
+          <circle cx="${cx}" cy="${cy}" r="${r}"
+                  fill="none" stroke="${color}" stroke-width="14"
+                  stroke-linecap="round"
+                  stroke-dasharray="${circ}"
+                  stroke-dashoffset="${circ}"
+                  transform="rotate(-90 ${cx} ${cy})"
+                  class="gauge-arc"
+                  data-offset="${offset}"/>
+          <!-- Score text -->
+          <text x="${cx}" y="${cy - 8}" text-anchor="middle"
+                font-size="34" font-weight="800" fill="${color}"
+                font-family="Inter, sans-serif">${score}</text>
+          <text x="${cx}" y="${cy + 14}" text-anchor="middle"
+                font-size="11" fill="#9ca3af"
+                font-family="Inter, sans-serif">out of 100</text>
+          <!-- Level label -->
+          <text x="${cx}" y="${cy + 32}" text-anchor="middle"
+                font-size="9.5" font-weight="600" fill="${color}"
+                font-family="Inter, sans-serif" letter-spacing="0.05em"
+                text-transform="uppercase">${level.toUpperCase()}</text>
+        </svg>`;
+
+        // Animate after paint
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                const arc = wrap.querySelector('.gauge-arc');
+                if (arc) {
+                    arc.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)';
+                    arc.style.strokeDashoffset = arc.dataset.offset;
+                }
+            }, 120);
+        });
+    }
+
+    // ── 3. Scale Marker ───────────────────────────────────────────
+    function renderScaleMarker(score) {
+        const marker = document.getElementById('scaleMarker');
+        if (!marker) return;
+        // Scale: 100→0 maps to 0%→100% from left
+        // Normal 80–100 = 0–20% from right = left 0–20%
+        // Alert  60–79  = left 20–40%
+        // Alarm  40–59  = left 40–60%
+        // Emergency 0–39 = left 60–100%
+        const leftPct = 100 - score;
+        marker.style.left = Math.max(0, Math.min(100, leftPct)) + '%';
+    }
+
+    // ── 4. Sub-Score Bars ─────────────────────────────────────────
     function renderSubScores(sub) {
         const container = document.getElementById('subScoreBars');
-        const card = document.getElementById('subScoresCard');
+        const card      = document.getElementById('subScoresCard');
         if (!container || !sub) return;
 
         container.innerHTML = Object.entries(sub).map(([key, val]) => {
-            const pct = Math.min(Math.round(val), 100);
-            const color = BAR_COLORS[key] || '#6c757d';
-            const label = BAR_LABELS[key] || key;
+            const pct    = Math.min(Math.round(val), 100);
+            const weight = BAR_WEIGHTS[key] || 0;
+            const contrib = ((val * weight) / 100).toFixed(1);
+            const colors = BAR_COLORS[key] || { good: '#6c757d', mod: '#6c757d', stress: '#6c757d' };
+            const color  = pct >= 75 ? colors.good : pct >= 50 ? colors.mod : colors.stress;
+            const label  = BAR_LABELS[key]  || key;
+            const desc   = BAR_DESCS[key]   || '';
+
             return `
-                <div class="subscore-row">
-                    <span class="subscore-label">${label}</span>
+            <div class="subscore-row">
+                <div class="subscore-meta">
+                    <span class="subscore-label">${label}
+                        <span style="font-weight:400;color:var(--clr-text-muted);font-size:var(--fs-xs);"> — ${desc}</span>
+                    </span>
+                    <span class="subscore-weight">${weight}% weight</span>
+                </div>
+                <div class="subscore-track-wrap">
                     <div class="subscore-track">
-                        <div class="subscore-fill" style="width:${pct}%;background:${color};">${pct}</div>
+                        <div class="subscore-fill"
+                             style="width:0%;background:${color};"
+                             data-width="${pct}">${pct}</div>
+                        <div class="subscore-threshold thr-alert"  title="Alert threshold (60)"></div>
+                        <div class="subscore-threshold thr-normal" title="Normal threshold (80)"></div>
                     </div>
-                </div>`;
+                    <span class="subscore-contrib">+${contrib} pts</span>
+                </div>
+            </div>`;
         }).join('');
+
+        // Animate bars
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                container.querySelectorAll('.subscore-fill[data-width]').forEach(el => {
+                    el.style.transition = 'width .9s cubic-bezier(.4,0,.2,1)';
+                    el.style.width = el.dataset.width + '%';
+                });
+            }, 150);
+        });
 
         if (card) card.style.display = '';
     }
 
-    /* ═══════════════════════════════════════════
-       3. REASONS
-       ═══════════════════════════════════════════ */
-
+    // ── 5. Reasons ────────────────────────────────────────────────
     function renderReasons(reasons) {
         const list = document.getElementById('reasonsList');
         const card = document.getElementById('reasonsCard');
-        if (!list || !Array.isArray(reasons)) return;
+        if (!list) return;
 
-        list.innerHTML = reasons.map(r => `<li>${esc(r)}</li>`).join('');
+        if (!Array.isArray(reasons) || reasons.length === 0) {
+            list.innerHTML = `
+                <div class="ca-reason-ok">
+                    <span style="font-size:1.2rem;">✅</span>
+                    <span>All indicators are within acceptable range. Continue monitoring conditions.</span>
+                </div>`;
+        } else {
+            list.innerHTML = reasons.map(r => {
+                const isObj = typeof r === 'object' && r !== null;
+                const sev   = isObj ? (r.severity || 'medium') : 'medium';
+                const text  = isObj ? r.text : String(r);
+                const icon  = sev === 'high' ? '🔴' : '🟠';
+                return `
+                <div class="ca-reason-item ca-reason-${sev}">
+                    <span class="ca-reason-icon">${icon}</span>
+                    <span>${esc(text)}</span>
+                </div>`;
+            }).join('');
+        }
+
         if (card) card.style.display = '';
     }
 
-    /* ═══════════════════════════════════════════
-       4. NDMA SOURCE CARD
-       ═══════════════════════════════════════════ */
+    // ── 6. Data Inputs ────────────────────────────────────────────
+    function renderDataInputs(inputs) {
+        const grid = document.getElementById('dataInputsGrid');
+        if (!grid) return;
 
+        grid.innerHTML = INPUT_CARDS.map(c => {
+            const raw = inputs[c.key];
+            const val = raw !== undefined && raw !== null ? raw : '—';
+            return `
+            <div class="ca-input-card">
+                <div class="ca-input-icon">${c.icon}</div>
+                <div class="ca-input-label">${c.label}</div>
+                <div class="ca-input-value">${esc(String(val))}${val !== '—' ? c.unit : ''}</div>
+                <div class="ca-input-note">${c.note}</div>
+            </div>`;
+        }).join('');
+    }
+
+    // ── 7. Stakeholder Cards ──────────────────────────────────────
+    function renderRouting(actions, level) {
+        const grid = document.getElementById('stakeholderGrid');
+        if (!grid || !Array.isArray(actions)) return;
+
+        const cfg = LEVEL_CFG[level] || LEVEL_CFG.Alert;
+
+        grid.innerHTML = actions.map(a => `
+            <div class="ca-stakeholder-card ${cfg.sthClass}">
+                <div class="ca-sth-icon">${a.icon || '📌'}</div>
+                <div class="ca-sth-name">${esc(a.stakeholder)}</div>
+                <div class="ca-sth-action">${esc(a.action)}</div>
+            </div>`).join('');
+    }
+
+    // ── 8. Messages ───────────────────────────────────────────────
+    function renderMessages(msgs) {
+        if (!msgs) return;
+        setMsg('msgWhatsApp', msgs.whatsapp);
+        setMsg('msgFacebook', msgs.facebook);
+        setMsg('msgRadio30',  msgs.radio_30s);
+        setMsg('msgRadio60',  msgs.radio_60s);
+        let ussd = msgs.ussd_status || '';
+        if (msgs.ussd_actions) ussd += '\n\n─────────────\n\n' + msgs.ussd_actions;
+        setMsg('msgUSSD', ussd);
+    }
+
+    // ── 9. NDMA Source Card ───────────────────────────────────────
     function renderNDMA(ndma) {
         if (!ndma) return;
         const card = document.getElementById('ndmaCard');
         if (!card) return;
-
-        setText('ndmaBulletin', ndma.bulletin || '');
-        setText('ndmaSummary', ndma.summary || '');
-        setText('ndmaPhase', ndma.phase_stated || '—');
-        setText('ndmaUpdated', formatDate(ndma.updated_at));
-
+        setText('ndmaBulletin', ndma.bulletin      || '');
+        setText('ndmaSummary',  ndma.summary       || '');
+        setText('ndmaPhase',    ndma.phase_stated  || '—');
+        setText('ndmaUpdated',  formatDate(ndma.updated_at));
         const link = document.getElementById('ndmaLink');
         if (link && ndma.url) link.href = ndma.url;
-
         card.style.display = '';
     }
 
-    /* ═══════════════════════════════════════════
-       5. KMD SOURCE CARD
-       ═══════════════════════════════════════════ */
-
+    // ── 10. KMD Source Card ───────────────────────────────────────
     function renderKMD(kmd) {
         if (!kmd) return;
         const card = document.getElementById('kmdCard');
         if (!card) return;
-
-        setText('kmdPeriod', kmd.valid_period || '');
-        setText('kmdAdvisory', kmd.advisory || '');
-        setText('kmdUpdated', formatDate(kmd.updated_at));
-
+        setText('kmdPeriod',  kmd.valid_period || '');
+        setText('kmdAdvisory', kmd.advisory    || '');
+        setText('kmdUpdated',  formatDate(kmd.updated_at));
         const outlook = kmd.outlook || {};
-        setText('kmdOutlook', outlook.most_likely || '—');
-        setText('kmdBelowPct', (outlook.probability_below_normal_pct ?? '—') + '%');
-
-        // Onset info — if nested object, extract expected
-        const onset = typeof kmd.onset === 'object' ? (kmd.onset?.expected || '—') : (kmd.onset || '—');
-        setText('kmdOnset', onset);
-
+        const outlookText = typeof outlook === 'object' && !Array.isArray(outlook)
+            ? Object.values(outlook).join(' ')
+            : (typeof outlook === 'string' ? outlook : '');
+        setText('kmdOutlook', outlookText || '—');
         const link = document.getElementById('kmdLink');
         if (link && kmd.url) link.href = kmd.url;
-
         card.style.display = '';
     }
 
-    /* ═══════════════════════════════════════════
-       6. INDIGENOUS INDICATORS
-       ═══════════════════════════════════════════ */
-
-    function renderIndigenous(src) {
-        const grid = document.getElementById('indigenousGrid');
-        if (!grid || !src) return;
-
-        const indicators = src.indicators || [];
-        if (!indicators.length) return;
-
-        const reliabilityBadge = r => {
-            const low = (r || '').toLowerCase();
-            if (low.includes('high')) return 'badge-green';
-            if (low.includes('medium')) return 'badge-amber';
-            return 'badge-neutral';
-        };
-
-        grid.innerHTML = indicators.map(ind => `
-            <div class="card indigenous-card">
-                <div class="card-header">
-                    <div class="card-icon">${categoryIcon(ind.category)}</div>
-                    <div>
-                        <h3 class="card-title">${esc(ind.name)}</h3>
-                        <span class="badge ${reliabilityBadge(ind.reliability)}">${esc(ind.reliability)} reliability</span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p style="font-size:var(--fs-sm);color:var(--clr-text-muted);">${esc(ind.description)}</p>
-                    <dl class="indigenous-signals">
-                        <dt>🔴 Drought signal</dt>
-                        <dd>${esc(ind.signal_drought)}</dd>
-                        <dt>🟢 Good season signal</dt>
-                        <dd>${esc(ind.signal_good_season)}</dd>
-                    </dl>
-                    <p class="reliability"><strong>Seasons:</strong> ${(ind.season_relevance || []).join(', ')} · <em>Source: ${esc(ind.source)}</em></p>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function categoryIcon(cat) {
-        const map = {
-            'Astronomical': '⭐',
-            'Animal': '🐾',
-            'Botanical': '🌿',
-            'Entomological': '🐜',
-            'Meteorological': '💨',
-            'Traditional ritual': '🔮',
-        };
-        return map[cat] || '🔍';
-    }
-
-    /* ═══════════════════════════════════════════
-       7. ROUTING TABLE
-       ═══════════════════════════════════════════ */
-
-    function renderRouting(actions) {
-        const tbody = document.getElementById('routingBody');
-        if (!tbody || !Array.isArray(actions)) return;
-
-        tbody.innerHTML = actions.map(a => `
-            <tr>
-                <td><span style="margin-right:6px;">${a.icon || '📌'}</span><strong>${esc(a.stakeholder)}</strong></td>
-                <td>${esc(a.action)}</td>
-            </tr>
-        `).join('');
-    }
-
-    /* ═══════════════════════════════════════════
-       8. CHANNEL MESSAGES
-       ═══════════════════════════════════════════ */
-
-    function renderMessages(msgs) {
-        if (!msgs) return;
-
-        setMsg('msgWhatsApp', msgs.whatsapp);
-        setMsg('msgFacebook', msgs.facebook);
-        setMsg('msgRadio30', msgs.radio_30s);
-        setMsg('msgRadio60', msgs.radio_60s);
-
-        // Combine USSD screens
-        let ussd = msgs.ussd_status || '';
-        if (msgs.ussd_actions) ussd += '\n\n─────────\n\n' + msgs.ussd_actions;
-        setMsg('msgUSSD', ussd);
-    }
-
-    function setMsg(id, text) {
-        const el = document.getElementById(id);
-        if (el) el.textContent = text || '(No template available for this level)';
-    }
-
-    /* ═══════════════════════════════════════════
-       TABS
-       ═══════════════════════════════════════════ */
-
+    // ── Tabs ──────────────────────────────────────────────────────
     function initTabs() {
-        const btns = document.querySelectorAll('.tab-btn[data-tab]');
+        const btns = document.querySelectorAll('.ca-tab-btn[data-tab]');
         btns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Deactivate all
-                btns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
-                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-                // Activate clicked
+                btns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+                document.querySelectorAll('.ca-tab-panel').forEach(p => p.classList.remove('active'));
                 btn.classList.add('active');
-                btn.setAttribute('aria-selected', 'true');
+                btn.setAttribute('aria-selected','true');
                 const panel = document.getElementById(btn.dataset.tab);
                 if (panel) panel.classList.add('active');
             });
         });
     }
 
-    /* ═══════════════════════════════════════════
-       COPY BUTTONS
-       ═══════════════════════════════════════════ */
-
+    // ── Copy Buttons ──────────────────────────────────────────────
     function initCopyButtons() {
         document.querySelectorAll('.copy-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const target = document.getElementById(btn.dataset.target);
                 if (!target) return;
                 const text = target.textContent;
-
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(() => {
-                        if (window.EWS?.toast) EWS.toast('Copied to clipboard!', 'success', 2000);
-                    }).catch(() => fallbackCopy(text));
+                    navigator.clipboard.writeText(text)
+                        .then(() => { if (window.EWS && window.EWS.toast) EWS.toast('Copied to clipboard!', 'success', 2000); })
+                        .catch(() => fallbackCopy(text));
                 } else {
                     fallbackCopy(text);
                 }
@@ -326,27 +377,26 @@
 
     function fallbackCopy(text) {
         const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
         try {
             document.execCommand('copy');
-            if (window.EWS?.toast) EWS.toast('Copied to clipboard!', 'success', 2000);
+            if (window.EWS && window.EWS.toast) EWS.toast('Copied to clipboard!', 'success', 2000);
         } catch {
-            if (window.EWS?.toast) EWS.toast('Copy failed — please select and copy manually', 'warning');
+            if (window.EWS && window.EWS.toast) EWS.toast('Copy failed, please select and copy manually', 'warning');
         }
         ta.remove();
     }
 
-    /* ═══════════════════════════════════════════
-       UTILITY
-       ═══════════════════════════════════════════ */
-
+    // ── Utilities ─────────────────────────────────────────────────
     function setText(id, val) {
         const el = document.getElementById(id);
         if (el) el.textContent = val ?? '';
+    }
+
+    function setMsg(id, text) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text || '(No template available for this level)';
     }
 
     function formatDate(iso) {

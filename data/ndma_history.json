@@ -1,0 +1,42 @@
+[
+    {
+        "month": "November 2025",
+        "phase": "Normal",
+        "vci": 65.20,
+        "rainfall_mm": 46,
+        "rainfall_pct_ltm": 51,
+        "livestock": "Fair",
+        "water_km": 4,
+        "food_fcs": 33.5
+    },
+    {
+        "month": "December 2025",
+        "phase": "Normal",
+        "vci": 47.49,
+        "rainfall_mm": 36.3,
+        "rainfall_pct_ltm": 66,
+        "livestock": "Fair",
+        "water_km": 4,
+        "food_fcs": 34.5
+    },
+    {
+        "month": "January 2026",
+        "phase": "Alert",
+        "vci": null,
+        "rainfall_mm": 0,
+        "rainfall_pct_ltm": 33,
+        "livestock": "Fair",
+        "water_km": 5.4,
+        "food_fcs": 30.8
+    },
+    {
+        "month": "February 2026",
+        "phase": "Alert",
+        "vci": 24.19,
+        "rainfall_mm": 45,
+        "rainfall_pct_ltm": 265,
+        "livestock": "Fair",
+        "water_km": 5,
+        "food_fcs": 35.4
+    }
+]

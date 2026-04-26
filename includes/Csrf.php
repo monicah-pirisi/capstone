@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — CSRF Protection
+ * Samburu EWS: CSRF Protection
  */
 
 class Csrf
@@ -34,7 +34,7 @@ class Csrf
     }
 
     /**
-     * Alias for validate() — used by admin.php and contact-submit.php
+     * Alias for validate(), used by admin.php and contact-submit.php
      */
     public static function verify(string $token): bool
     {

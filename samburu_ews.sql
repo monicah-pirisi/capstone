@@ -258,13 +258,18 @@ CREATE TABLE stakeholder_channel_preferences (
 -- ----------------------------
 
 CREATE TABLE contact_messages (
-  contact_message_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(120) NOT NULL,
-  email VARCHAR(190) NOT NULL,
-  stakeholder_type_label VARCHAR(50) NOT NULL,
-  message TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_contact_created_at (created_at)
+  id              BIGINT       AUTO_INCREMENT PRIMARY KEY,
+  name            VARCHAR(120) NOT NULL,
+  email           VARCHAR(190) NOT NULL,
+  subject         VARCHAR(200) NOT NULL DEFAULT '',
+  message         TEXT         NOT NULL,
+  stakeholder_group VARCHAR(50) NULL,
+  ip_address      VARCHAR(45)  NULL,
+  is_read         TINYINT(1)   NOT NULL DEFAULT 0,
+  read_at         DATETIME     NULL,
+  created_at      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_contact_created_at (created_at),
+  INDEX idx_contact_is_read    (is_read)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------

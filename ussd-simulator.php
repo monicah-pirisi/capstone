@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — USSD Simulator
+ * Samburu EWS: USSD Simulator
  *
  * Phone-like UI simulating a *384# USSD menu.
  * Fetches risk data from /api/current-alert-data.php
@@ -12,7 +12,7 @@ $pageTitle = 'USSD Simulator';
 require __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Hero ────────────────────────────────────── -->
+<!-- Hero -->
 <section class="hero" style="padding:var(--sp-2xl) 0;">
     <div class="container">
         <h1>USSD Simulator</h1>
@@ -29,7 +29,7 @@ require __DIR__ . '/includes/header.php';
                 <div class="ussd-device">
                     <!-- Status bar -->
                     <div class="ussd-statusbar">
-                        <span>Samburu EWS</span>
+                        <span>SamEWS</span>
                         <span id="ussdLangIndicator">EN</span>
                     </div>
 
@@ -70,7 +70,7 @@ require __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- ── Instructions panel ──────────── -->
+            <!-- Instructions panel -->
             <div>
                 <div class="card mb-lg">
                     <div class="card-header">
@@ -116,7 +116,7 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <style>
-/* ── USSD Phone Device ─────────────────────── */
+/* USSD Phone Device */
 .ussd-phone-wrapper {
     display: flex;
     justify-content: center;

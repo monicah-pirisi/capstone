@@ -13,17 +13,20 @@
         "vegetation_central": "Most parts of Samburu Central sub-county had normal vegetation."
     },
     "vegetation_condition": {
-        "ndvi": null,
-        "ndvi_normal": null,
+        "ndvi": 24.19,
+        "ndvi_normal": 35,
+        "ndvi_metric": "VCI (Vegetation Condition Index, scale 0-100)",
         "status": "Moderate vegetation deficit (Samburu East: severe deficit)"
     },
     "rainfall": {
-        "current_mm": null,
+        "current_mm": 45,
+        "current_mm_note": "County-wide actual from February 2026 bulletin. Rainfall % LTM: 265%. LTM for February is 17mm.",
         "long_term_avg_mm": 17,
         "status": "Above Average"
     },
     "livestock": {
-        "body_condition": "Fair for cattle, Good for small stocks",
+        "body_condition": "Fair",
+        "body_condition_note": "Fair for cattle, Good for small stocks. Using cattle condition as primary indicator.",
         "migration_status": "Unusual migrations"
     },
     "water": {
@@ -33,6 +36,8 @@
     "food_security": {
         "acceptable_pct": 53,
         "borderline_pct": 46,
-        "poor_pct": 1
+        "poor_pct": 1,
+        "food_consumption_score": 35.4,
+        "food_consumption_score_note": "From February 2026 NDMA bulletin. Acceptable 53%, Borderline 46%, Poor 1%."
     }
 }

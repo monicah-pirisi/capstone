@@ -9,6 +9,10 @@
     "advisory": "Farmers should strengthen field drainage, unclog furrows, and avoid activities that compact already-wet soils.",
     "temperature": {
         "max_celsius": 36,
-        "min_celsius": 13
+        "min_celsius": 13,
+        "normal_max_celsius": 30,
+        "normal_max_source": "KMD long-term mean maximum temperature for Samburu County ASAL zone",
+        "extreme_max_celsius": 40,
+        "extreme_max_source": "Recorded extreme maximum temperature for northern Kenya ASAL counties"
     }
 }

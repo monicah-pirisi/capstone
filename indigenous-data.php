@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Indigenous Knowledge Systems
+ * Samburu EWS: Indigenous Knowledge Systems
  * Data drawn from Chapter 4.2 of the research study:
  * "Social-Technical Barriers Limiting EWS Effectiveness Among
  *  Pastoralist Communities in Samburu County, Kenya" (2026)
@@ -31,15 +31,15 @@ $categoryMeta = [
 require __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Hero ──────────────────────────────────────── -->
+<!-- Hero -->
 <section class="hero" style="padding:var(--sp-2xl) 0;">
     <div class="container">
         <h1>Indigenous Knowledge Systems</h1>
-        <p>Samburu elders use a systematic, multi-source indigenous forecasting system developed and validated over generations — a structured knowledge practice, not informal guesswork.</p>
+        <p>Samburu elders use a systematic, multi-source indigenous forecasting system developed and validated over generations, a structured knowledge practice, not informal guesswork.</p>
     </div>
 </section>
 
-<!-- ── Research Context ──────────────────────────── -->
+<!-- Research Context -->
 <section class="page-section" style="padding-top:var(--sp-2xl);">
     <div class="container">
 
@@ -48,7 +48,7 @@ require __DIR__ . '/includes/header.php';
                 <h2>What the Research Found</h2>
                 <p>
                     Findings from Chapter 4.2 of the study show that indigenous climate forecasting in Samburu is not
-                    a supplementary or informal practice. It is a <strong>primary system</strong> — one that communities
+                    a supplementary or informal practice. It is a <strong>primary system</strong>, one that communities
                     rely on, especially when formal early warning systems prove unreliable or inaccessible.
                 </p>
                 <blockquote class="ik-quote">
@@ -56,7 +56,7 @@ require __DIR__ . '/includes/header.php';
                     say, and mostly what the government says, they give in small differences. So it also works, the
                     transmission of knowledge from one generation to another."
                 </blockquote>
-                <p class="ik-source">— Research participant, Samburu County (qualitative interview, 2026)</p>
+                <p class="ik-source">Research participant, Samburu County (qualitative interview, 2026)</p>
             </div>
             <div class="ik-context-stats">
                 <div class="ik-stat">
@@ -77,7 +77,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Tiered System Explainer ───────────────────── -->
+<!-- Tiered System Explainer -->
 <section class="page-section ik-alt-bg">
     <div class="container">
         <div class="section-header">
@@ -91,11 +91,11 @@ require __DIR__ . '/includes/header.php';
 
         <div class="tier-grid">
             <div class="tier-card tier-general">
-                <div class="tier-badge">Tier 1 — General Elders</div>
+                <div class="tier-badge">Tier 1: General Elders</div>
                 <h3>Environmental Observation</h3>
                 <p>
-                    Ordinary community elders observe and interpret everyday environmental signals —
-                    animal behaviour, cloud and sky patterns, land conditions, and vegetation changes.
+                    Ordinary community elders observe and interpret everyday environmental signals,
+                    including animal behaviour, cloud and sky patterns, land conditions, and vegetation changes.
                     These observations are widely shared within the community and inform day-to-day
                     pastoral decisions such as when to move livestock or begin destocking.
                 </p>
@@ -108,11 +108,11 @@ require __DIR__ . '/includes/header.php';
             </div>
 
             <div class="tier-card tier-specialist">
-                <div class="tier-badge tier-badge-specialist">Tier 2 — Specialist Elders</div>
+                <div class="tier-badge tier-badge-specialist">Tier 2: Specialist Elders</div>
                 <h3>Celestial &amp; Spiritual Forecasting</h3>
                 <p>
-                    A distinct class of specialist elders — and in the most remote communities, divine
-                    seers — provides advanced forecasting through the reading of star positions, celestial
+                    A distinct class of specialist elders, and in the most remote communities, divine
+                    seers, provides advanced forecasting through the reading of star positions, celestial
                     movements, and spiritual signs. This tier is consulted when general indicators are
                     ambiguous, and serves as the <strong>primary warning source</strong> for communities
                     completely beyond the reach of formal EWS.
@@ -126,11 +126,11 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Tier 1: Indicators by Category ───────────── -->
+<!-- Tier 1: Indicators by Category -->
 <section class="page-section">
     <div class="container">
         <div class="section-header">
-            <h2>Tier 1 — Environmental Indicators</h2>
+            <h2>Tier 1: Environmental Indicators</h2>
             <p>Ten indicators observed by community elders and pastoralists, documented in §4.2.1 and Table 4.2 of the research.</p>
         </div>
 
@@ -168,12 +168,12 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Tier 2: Specialist Indicators ────────────── -->
+<!-- Tier 2: Specialist Indicators -->
 <?php if (!empty($specialist)): ?>
 <section class="page-section ik-specialist-bg">
     <div class="container">
         <div class="section-header">
-            <h2>Tier 2 — Specialist Indicators</h2>
+            <h2>Tier 2: Specialist Indicators</h2>
             <p>
                 Advanced forecasting by specialist elders and divine seers. Consulted when general indicators
                 are ambiguous or insufficient. The primary warning source for the most remote Samburu communities
@@ -208,14 +208,14 @@ require __DIR__ . '/includes/header.php';
 </section>
 <?php endif; ?>
 
-<!-- ── STS Framework Insight ─────────────────────── -->
+<!-- STS Framework Insight -->
 <section class="page-section">
     <div class="container">
         <div class="ik-sts-box">
             <h3>Socio-Technical Systems Perspective (§4.2.2)</h3>
             <p>
                 From an STS framework perspective, the indigenous knowledge system is not a competitor to
-                formal EWS — it is a <strong>functioning social subsystem</strong> that operates in parallel.
+                formal EWS, it is a <strong>functioning social subsystem</strong> that operates in parallel.
                 The failure of formal EWS to engage with, validate, or integrate this system represents a
                 missed opportunity for alignment.
             </p>
@@ -223,7 +223,7 @@ require __DIR__ . '/includes/header.php';
                 Rather than competing with indigenous knowledge, a well-aligned EWS would complement it.
                 The study recommends combining scientific forecasts with elder observations in the same
                 warning message, verified by a joint local committee of elders, chiefs, and government
-                representatives — so that communities hear a single, trusted, multi-source message
+                representatives, so that communities hear a single, trusted, multi-source message
                 (Recommendation 1 &amp; 5, §5.3).
             </p>
             <a href="findings.php#sectionRecs" class="btn btn-primary btn-sm" style="margin-top:var(--sp-md);">
@@ -234,7 +234,7 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <style>
-/* ── Context banner ──────────────────────────────── */
+/* Context banner */
 .ik-context-banner {
     display: grid;
     grid-template-columns: 1fr 220px;
@@ -294,7 +294,7 @@ require __DIR__ . '/includes/header.php';
     letter-spacing: .07em;
 }
 
-/* ── Tier cards ──────────────────────────────────── */
+/* Tier cards */
 .ik-alt-bg { background: var(--clr-bg); }
 .tier-grid {
     display: grid;
@@ -361,7 +361,7 @@ require __DIR__ . '/includes/header.php';
     color: #c39bd3;
 }
 
-/* ── Category blocks ─────────────────────────────── */
+/* Category blocks */
 .ik-category-block {
     margin-bottom: var(--sp-2xl);
 }
@@ -393,7 +393,7 @@ require __DIR__ . '/includes/header.php';
     gap: var(--sp-md);
 }
 
-/* ── Indicator cards ─────────────────────────────── */
+/* Indicator cards */
 .ik-indicator-card {
     background: var(--clr-surface);
     border-radius: var(--radius-lg);
@@ -466,7 +466,7 @@ require __DIR__ . '/includes/header.php';
     background: var(--clr-success-light); color: var(--clr-success);
 }
 
-/* ── Specialist section ──────────────────────────── */
+/* Specialist section */
 .ik-specialist-bg {
     background: #0d0720;
 }
@@ -519,7 +519,7 @@ require __DIR__ . '/includes/header.php';
 }
 .ik-specialist-note strong { color: #e0c8ff; }
 
-/* ── STS insight box ─────────────────────────────── */
+/* STS insight box */
 .ik-sts-box {
     background: var(--clr-primary-pale);
     border-left: 5px solid var(--clr-primary);
@@ -541,7 +541,7 @@ require __DIR__ . '/includes/header.php';
     margin-bottom: var(--sp-md);
 }
 
-/* ── Responsive ──────────────────────────────────── */
+/* Responsive */
 @media (max-width: 768px) {
     .ik-context-banner { grid-template-columns: 1fr; }
     .ik-context-stats  { flex-direction: row; justify-content: space-around; }

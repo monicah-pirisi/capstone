@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Research Findings
+ * Samburu EWS: Research Findings
  * Qualitative thematic analysis from semi-structured interviews.
  */
 require __DIR__ . '/config.php';
@@ -9,7 +9,7 @@ $pageTitle = 'Research Findings';
 require __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Hero ──────────────────────────────────────── -->
+<!-- Hero -->
 <section class="hero" style="padding:var(--sp-2xl) 0;">
     <div class="container">
         <h1>Research Findings</h1>
@@ -17,20 +17,20 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Loading overlay ───────────────────────────── -->
+<!-- Loading overlay -->
 <div id="loadingOverlay" class="findings-loading">
     <div class="spinner"></div>
     <p>Loading findings…</p>
 </div>
 
-<!-- ── Study Overview ────────────────────────────── -->
+<!-- Study Overview -->
 <section class="page-section" id="sectionMeta" style="display:none;padding-top:var(--sp-xl);">
     <div class="container">
         <div class="study-overview-card" id="studyOverview"></div>
     </div>
 </section>
 
-<!-- ── Seven Themes ──────────────────────────────── -->
+<!-- Seven Themes -->
 <section class="page-section" id="sectionThemes" style="display:none;">
     <div class="container">
         <div class="section-header">
@@ -41,7 +41,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Barriers ──────────────────────────────────── -->
+<!-- Barriers -->
 <section class="page-section findings-alt-bg" id="sectionBarriers" style="display:none;">
     <div class="container">
         <div class="section-header">
@@ -52,7 +52,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Recommendations ───────────────────────────── -->
+<!-- Recommendations -->
 <section class="page-section" id="sectionRecs" style="display:none;">
     <div class="container">
         <div class="section-header">
@@ -64,7 +64,7 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <style>
-/* ── Loading ──────────────────────────────────────── */
+/* Loading */
 .findings-loading {
     text-align: center;
     padding: var(--sp-3xl) 0;
@@ -80,7 +80,7 @@ require __DIR__ . '/includes/header.php';
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Study overview ───────────────────────────────── */
+/* Study overview */
 .study-overview-card {
     background: var(--clr-primary);
     color: #fff;
@@ -118,7 +118,7 @@ require __DIR__ . '/includes/header.php';
     margin-top: var(--sp-xs);
 }
 
-/* ── Themes grid ─────────────────────────────────── */
+/* Themes grid */
 .themes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -199,7 +199,7 @@ require __DIR__ . '/includes/header.php';
     line-height: 1.5;
 }
 
-/* ── Barriers ────────────────────────────────────── */
+/* Barriers */
 .findings-alt-bg { background: var(--clr-bg); }
 .barriers-grid {
     display: grid;
@@ -300,7 +300,7 @@ require __DIR__ . '/includes/header.php';
     margin-bottom: 2px;
 }
 
-/* ── Recommendations ─────────────────────────────── */
+/* Recommendations */
 .recs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -388,7 +388,7 @@ require __DIR__ . '/includes/header.php';
     font-weight: var(--fw-medium);
 }
 
-/* ── Priority badges ─────────────────────────────── */
+/* Priority badges */
 .priority-badge {
     display: inline-block;
     font-size: var(--fs-xs);
@@ -401,7 +401,7 @@ require __DIR__ . '/includes/header.php';
 .priority-high     { background: var(--clr-warning-light); color: var(--clr-warning); }
 .priority-medium   { background: var(--clr-info-light);    color: var(--clr-info); }
 
-/* ── Section header ──────────────────────────────── */
+/* Section header */
 .section-header {
     text-align: center;
     margin-bottom: var(--sp-2xl);

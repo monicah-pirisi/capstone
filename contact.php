@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Contact
+ * Samburu EWS: Contact
  *
  * Contact form with CSRF, honeypot, and AJAX submission
  * to /api/contact-submit.php.
@@ -16,7 +16,7 @@ require __DIR__ . '/includes/header.php';
 <section class="hero" style="padding:var(--sp-2xl) 0;">
     <div class="container">
         <h1>Contact Us</h1>
-        <p>Questions, feedback, or partnership inquiries — we'd love to hear from you.</p>
+        <p>Questions, feedback, or partnership inquiries; we'd love to hear from you.</p>
     </div>
 </section>
 
@@ -58,7 +58,7 @@ require __DIR__ . '/includes/header.php';
                     <div class="form-group">
                         <label class="form-label" for="stakeholder_group">Stakeholder Group</label>
                         <select class="form-select" id="stakeholder_group" name="stakeholder_group">
-                            <option value="">— Select (optional) —</option>
+                            <option value="">Select (optional)</option>
                             <option value="government">Government Agency</option>
                             <option value="ngo">NGO / Development Partner</option>
                             <option value="radio">Community Radio Station</option>
@@ -100,7 +100,7 @@ require __DIR__ . '/includes/header.php';
                         <p class="text-muted" style="line-height:1.8;">
                             Samburu County Government<br>
                             Department of Agriculture &amp; Pastoral Economy<br>
-                            P.O. Box 3 – Maralal, 20600<br>
+                            P.O. Box 3, Maralal 20600<br>
                             Samburu County, Kenya
                         </p>
                     </div>

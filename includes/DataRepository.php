@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Data Repository
+ * Samburu EWS: Data Repository
  * Loads JSON data files from the data/ directory
  */
 

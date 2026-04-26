@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Channels
+ * Samburu EWS: Channels
  *
  * Shows dissemination channels: social media templates,
  * radio scripts, and USSD simulator link.
@@ -24,7 +24,7 @@ require __DIR__ . '/includes/header.php';
 <section class="hero" style="padding:var(--sp-2xl) 0;">
     <div class="container">
         <h1>Dissemination Channels</h1>
-        <p>How early warnings reach every stakeholder — from social media dashboards to vernacular radio and basic-phone USSD menus.</p>
+        <p>How early warnings reach every stakeholder, from social media dashboards to vernacular radio and basic-phone USSD menus.</p>
     </div>
 </section>
 

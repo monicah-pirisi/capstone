@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Shared Footer
+ * Samburu EWS - Shared Footer
  */
 ?>
     </main><!-- /#main-content -->
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <?= date('Y') ?> <?= SITE_NAME ?>. CS Capstone Project &mdash; Samburu County Early Warning System.</p>
+                <p>&copy; <?= date('Y') ?> <?= SITE_NAME ?>. CS Capstone Project &mdash; Samburu County, Kenya.</p>
             </div>
         </div>
     </footer>
@@ -53,7 +53,6 @@
     <script src="<?= base_url('assets/js/main.js') ?>?v=<?= filemtime(__DIR__ . '/../assets/js/main.js') ?>"></script>
 
     <?php
-    // Load page-specific scripts declared in each page file
     if (!empty($pageScripts)) {
         foreach ((array)$pageScripts as $script) {
             echo '<script src="' . base_url(htmlspecialchars($script)) . '"></script>' . "\n";

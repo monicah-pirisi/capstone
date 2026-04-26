@@ -1,10 +1,20 @@
 <?php
 /*
- * Sync script — pulls the latest KMD and NDMA bulletin links and saves them
- * to kmd_ndma_reports. Run daily via cron or manually from the terminal.
+ * Sync script: pulls the latest KMD and NDMA bulletin links and saves them
+ * to kmd_ndma_reports.
  *
- * Local:  php c:/xampp/htdocs/capstone_web/scripts/sync_official_reports.php
- * Cron:   0 6 * * * /usr/local/bin/php /home/<user>/public_html/capstone_web/scripts/sync_official_reports.php >> ~/logs/ews_sync.log 2>&1
+ * --- HOW TO RUN ---
+ * Local (XAMPP):   php c:/xampp/htdocs/capstone_web/scripts/sync_official_reports.php
+ * Cron (VPS/cPanel with cron): 0 6 * * * /usr/local/bin/php /home/<user>/public_html/scripts/sync_official_reports.php
+ * Browser (InfinityFree / no-cron hosts): visit
+ *   https://yourdomain.com/scripts/sync_official_reports.php?token=YOUR_SYNC_TOKEN
+ *   (set SYNC_TOKEN in config.php first)
+ *
+ * --- NOTE FOR INFINITYFREE ---
+ * InfinityFree free plan blocks outbound HTTP/cURL requests.
+ * If cURL fails the script logs the error and exits cleanly — the site itself
+ * is unaffected because current-alert.php falls back to local JSON data files.
+ * Use the admin panel (admin.php) to manually update KMD/NDMA summaries instead.
  */
 
 declare(strict_types=1);
@@ -12,6 +22,26 @@ declare(strict_types=1);
 $root = dirname(__DIR__);
 require_once $root . '/config.php';
 require_once $root . '/includes/Db.php';
+
+// ── Web-browser trigger: require SYNC_TOKEN when called via HTTP ──────────────
+$isCli = (PHP_SAPI === 'cli');
+if (!$isCli) {
+    $provided = $_GET['token'] ?? '';
+    if (!defined('SYNC_TOKEN') || $provided === '' || !hash_equals(SYNC_TOKEN, $provided)) {
+        http_response_code(403);
+        exit('Forbidden. Provide ?token=YOUR_SYNC_TOKEN');
+    }
+    header('Content-Type: text/plain; charset=utf-8');
+}
+
+// ── Check cURL is available before doing anything ────────────────────────────
+if (!function_exists('curl_init')) {
+    $msg = 'cURL is not available on this server. '
+         . 'On InfinityFree free plan, outbound HTTP is blocked. '
+         . 'Update KMD/NDMA data manually via admin.php instead.';
+    echo $msg . PHP_EOL;
+    exit(0);   // exit cleanly — not a fatal error
+}
 
 const KMD_URL      = 'https://meteo.go.ke/our-products/monthly-forecast/';
 const NDMA_URL     = 'https://knowledgeweb.ndma.go.ke/Public/Resources/Default.aspx?ID=7';

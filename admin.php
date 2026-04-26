@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Admin Dashboard
+ * Samburu EWS: Admin Dashboard
  *
  * Password-protected page listing contact messages
  * with basic filtering by read status and stakeholder group.
@@ -12,7 +12,7 @@ require __DIR__ . '/includes/Db.php';
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-/* ── Handle login ───────────────────────────── */
+// Handle login
 $loginError = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['admin_login'])) {
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['admin_login'])) {
     }
 }
 
-/* ── Handle mark-as-read ────────────────────── */
+// Handle mark-as-read
 if (Auth::check() && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_read'])) {
     if (Csrf::verify($_POST['csrf_token'] ?? '')) {
         $id = (int)($_POST['msg_id'] ?? 0);
@@ -47,7 +47,7 @@ if (Auth::check() && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark
     exit;
 }
 
-/* ── Handle delete ──────────────────────────── */
+// Handle delete
 if (Auth::check() && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_msg'])) {
     if (Csrf::verify($_POST['csrf_token'] ?? '')) {
         $id = (int)($_POST['msg_id'] ?? 0);
@@ -64,10 +64,10 @@ if (Auth::check() && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['dele
     exit;
 }
 
-/* ── Handle Official Summaries update ──────────────────────────────────────
-   Updates the `official_summaries` table (KMD or NDMA row).
-   KMD  row holds: outlook_category, summary_text, valid_period  (forecast)
-   NDMA row holds: drought_phase,    summary_text, valid_period  (situation) */
+// Handle Official Summaries update
+// Updates the `official_summaries` table (KMD or NDMA row).
+// KMD  row holds: outlook_category, summary_text, valid_period (forecast)
+// NDMA row holds: drought_phase,    summary_text, valid_period (situation)
 $summarySuccess = '';
 $summaryError   = '';
 if (Auth::check() && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_summary'])) {
@@ -123,7 +123,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <?php if (!Auth::check()): ?>
-<!-- ── Login Form ───────────────────────────── -->
+<!-- Login Form -->
 <section class="page-section">
     <div class="container" style="max-width:420px;">
         <div class="card">
@@ -152,7 +152,7 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <?php else: ?>
-<!-- ── Admin Dashboard ──────────────────────── -->
+<!-- Admin Dashboard -->
 <section class="page-section" style="padding-top:var(--sp-lg);">
     <div class="container">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--sp-md);margin-bottom:var(--sp-lg);">
@@ -223,7 +223,7 @@ require __DIR__ . '/includes/header.php';
 
         <?php if (!empty($dbError)): ?>
         <div class="alert-banner alert-red">
-            <div>Database error — have you imported <code>migrations/schema.sql</code> yet?</div>
+            <div>Database error. Have you imported <code>samburu_ews.sql</code> yet?</div>
         </div>
         <?php else: ?>
 
@@ -293,11 +293,11 @@ require __DIR__ . '/includes/header.php';
     .data-table td[title] { cursor: help; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
 
-<!-- ── Official Summaries Panel ──────────────────────────────────────────── -->
-<!-- Update the manually maintained KMD / NDMA structured summaries that
+<!-- Official Summaries Panel
+     Update the manually maintained KMD / NDMA structured summaries that
      feed the risk engine and the source cards on current-alert.php.
      KMD  = Scientific Forecast (outlook_category + advisory text)
-     NDMA = Drought Situation   (drought_phase + situation text)            -->
+     NDMA = Drought Situation   (drought_phase + situation text) -->
 <section class="page-section" style="background:var(--clr-bg-alt);padding-top:var(--sp-xl);">
     <div class="container">
         <h2 style="font-size:var(--fs-xl);color:var(--clr-primary);margin-bottom:var(--sp-xs);">
@@ -332,10 +332,10 @@ require __DIR__ . '/includes/header.php';
 
         <div class="grid grid-2 grid-auto">
 
-            <!-- KMD form — Scientific Forecast (future outlook) -->
+            <!-- KMD form: Scientific Forecast (future outlook) -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">KMD — Scientific Forecast</h3>
+                    <h3 class="card-title">KMD: Scientific Forecast</h3>
                 </div>
                 <div class="card-body">
                     <p class="text-muted" style="font-size:var(--fs-xs);margin-bottom:var(--sp-md);">
@@ -362,10 +362,10 @@ require __DIR__ . '/includes/header.php';
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Valid Period <span class="text-muted">(e.g. March–May 2025)</span></label>
+                            <label class="form-label">Valid Period <span class="text-muted">(e.g. March to May 2025)</span></label>
                             <input type="text" class="form-input" name="valid_period"
                                    value="<?= htmlspecialchars($kmdSum['valid_period'] ?? '') ?>"
-                                   placeholder="e.g. March–May 2025">
+                                   placeholder="e.g. March to May 2025">
                         </div>
 
                         <div class="form-group">
@@ -385,10 +385,10 @@ require __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- NDMA form — Drought Situation (current phase) -->
+            <!-- NDMA form: Drought Situation (current phase) -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">NDMA — Drought Situation</h3>
+                    <h3 class="card-title">NDMA: Drought Situation</h3>
                 </div>
                 <div class="card-body">
                     <p class="text-muted" style="font-size:var(--fs-xs);margin-bottom:var(--sp-md);">

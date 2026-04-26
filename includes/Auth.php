@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Authentication Helper
+ * Samburu EWS: Authentication Helper
  */
 
 class Auth
@@ -36,7 +36,7 @@ class Auth
     }
 
     /**
-     * Alias for isAdmin() — used by admin.php
+     * Alias for isAdmin(), used by admin.php
      */
     public static function check(): bool
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Input Validation Helper
+ * Samburu EWS: Input Validation Helper
  *
  * Supports both:
  *   - Instance / fluent API: new Validator($_POST) → $v->required()->fails()
@@ -17,7 +17,9 @@ class Validator
         $this->data = $data;
     }
 
-    /* ── Fluent instance methods ─────────────────────────────── */
+    // ---------------------------------------------------------------
+    // Fluent instance methods
+    // ---------------------------------------------------------------
 
     public function required(string $field, string $label = ''): static
     {
@@ -92,7 +94,9 @@ class Validator
         return trim($this->data[$field] ?? '');
     }
 
-    /* ── Static helpers (kept for backwards compatibility) ───── */
+    // ---------------------------------------------------------------
+    // Static helpers (kept for backwards compatibility)
+    // ---------------------------------------------------------------
 
     public static function email_static(string $value): bool
     {

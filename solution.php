@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Solution
+ * Samburu EWS: Solution
  *
  * Presents the platform's approach: recommendation engine,
  * multi-channel dissemination, and indigenous knowledge integration.
@@ -28,7 +28,7 @@ require __DIR__ . '/includes/header.php';
     <div class="container">
         <div class="section-header">
             <h2>Platform Approach</h2>
-            <p>Three pillars that make Samburu EWS effective where previous systems have fallen short.</p>
+            <p>Three pillars that make <?= SITE_NAME ?> effective where previous systems have fallen short.</p>
         </div>
         <div class="grid grid-3 grid-auto">
             <div class="card">
@@ -37,7 +37,7 @@ require __DIR__ . '/includes/header.php';
                     <h3 class="card-title">Risk Engine</h3>
                 </div>
                 <div class="card-body">
-                    <p>A weighted scoring algorithm that merges NDMA scientific data, KMD seasonal forecasts, and indigenous community indicators into a single composite risk score (0–100) mapped to five alert levels.</p>
+                    <p>A weighted scoring algorithm that merges NDMA scientific data, KMD seasonal forecasts, and indigenous community indicators into a single composite risk score (0 to 100) mapped to five alert levels.</p>
                 </div>
             </div>
             <div class="card">
@@ -46,7 +46,7 @@ require __DIR__ . '/includes/header.php';
                     <h3 class="card-title">Multi-Channel Delivery</h3>
                 </div>
                 <div class="card-body">
-                    <p>Warnings are automatically formatted for WhatsApp, Facebook, vernacular radio scripts (30s &amp; 60s), and USSD menus — ensuring every stakeholder group receives alerts via their preferred channel.</p>
+                    <p>Warnings are automatically formatted for WhatsApp, Facebook, vernacular radio scripts (30s and 60s), and USSD menus, ensuring every stakeholder group receives alerts via their preferred channel.</p>
                 </div>
             </div>
             <div class="card">
@@ -55,7 +55,7 @@ require __DIR__ . '/includes/header.php';
                     <h3 class="card-title">Indigenous Integration</h3>
                 </div>
                 <div class="card-body">
-                    <p>Traditional indicators — star patterns, livestock behaviour, wild-fruit timing, wind direction — are validated and presented alongside scientific data to build trust and cultural relevance.</p>
+                    <p>Traditional indicators (star patterns, livestock behaviour, wild-fruit timing, wind direction) are validated and presented alongside scientific data to build trust and cultural relevance.</p>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@ require __DIR__ . '/includes/header.php';
                     <tr>
                         <th>Feature</th>
                         <th>Traditional EWS</th>
-                        <th>Samburu EWS Platform</th>
+                        <th><?= SITE_NAME ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,7 +95,7 @@ require __DIR__ . '/includes/header.php';
     <div class="container">
         <div class="section-header">
             <h2>Evidence-Based Recommendations</h2>
-            <p>Five core recommendations derived from community interviews and barrier analysis.</p>
+            <p>Seven evidence-based recommendations derived from community interviews and barrier analysis.</p>
         </div>
         <div class="grid grid-auto">
             <?php foreach ($recs as $i => $r):
@@ -137,7 +137,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Architecture Diagram (HTML/CSS — no external images) -->
+<!-- Architecture Diagram (HTML/CSS, no external images) -->
 <section class="page-section">
     <div class="container">
         <div class="section-header">
@@ -181,7 +181,7 @@ require __DIR__ . '/includes/header.php';
                         <div class="arch-node-sub">
                             Weighted scoring: NDVI 20% · Rainfall 20% · Livestock 20% ·
                             Water 15% · Food 10% · Indigenous 15%
-                            → Composite Score 0–100 → Risk Level
+                            Composite Score 0 to 100, Risk Level
                         </div>
                     </div>
                 </div>

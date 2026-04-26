@@ -1,5 +1,5 @@
 /**
- * Samburu EWS — ussdSimulator.js
+ * Samburu EWS - ussdSimulator.js
  *
  * Simulates a *384# USSD session.
  * Fetches live risk data from /api/current-alert-data.php
@@ -15,19 +15,28 @@
 
     const API_URL = 'api/current-alert-data.php';
 
-    /* ── DOM refs ───────────────────────────── */
+    // ---------------------------------------------------------------
+    // DOM REFS
+    // ---------------------------------------------------------------
+
     const screen = document.getElementById('ussdScreen');
     const input = document.getElementById('ussdInput');
     const sendBtn = document.getElementById('ussdSend');
     const keypad = document.getElementById('ussdKeypad');
     const langInd = document.getElementById('ussdLangIndicator');
 
-    /* ── State ──────────────────────────────── */
+    // ---------------------------------------------------------------
+    // STATE
+    // ---------------------------------------------------------------
+
     let riskData = null;    // API response
     let currentMenu = 'home';
     let lang = 'en';         // 'en' or 'sm' (Samburu)
 
-    /* ── Bilingual content ──────────────────── */
+    // ---------------------------------------------------------------
+    // BILINGUAL CONTENT
+    // ---------------------------------------------------------------
+
     const T = {
         en: {
             title: 'SAMBURU EWS *384#',
@@ -83,9 +92,9 @@
 
     function t(key) { return (T[lang] || T.en)[key] || T.en[key] || ''; }
 
-    /* ═══════════════════════════════════════════
-       INITIALIZATION
-       ═══════════════════════════════════════════ */
+    // ---------------------------------------------------------------
+    // INITIALIZATION
+    // ---------------------------------------------------------------
 
     fetch(API_URL)
         .then(res => res.json())
@@ -99,7 +108,10 @@
             display(t('title') + '\n\n❌ Service unavailable.\nPlease try again later.');
         });
 
-    /* ── Event listeners ────────────────────── */
+    // ---------------------------------------------------------------
+    // EVENT LISTENERS
+    // ---------------------------------------------------------------
+
     sendBtn.addEventListener('click', handleSend);
     input.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
 
@@ -111,9 +123,9 @@
         }
     });
 
-    /* ═══════════════════════════════════════════
-       MENU ENGINE
-       ═══════════════════════════════════════════ */
+    // ---------------------------------------------------------------
+    // MENU ENGINE
+    // ---------------------------------------------------------------
 
     function handleSend() {
         const val = input.value.trim();
@@ -129,7 +141,7 @@
         // Route to handler
         switch (currentMenu) {
             case 'home': handleHome(val); break;
-            case 'alert': showHome(); break;         // Any input → back
+            case 'alert': showHome(); break;
             case 'advice': showHome(); break;
             case 'help': showHome(); break;
             case 'lang': handleLang(val); break;
@@ -141,7 +153,9 @@
         showHome();
     }
 
-    /* ── Home ───────────────────────────────── */
+    // ---------------------------------------------------------------
+    // HOME
+    // ---------------------------------------------------------------
 
     function showHome() {
         currentMenu = 'home';
@@ -149,7 +163,7 @@
             t('title'),
             '',
             t('welcome'),
-            '─'.repeat(24),
+            '-'.repeat(24),
             ...t('menu'),
             '',
             t('footer'),
@@ -167,11 +181,13 @@
         }
     }
 
-    /* ── 1. Current Alert ───────────────────── */
+    // ---------------------------------------------------------------
+    // 1. CURRENT ALERT
+    // ---------------------------------------------------------------
 
     function showAlert() {
         currentMenu = 'alert';
-        if (!riskData) { display('Loading data…'); return; }
+        if (!riskData) { display('Loading data...'); return; }
 
         const a = riskData.assessment;
         const inp = riskData.inputs || {};
@@ -180,25 +196,27 @@
         const lines = [
             t('title'),
             '',
-            '── ' + t('alertTitle') + ' ──',
+            '-- ' + t('alertTitle') + ' --',
             '',
-            (levelEmoji[a.risk_level] || '⚠️') + ' ' + t('phase') + ': ' + (a.risk_level || '—'),
+            (levelEmoji[a.risk_level] || '⚠️') + ' ' + t('phase') + ': ' + (a.risk_level || '-'),
             t('score') + ': ' + a.score + ' / 100',
             '',
-            t('rainfall') + ': ' + (inp.rainfall_mm ?? '—') + ' mm',
-            t('pasture') + ': NDVI ' + (inp.ndvi ?? '—'),
-            t('water') + ': ' + (inp.water_distance_km ?? '—') + ' km',
-            t('livestock') + ': ' + (inp.livestock_condition ?? '—'),
+            t('rainfall') + ': ' + (inp.rainfall_mm ?? '-') + ' mm',
+            t('pasture') + ': NDVI ' + (inp.ndvi ?? '-'),
+            t('water') + ': ' + (inp.water_distance_km ?? '-') + ' km',
+            t('livestock') + ': ' + (inp.livestock_condition ?? '-'),
             t('nav'),
         ];
         display(lines.join('\n'));
     }
 
-    /* ── 2. Advice ──────────────────────────── */
+    // ---------------------------------------------------------------
+    // 2. ADVICE
+    // ---------------------------------------------------------------
 
     function showAdvice() {
         currentMenu = 'advice';
-        if (!riskData) { display('Loading…'); return; }
+        if (!riskData) { display('Loading...'); return; }
 
         const a = riskData.assessment;
         const level = a.risk_level || 'Alert';
@@ -238,7 +256,7 @@
         const lines = [
             t('title'),
             '',
-            '── ' + t('adviceTitle') + ' ──',
+            '-- ' + t('adviceTitle') + ' --',
             '(' + level + ')',
             '',
             advice,
@@ -249,13 +267,15 @@
         display(lines.join('\n'));
     }
 
-    /* ── 3. Help ────────────────────────────── */
+    // ---------------------------------------------------------------
+    // 3. HELP
+    // ---------------------------------------------------------------
 
     function showHelp() {
         currentMenu = 'help';
 
         const contacts_en = [
-            '── ' + t('helpTitle') + ' ──',
+            '-- ' + t('helpTitle') + ' --',
             '',
             '📞 NDMA Hotline:',
             '   0800-723-253 (toll-free)',
@@ -275,7 +295,7 @@
         ];
 
         const contacts_sm = [
-            '── ' + t('helpTitle') + ' ──',
+            '-- ' + t('helpTitle') + ' --',
             '',
             '📞 NDMA Simu:',
             '   0800-723-253 (bure)',
@@ -305,14 +325,16 @@
         display(lines.join('\n'));
     }
 
-    /* ── 4. Language ────────────────────────── */
+    // ---------------------------------------------------------------
+    // 4. LANGUAGE
+    // ---------------------------------------------------------------
 
     function showLang() {
         currentMenu = 'lang';
         const lines = [
             t('title'),
             '',
-            '── ' + t('langTitle') + ' ──',
+            '-- ' + t('langTitle') + ' --',
             '',
             t('langMenu'),
             t('nav'),
@@ -336,9 +358,9 @@
         }
     }
 
-    /* ═══════════════════════════════════════════
-       DISPLAY HELPER
-       ═══════════════════════════════════════════ */
+    // ---------------------------------------------------------------
+    // DISPLAY HELPER
+    // ---------------------------------------------------------------
 
     function display(text) {
         if (!screen) return;

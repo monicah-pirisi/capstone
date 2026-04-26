@@ -5,10 +5,9 @@
  * Validates contact-form data:
  *   - CSRF token verification
  *   - Honeypot field check (bot trap)
- *   - Required fields + email + length limits
+ *   - Required fields, email, and length limits
  *
- * Inserts into MySQL `contact_messages` table
- * using PDO prepared statements.
+ * Inserts into MySQL `contact_messages` table using PDO prepared statements.
  *
  * Returns JSON: { ok: true } or { ok: false, errors: [...] }
  */
@@ -18,34 +17,28 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 
-// POST only
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['ok' => false, 'error' => 'Method not allowed']);
     exit;
 }
 
-/* ── Bootstrap ──────────────────────────────── */
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../includes/Csrf.php';
 require_once __DIR__ . '/../includes/Validator.php';
 require_once __DIR__ . '/../includes/Db.php';
 
-// Start session for CSRF
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-/* ── Honeypot check ─────────────────────────── */
-// The form includes a hidden field "website" that humans leave empty.
-// Bots tend to fill it in.
+// Honeypot: humans leave the "website" field blank; bots fill it in.
 if (!empty($_POST['website'])) {
-    // Silently accept to avoid tipping off bots
     echo json_encode(['ok' => true, 'message' => 'Thank you for your message.']);
     exit;
 }
 
-/* ── CSRF verification ──────────────────────── */
+// CSRF verification
 $csrfToken = $_POST['csrf_token'] ?? '';
 if (!Csrf::verify($csrfToken)) {
     http_response_code(403);
@@ -56,7 +49,7 @@ if (!Csrf::verify($csrfToken)) {
     exit;
 }
 
-/* ── Validation ─────────────────────────────── */
+// Validation
 $v = new Validator($_POST);
 $v->required('name',    'Name')
   ->maxLen('name', 100, 'Name')
@@ -73,7 +66,6 @@ $v->required('message', 'Message')
   ->minLen('message', 10, 'Message')
   ->maxLen('message', 5000, 'Message');
 
-// Optional stakeholder group
 $v->in('stakeholder_group', [
     '', 'government', 'ngo', 'radio', 'pastoralist', 'intermediary', 'other'
 ], 'Stakeholder group');
@@ -87,15 +79,15 @@ if ($v->fails()) {
     exit;
 }
 
-/* ── Sanitise inputs ────────────────────────── */
-$name     = htmlspecialchars($v->get('name'),    ENT_QUOTES, 'UTF-8');
-$email    = $v->get('email');
-$subject  = htmlspecialchars($v->get('subject'), ENT_QUOTES, 'UTF-8');
-$message  = htmlspecialchars($v->get('message'), ENT_QUOTES, 'UTF-8');
-$group    = $v->get('stakeholder_group');
-$ip       = $_SERVER['REMOTE_ADDR'] ?? '';
+// Sanitise inputs
+$name    = htmlspecialchars($v->get('name'),    ENT_QUOTES, 'UTF-8');
+$email   = $v->get('email');
+$subject = htmlspecialchars($v->get('subject'), ENT_QUOTES, 'UTF-8');
+$message = htmlspecialchars($v->get('message'), ENT_QUOTES, 'UTF-8');
+$group   = $v->get('stakeholder_group');
+$ip      = $_SERVER['REMOTE_ADDR'] ?? '';
 
-/* ── Insert into database ───────────────────── */
+// Insert into database
 try {
     $sql = "INSERT INTO contact_messages
                 (name, email, subject, message, stakeholder_group, ip_address, created_at)
@@ -111,7 +103,6 @@ try {
         ':ip'      => $ip,
     ]);
 
-    // Regenerate CSRF token after successful submission
     Csrf::regenerate();
 
     echo json_encode([
@@ -120,20 +111,18 @@ try {
     ]);
 
 } catch (PDOException $e) {
-    // Check if it's a "table doesn't exist" error — graceful fallback
-    if (str_contains($e->getMessage(), 'doesn\'t exist') ||
+    if (str_contains($e->getMessage(), "doesn't exist") ||
         str_contains($e->getMessage(), 'no such table')) {
         http_response_code(500);
         echo json_encode([
             'ok'     => false,
-            'errors' => ['The database has not been set up yet. Please run the migration first.'],
+            'errors' => ['The database has not been set up yet. Please import samburu_ews.sql first.'],
         ]);
     } else {
         http_response_code(500);
         echo json_encode([
             'ok'     => false,
             'errors' => ['An error occurred while saving your message. Please try again later.'],
-            'debug'  => (defined('APP_DEBUG') && APP_DEBUG) ? $e->getMessage() : null,
         ]);
     }
 } catch (Throwable $e) {
@@ -141,6 +130,5 @@ try {
     echo json_encode([
         'ok'     => false,
         'errors' => ['An unexpected error occurred. Please try again later.'],
-        'debug'  => (defined('APP_DEBUG') && APP_DEBUG) ? $e->getMessage() : null,
     ]);
 }

@@ -29,7 +29,7 @@ require_once __DIR__ . '/../includes/RiskEngine.php';
 require_once __DIR__ . '/../includes/Db.php';
 
 try {
-    /* ── Load source data ────────────────────── */
+    // Load source data
     $ndma       = DataRepository::load('ndma_latest.json');
     $kmd        = DataRepository::load('kmd_summary.json');
     $indigenous = DataRepository::load('indigenous_indicators.json');
@@ -47,48 +47,66 @@ try {
         // table not created yet or DB down - harmless, falls back below
     }
 
-    /* ── Build default inputs ────────────────── */
+    // Build inputs.
+    // Scored indicators: Balint et al. (2013) CDI — Rainfall 50%, Vegetation 25%, Temperature 25%
+    // Context-only: Livestock, Water distance, FCS — real NDMA/WFP data, displayed not weighted
     $defaults = [
-        'ndvi'                   => (float)($ndma['vegetation_condition']['ndvi']               ?? 0.18),
-        'ndvi_normal'            => (float)($ndma['vegetation_condition']['ndvi_normal']        ?? 0.32),
-        'rainfall_mm'            => (float)($ndma['rainfall']['current_mm']                     ?? 42),
-        'rainfall_avg_mm'        => (float)($ndma['rainfall']['long_term_avg_mm']               ?? 95),
-        'livestock_condition'    => (string)($ndma['livestock']['body_condition']               ?? 'Fair'),
-        'water_distance_km'      => (float)($ndma['water']['distance_to_water_km']             ?? 12.5),
-        'water_normal_km'        => (float)($ndma['water']['normal_distance_km']               ?? 5.0),
-        'food_consumption_score' => (float)($ndma['food_security']['food_consumption_score']   ?? 28.4),
-        'indigenous_outlook'     => 'Concerning',
+        // ── Scored: Rainfall (NDMA bulletin) ──
+        'rainfall_mm'             => (float)($ndma['rainfall']['current_mm']                   ?? 0),
+        'rainfall_avg_mm'         => (float)($ndma['rainfall']['long_term_avg_mm']             ?? 95),
+        // ── Scored: Vegetation/VCI (NDMA bulletin, threshold=35) ──
+        'ndvi'                    => (float)($ndma['vegetation_condition']['ndvi']             ?? 0),
+        'ndvi_normal'             => (float)($ndma['vegetation_condition']['ndvi_normal']      ?? 35),
+        // ── Scored: Temperature (KMD bulletin) ──
+        'temp_max_celsius'        => (float)($kmd['temperature']['max_celsius']               ?? 30),
+        'temp_normal_max'         => (float)($kmd['temperature']['normal_max_celsius']        ?? 30),
+        'temp_extreme_max'        => (float)($kmd['temperature']['extreme_max_celsius']       ?? 40),
+        // ── Cross-validation: Indigenous stress ratio (field research) ──
+        'indigenous_stress_ratio' => 0.5,
+        // ── Context only: real NDMA/WFP data, not weighted ──
+        'livestock_condition'     => (string)($ndma['livestock']['body_condition']             ?? 'Fair'),
+        'water_distance_km'       => (float)($ndma['water']['distance_to_water_km']           ?? 0),
+        'water_normal_km'         => (float)($ndma['water']['normal_distance_km']             ?? 7.0),
+        'food_consumption_score'  => (float)($ndma['food_security']['food_consumption_score'] ?? 0),
     ];
 
-    /* ── Derive indigenous outlook ───────────── */
+    // Compute indigenous stress ratio from keyword scan of documented field indicators.
+    // Specialist-tier indicators excluded — their celestial/spiritual readings cannot
+    // be reliably classified by keyword matching without risk of misclassification.
+    // The raw ratio (0.0–1.0) is passed directly to RiskEngine, which applies it as
+    // a bounded ±5 pt cross-validation adjustment rather than a weighted sub-score.
+    $stressKeywords  = ['deteriorating', 'low', 'sparse', 'drying', 'unusual', 'restless',
+                        'below', 'poor', 'declining', 'drought', 'stress', 'browning',
+                        'early movement', 'dry-season', 'above normal', 'rapidly'];
     $droughtSignals  = 0;
     $totalIndicators = 0;
     if (is_array($indigenous)) {
         foreach ($indigenous as $ind) {
+            if (($ind['tier'] ?? 'general') === 'specialist') continue;
             $totalIndicators++;
-            $rel = strtolower($ind['reliability'] ?? '');
-            if (in_array($rel, ['high', 'medium'])) {
-                $droughtSignals++;
+            $status = strtolower($ind['status'] ?? '');
+            foreach ($stressKeywords as $kw) {
+                if (strpos($status, $kw) !== false) {
+                    $droughtSignals++;
+                    break;
+                }
             }
         }
     }
     if ($totalIndicators > 0) {
-        $ratio = $droughtSignals / $totalIndicators;
-        if ($ratio >= 0.8)     $defaults['indigenous_outlook'] = 'Severe';
-        elseif ($ratio >= 0.5) $defaults['indigenous_outlook'] = 'Concerning';
-        elseif ($ratio >= 0.3) $defaults['indigenous_outlook'] = 'Watch';
-        else                   $defaults['indigenous_outlook'] = 'Favourable';
+        $defaults['indigenous_stress_ratio'] = round($droughtSignals / $totalIndicators, 4);
     }
 
-    /* ── Apply overrides (what-if mode) ─────── */
+    // Apply overrides (what-if mode)
     $params = $_SERVER['REQUEST_METHOD'] === 'POST'
         ? array_merge($_GET, $_POST)
         : $_GET;
 
     $overridable = [
-        'ndvi', 'ndvi_normal', 'rainfall_mm', 'rainfall_avg_mm',
-        'livestock_condition', 'water_distance_km', 'water_normal_km',
-        'food_consumption_score', 'indigenous_outlook',
+        'rainfall_mm', 'rainfall_avg_mm',
+        'ndvi', 'ndvi_normal',
+        'temp_max_celsius', 'temp_normal_max', 'temp_extreme_max',
+        'indigenous_stress_ratio',
     ];
 
     $isOverride = false;
@@ -100,13 +118,12 @@ try {
         }
     }
 
-    /* ── Run risk engine ─────────────────────── */
+    // Run risk engine
     $raw   = RiskEngine::assess($inputs);
     $phase = $raw['phase'];   // Normal / Alert / Alarm / Emergency
     $score = $raw['score'];
 
-    /* ── Build recommended_actions array ────────
-       JS renderRouting() expects [{icon, stakeholder, action}]            */
+    // Build recommended_actions array - JS renderRouting() expects [{icon, stakeholder, action}]
     $actionsMap = [
         ['icon' => '🏛️', 'stakeholder' => 'Government',     'action' => $raw['actions']['government']   ?? ''],
         ['icon' => '🤝', 'stakeholder' => 'NGOs',            'action' => $raw['actions']['ngos']         ?? ''],
@@ -115,7 +132,7 @@ try {
         ['icon' => '🔗', 'stakeholder' => 'Intermediaries',  'action' => 'Relay alert via community networks and barazas'],
     ];
 
-    /* ── Build channel_messages ──────────────── */
+    // Build channel_messages
     $date   = date('j F Y');
     $waTpls = $channels['social_media']['whatsapp']['templates'] ?? [];
     $fbTpls = $channels['social_media']['facebook']['templates'] ?? [];
@@ -141,7 +158,7 @@ try {
         'ussd_actions' => $ussdActions,
     ];
 
-    /* ── Final response ──────────────────────── */
+    // Final response
     $response = [
         'ok'   => true,
         'mode' => $isOverride ? 'what-if' : 'live',
@@ -173,8 +190,10 @@ try {
                 'updated_at'   => $kmd['updated_at']   ?? '',
             ],
             'indigenous' => [
-                'count'      => $totalIndicators,
-                'indicators' => $indigenous,
+                'count'        => $totalIndicators,
+                'stress_ratio' => $defaults['indigenous_stress_ratio'],
+                'adjustment'   => $raw['sub_scores']['indigenous_adjustment'] ?? 0,
+                'indicators'   => $indigenous,
             ],
         ],
     ];

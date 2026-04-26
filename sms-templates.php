@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — SMS Templates
+ * Samburu EWS: SMS Templates
  *
  * Pre-formatted SMS messages for different drought alert levels.
  * Optimized for 160 character limit.

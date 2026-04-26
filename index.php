@@ -1,6 +1,6 @@
 <?php
 /**
- * Samburu EWS — Home Page
+ * Samburu EWS: Home Page
  */
 require __DIR__ . '/config.php';
 
@@ -8,14 +8,14 @@ $pageTitle = 'Home';
 require __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ── Hero ── -->
+<!-- Hero -->
 <section class="hero">
     <div class="container">
-        <h1>Samburu Early Warning System</h1>
+        <h1><?= SITE_NAME ?></h1>
         <p>
-            Combining scientific forecasts with indigenous knowledge to protect
-            pastoralist communities from drought and climate shocks across
-            Samburu County, Kenya.
+            A drought early warning and action recommendation platform combining
+            scientific forecasts with indigenous knowledge to protect pastoralist
+            communities from climate hazards across Samburu County, Kenya.
         </p>
         <div class="hero-ctas">
             <a href="findings.php"      class="btn btn-accent btn-lg"> View Findings</a>
@@ -25,7 +25,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Quick Stats ───────────────────────────── -->
+<!-- Quick Stats -->
 <section class="page-section">
     <div class="container">
         <div class="grid grid-4 grid-auto">
@@ -49,7 +49,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── How It Works  -->
+<!-- How It Works -->
 <section class="page-section">
     <div class="container">
         <div class="section-header">
@@ -121,7 +121,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Stakeholders  -->
+<!-- Stakeholders -->
 <section class="page-section">
     <div class="container">
         <div class="section-header">
@@ -230,7 +230,7 @@ require __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- ── Call to Action ────────────────────────── -->
+<!-- Call to Action -->
 <section class="page-section cta-section">
     <div class="container text-center">
         <h2 style="color:var(--clr-primary);margin-bottom:var(--sp-sm);">Stay Informed, Stay Prepared</h2>
