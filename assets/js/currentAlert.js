@@ -20,36 +20,29 @@
         Emergency: { icon: '⛔', css: 'level-emergency', label: 'EMERGENCY: CRITICAL',     color: '#7f1d1d', sthClass: 'sth-emergency' },
     };
 
+    // Only these three keys are scored — Balint et al. (2013) CDI weights
+    const SCORED_KEYS = ['rainfall', 'ndvi', 'temperature'];
+
     const BAR_COLORS = {
-        ndvi:          { good: '#16a34a', mod: '#d97706', stress: '#dc2626' },
-        rainfall:      { good: '#2980b9', mod: '#2980b9', stress: '#dc2626' },
-        livestock:     { good: '#16a34a', mod: '#d97706', stress: '#dc2626' },
-        water:         { good: '#6f42c1', mod: '#d97706', stress: '#dc2626' },
-        food_security: { good: '#0891b2', mod: '#d97706', stress: '#dc2626' },
-        indigenous:    { good: '#0f5132', mod: '#d97706', stress: '#dc2626' },
+        rainfall:    { good: '#2980b9', mod: '#2980b9', stress: '#dc2626' },
+        ndvi:        { good: '#16a34a', mod: '#d97706', stress: '#dc2626' },
+        temperature: { good: '#16a34a', mod: '#d97706', stress: '#dc2626' },
     };
 
     const BAR_LABELS = {
-        ndvi:          'Vegetation',
-        rainfall:      'Rainfall',
-        livestock:     'Livestock',
-        water:         'Water',
-        food_security: 'Food Security',
-        indigenous:    'Indigenous',
+        rainfall:    'Rainfall',
+        ndvi:        'Vegetation',
+        temperature: 'Temperature',
     };
 
     const BAR_WEIGHTS = {
-        ndvi: 20, rainfall: 20, livestock: 20,
-        water: 15, food_security: 10, indigenous: 15,
+        rainfall: 50, ndvi: 25, temperature: 25,
     };
 
     const BAR_DESCS = {
-        ndvi:          'VCI vegetation index vs normal',
-        rainfall:      'Current vs long-term average',
-        livestock:     'Herd body condition',
-        water:         'Distance to water source',
-        food_security: 'Household food consumption',
-        indigenous:    'Community observations',
+        rainfall:    'Current vs long-term average',
+        ndvi:        'VCI vegetation index vs normal (threshold 35)',
+        temperature: 'KMD forecast max vs normal 30°C',
     };
 
     // ── Icons for data inputs ──────────────────────────────────────
@@ -193,7 +186,7 @@
         const card      = document.getElementById('subScoresCard');
         if (!container || !sub) return;
 
-        container.innerHTML = Object.entries(sub).map(([key, val]) => {
+        container.innerHTML = SCORED_KEYS.filter(key => sub[key] !== undefined).map(key => { const val = sub[key];
             const pct    = Math.min(Math.round(val), 100);
             const weight = BAR_WEIGHTS[key] || 0;
             const contrib = ((val * weight) / 100).toFixed(1);
